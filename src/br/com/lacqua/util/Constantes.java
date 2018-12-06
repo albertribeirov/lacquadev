@@ -1,6 +1,8 @@
 package br.com.lacqua.util;
 
 public class Constantes {
+	
+	public static final String SUCESSO = "success";
 
 	/*
 	 *  Constantes de Apartamento

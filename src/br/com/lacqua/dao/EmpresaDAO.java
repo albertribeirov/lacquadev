@@ -2,17 +2,20 @@ package br.com.lacqua.dao;
 
 import java.util.List;
 
+import javax.persistence.Query;
+
 import br.com.lacqua.model.Empresa;
 
-public interface EmpresaDAO {
+public class EmpresaDAO extends DAO {
 
-	public void salvar(Empresa empresa);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7487641475509999574L;
 
-	public void atualizar(Empresa empresa);
-
-	public void excluir(Empresa empresa);
-
-	public Empresa buscarPorId(Integer id);
-
-	public List<Empresa> listar();
+	@SuppressWarnings("unchecked")
+	public List<Empresa> listarApartamentos() {
+		Query q = criarQuery("SELECT * FROM Empresa e");
+		return q.getResultList();
+	}
 }

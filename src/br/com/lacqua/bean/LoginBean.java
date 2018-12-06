@@ -2,30 +2,32 @@ package br.com.lacqua.bean;
 
 import java.io.Serializable;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
-@SuppressWarnings("serial")
-@Named
+@Named("loginBean")
 @RequestScoped
 public class LoginBean implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	private String name;
 	private String password;
 
-	/*
-	 * Getters e setters
-	 */
-	public String getName() {
-		return name;
+	public String doLogin() {
+		if("albert".equals(name) && "senha".equals(password)) {
+			return "success";
+			
+		} else {
+			FacesContext.getCurrentInstance().addMessage("form:button", new FacesMessage("Login inválido!"));
+			return null;
+		}
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	
+	public String cadastrar() {
+		return "cadastrarCondominio";
 	}
 
 	public String getPassword() {
@@ -36,23 +38,11 @@ public class LoginBean implements Serializable {
 		this.password = password;
 	}
 
-	public String doLogin() {
-		if ("abc".equals(name) && "123".equals(password)) {
-			return "success";
-		} else {
-			
-			FacesContext.getCurrentInstance().addMessage("form:button", new FacesMessage("Login inválido!"));
-			return null;
-		}
+	public String getName() {
+		return name;
 	}
-	
-	@PostConstruct
-	public void init() {
-		System.out.println("Bean criado!");
-	}
-	
-	@PreDestroy
-	public void destroy() {
-		System.out.println("Bean destruido!");
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

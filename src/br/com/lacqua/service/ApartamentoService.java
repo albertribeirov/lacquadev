@@ -2,6 +2,7 @@ package br.com.lacqua.service;
 
 import java.util.List;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import br.com.lacqua.dao.ApartamentoDAO;
 import br.com.lacqua.model.Apartamento;
@@ -10,11 +11,12 @@ import br.com.lacqua.model.Log.TipoMensagem;
 /**
  * Métodos de negócio relacionados à entidade Apartamento
  */
+@RequestScoped
 public class ApartamentoService extends Service {
 	private static final long serialVersionUID = -7686640269165805365L;
 
 	@Inject
-	private ApartamentoDAO ApartamentoDAO;
+	private ApartamentoDAO apartamentoDAO;
 	
 	@Inject
 	private LogService logService;
@@ -25,12 +27,12 @@ public class ApartamentoService extends Service {
 	 * @param Apartamento Apartamento a ser inserido
 	 * @throws ServiceException
 	 */
-	public void inserir(Apartamento Apartamento) {
+	public void inserir(Apartamento apartamento) {
 		try {
 			beginTransaction();
 
-			ApartamentoDAO.salvar(Apartamento);
-			logService.log("Apartamento inserido: " + Apartamento, TipoMensagem.INFO);
+			apartamentoDAO.salvar(apartamento);
+			logService.log("Apartamento inserido: " + apartamento, TipoMensagem.INFO);
 
 			commitTransaction();
 
@@ -46,12 +48,12 @@ public class ApartamentoService extends Service {
 	 * @param Apartamento
 	 * @throws ServiceException
 	 */
-	public void alterar(Apartamento Apartamento) {
+	public void alterar(Apartamento apartamento) {
 		try {
 			beginTransaction();
 
-			ApartamentoDAO.alterar(Apartamento);
-			logService.log("Apartamento alterado: " + Apartamento, TipoMensagem.INFO);
+			apartamentoDAO.alterar(apartamento);
+			logService.log("Apartamento alterado: " + apartamento, TipoMensagem.INFO);
 
 			commitTransaction();
 
@@ -67,13 +69,13 @@ public class ApartamentoService extends Service {
 	 * @param integer Número de matrícula do Apartamento a ser excluído
 	 * @throws ServiceException
 	 */
-	public void excluir(Integer integer) {
+	public void excluir(Integer id) {
 		try {
 			beginTransaction();
 
-			Apartamento Apartamento = ApartamentoDAO.carregar(integer, Apartamento.class);
-			ApartamentoDAO.excluir(Apartamento);
-			logService.log("Apartamento excluído: " + "alterar", TipoMensagem.INFO);
+			Apartamento apartamento = apartamentoDAO.carregar(Apartamento.class, id);
+			apartamentoDAO.excluir(apartamento);
+			logService.log("Apartamento excluído: " + apartamento, TipoMensagem.INFO);
 
 			commitTransaction();
 
@@ -90,6 +92,6 @@ public class ApartamentoService extends Service {
 	 * @throws ServiceException
 	 */
 	public List<Apartamento> listarApartamentos() {
-		return ApartamentoDAO.listarApartamentos();
+		return apartamentoDAO.listarApartamentos();
 	}
 }

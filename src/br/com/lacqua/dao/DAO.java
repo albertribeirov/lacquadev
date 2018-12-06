@@ -1,32 +1,31 @@
 package br.com.lacqua.dao;
 
+import java.io.Serializable;
+
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+@SuppressWarnings("serial")
 @RequestScoped
-public abstract class DAO<T> implements DAOIntf<T> {
-
+public abstract class DAO implements Serializable {
+	
 	@PersistenceContext
 	private EntityManager em;
 
-	@Override
-	public <T> T carregar(Object id, Class<T> classe) {
+	public <T> T carregar(Class<T> classe, Object id) {
 		return em.find(classe, id);
 	}
 
-	@Override
 	public <T> void salvar(T entity) {
 		em.persist(entity);
 	}
 
-	@Override
 	public <T> void alterar(T entity) {
 		em.merge(entity);
 	}
 
-	@Override
 	public <T> void excluir(T entity) {
 		em.remove(entity);
 	}

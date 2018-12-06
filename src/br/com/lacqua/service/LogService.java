@@ -24,7 +24,6 @@ public class LogService extends Service {
 	 * @param tipo     Tipo da mensagem
 	 * @throws ServiceException
 	 */
-	@SuppressWarnings("unchecked")
 	public void log(String mensagem, TipoMensagem tipo) {
 		try {
 			beginTransaction();

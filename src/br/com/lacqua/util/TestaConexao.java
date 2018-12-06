@@ -17,7 +17,7 @@ public class TestaConexao {
 			conexao.close();
 			
 		} catch (Exception e) {
-			System.out.println("Erro ao criar a conexï¿½o: " + e.getMessage());
+			System.out.println("Erro ao criar a conexão: " + e.getMessage());
 		}
 	}
 }

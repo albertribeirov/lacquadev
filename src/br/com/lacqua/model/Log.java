@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,26 +23,28 @@ public class Log {
 	 * ID da mensagem
 	 */
 	@Id
-	@GeneratedValue
+	@Column(name = "ID_LOG")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	/**
 	 * Data da mensagem
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(nullable = false)
+	@Column(name = "DATA", nullable = false)
 	private Date data;
 	
 	/**
 	 * Tipo da mensagem de log 
 	 */
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
+	@Column(name = "TIPO_MENSAGEM" ,nullable = false)
 	private TipoMensagem tipo;
-	
+
 	/**
 	 * Texto da mensagem
 	 */
+	@Column(name = "MENSAGEM", nullable = false)
 	private String mensagem;
 
 	public Integer getId() {

@@ -1,14 +1,16 @@
 package br.com.lacqua.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "TB_FUNCIONARIO")
@@ -17,10 +19,9 @@ public class Funcionario implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@Column(name = "ID")
-	@SequenceGenerator(name = "SEQ_ID_FUNCIONARIO", sequenceName = "SEQ_ID_FUNCIONARIO")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_ID_FUNCIONARIO")
-	private Integer id;
+	@Column(name = "ID_FUNCIONARIO")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer idFuncionario;
 	
 	@Column(name = "NOME", nullable = false, length = 150)
 	private String nome;
@@ -30,17 +31,21 @@ public class Funcionario implements Serializable {
 	
 	@Column(name = "EMAIL", nullable = false, length = 100)
 	private String email;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "LAST_MODIFIED", nullable = false)
+	private Calendar lastModified;
 
 	/*
 	 * Getters/Setters
 	 */
 	
 	public Integer getIdFuncionario() {
-		return id;
+		return idFuncionario;
 	}
 
 	public void setIdFuncionario(Integer id) {
-		this.id = id;
+		this.idFuncionario = id;
 	}
 
 	public String getNome() {
@@ -65,6 +70,14 @@ public class Funcionario implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Calendar getLastModified() {
+		return lastModified;
+	}
+
+	public void setLastModified(Calendar lastModified) {
+		this.lastModified = lastModified;
 	}
 
 }

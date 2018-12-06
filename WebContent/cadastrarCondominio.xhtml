@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Lista de Condomínios</title>
+
+	<style type="text/css">
+.ui-widget, .ui-widget .ui-widget {
+	font-size: 90%
+}
+</style>
+
+	<script>
+		function excluir() {
+			return confirm("Deseja excluir o registro?")
+
+		}
+	</script>
+</h:head>
+
+<h:body>
+
+	<ui:decorate template="decorator.xhtml" />
+	<h:outputScript library="scripts" name="pt.js" />
+	<h:form id="form_condominio" prependId="false">
+
+		<br />
+		<p:fieldset legend="Dados">
+			<h:panelGrid columns="6">
+
+				<p:outputLabel for="nomeCondominio" value="Nome" />
+				<p:inputText id="nomeCondominio" style="width:350px" value="#{condominioBean.condominio.nome}" size="80" required="true" placeholder="Ex: Condomínio Morada das Bença" requiredMessage="O nome deve ser preenchido." />
+
+				<p:outputLabel for="cnpj" value="CNPJ" style="size:50px" />
+				<p:inputMask id="cnpj" value="#{condominioBean.condominio.cnpj}" size="20" mask="99.999.999/9999-99" required="true" converter="converterCNPJ" requiredMessage="O CNPJ deve ser preenchido.">
+					<p:tooltip id="tipCNPJ" for="cnpj" value="O CNPJ deve ter 14 dígitos" position="top" />
+				</p:inputMask>
+
+				<p:outputLabel for="email" value="E-mail" />
+				<p:inputText id="email" value="#{condominioBean.condominio.email}" size="45" />
+
+				<p:outputLabel for="inscricaoEstadual" value="Inscrição Estadual" />
+				<p:inputMask id="inscricaoEstadual" mask="9999999-99" converter="converterInscricao" value="#{condominioBean.condominio.inscricaoEstadual}">
+					<p:tooltip id="tipInscricao" for="inscricaoEstadual" value="As incricões estaduais e municipais devem ter 09 dígitos" position="top" />
+				</p:inputMask>
+
+				<p:outputLabel for="inscricaoMunicipal" value="Inscrição Municipal" />
+				<p:inputMask id="inscricaoMunicipal" mask="9999999-99" converter="converterInscricao" value="#{condominioBean.condominio.inscricaoMunicipal}" />
+
+				<p:outputLabel for="taxaLeitura" value="Taxa de leitura" />
+				<p:inputNumber id="taxaLeitura" value="#{condominioBean.condominio.taxaLeitura}" decimalPlaces="2" decimalSeparator="," thousandSeparator="." required="true" requiredMessage="A taxa de leitura deve ser informada." size="5">
+					<p:tooltip id="tipTaxa" for="taxaLeitura" value="A taxa deve estar no formato 9,99" position="top" />
+				</p:inputNumber>
+
+				<p:outputLabel for="telefone1" value="Telefone 1" />
+				<p:inputMask id="telefone1" value="#{condominioBean.condominio.telefone1}" mask="(99)9-9999-9999" required="true" converter="converterTelefone" requiredMessage="O telefone 1 deve ser preenchido." />
+
+				<p:outputLabel for="telefone2" value="Telefone 2" />
+				<p:inputMask id="telefone2" value="#{condominioBean.condominio.telefone2}" mask="(99)9-9999-9999" required="true" converter="converterTelefone" requiredMessage="O telefone 2 deve ser preenchido." />
+
+				<p:outputLabel for="ativo" value="Ativo  " />
+				<p:inputSwitch id="ativo" required="true" offLabel="Não" onLabel="Sim" value="#{condominioBean.condominio.ativo}" />
+
+				<p:outputLabel for="inicio" value="Início do contrato" />
+				<p:calendar mask="true" id="inicio" locale="pt" pattern="dd/MM/yyyy" value="#{condominioBean.condominio.inicioContrato}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</p:calendar>
+
+				<p:outputLabel for="final" value="Final do contrato" />
+				<p:calendar mask="true" id="final" locale="pt" pattern="dd/MM/yyyy" value="#{condominioBean.condominio.fimContrato}">
+				</p:calendar>
+
+				<p:outputLabel for="poco" value="Tem poço?  " />
+				<p:inputSwitch id="poco" required="true" offLabel="Não" onLabel="Sim" value="#{condominioBean.condominio.poco}" />
+
+			</h:panelGrid>
+		</p:fieldset>
+
+		<br />
+
+		<p:fieldset legend="Endereço">
+			<h:panelGrid columns="8">
+				<p:outputLabel for="ruaComNumero" value="Rua" />
+				<p:inputText placeholder="Ex: Rua Doutor Pierre Collier, 666" id="ruaComNumero" value="#{condominioBean.condominio.ruaComNumero}" style="width:350px" />
+
+				<p:outputLabel for="bairro" value="Bairro" />
+				<p:inputText placeholder="Ex: Vila da Fábrica" id="bairro" value="#{condominioBean.condominio.bairro}" size="30" />
+
+				<p:outputLabel for="cidade" value="Cidade" />
+				<p:inputText placeholder="Ex: Camaragibe" id="cidade" value="#{condominioBean.condominio.cidade}" size="30" />
+
+				<p:outputLabel for="cep" value="CEP" />
+				<p:inputMask mask="99.999-999" id="cep" converter="converterCEP" value="#{condominioBean.condominio.cep}" style="width:80px" />
+
+			</h:panelGrid>
+		</p:fieldset>
+
+		<br />
+
+		<p:fieldset legend="Observações">
+			<h:panelGrid>
+				<p:inputTextarea id="condominioObservacao" rows="6" cols="120" maxlength="1000" counter="display" counterTemplate="{0} caracteres restantes." autoResize="true" value="#{condominioBean.condominio.observacao}" />
+				<h:outputText id="display" />
+			</h:panelGrid>
+		</p:fieldset>
+	</h:form>
+
+	<p:commandButton icon="ui-icon-disk" id="formCondominio" value="salvar" action="#{condominioBean.salvar}" style="margin: 10px" update="form_condominio" />
+
+	<!-- Lista de condomínios exibida e atualizada após cadastro de um novo condomínio -->
+
+	<h:panelGroup>
+		<h:form>
+			<p:dataTable value="#{condominioBean.condominios}" var="c">
+				<f:facet name="header">Lista de Condomínios</f:facet>
+
+				<p:column width="2%">
+					<f:facet name="header">ID</f:facet>
+					<h:outputText value="#{c.id}" />
+				</p:column>
+
+				<p:column width="14%">
+					<f:facet name="header">Nome</f:facet>
+					<h:outputText value="#{c.nome}" />
+				</p:column>
+
+				<p:column width="6%">
+					<f:facet name="header">Taxa</f:facet>
+					<h:outputText value="#{c.taxaLeitura}">
+						<f:convertNumber type="currency" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="11%">
+					<f:facet name="header">CNPJ</f:facet>
+					<h:outputText value="#{c.cnpj}">
+						<f:converter converterId="converterCNPJ" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="8%">
+					<f:facet name="header">Inscrição Estadual</f:facet>
+					<h:outputText value="#{c.inscricaoEstadual}">
+						<f:converter converterId="converterInscricao" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="8%">
+					<f:facet name="header">Inscrição Estadual</f:facet>
+					<h:outputText value="#{c.inscricaoMunicipal}">
+						<f:converter converterId="converterInscricao" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="3%">
+					<f:facet name="header">Poço</f:facet>
+					<h:outputText value="#{c.poco}" />
+				</p:column>
+
+				<p:column width="10%">
+					<f:facet name="header">Telefone 1</f:facet>
+					<h:outputText value="#{c.telefone1}">
+						<f:converter converterId="converterTelefone" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="7%">
+					<f:facet name="header">Início contrato</f:facet>
+					<h:outputText value="#{c.inicioContrato}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="16%">
+					<f:facet name="header">Endereço</f:facet>
+					<h:outputText value="#{c.ruaComNumero}" />
+				</p:column>
+
+				<p:column width="8%">
+					<f:facet name="header">Ações</f:facet>
+					<p:commandLink action="#{condominioBean.alterar(c.id)}">Alterar</p:commandLink>
+					|
+					<p:commandLink action="#{condominioBean.excluir(c.id)}" onclick="return excluir();">Excluir</p:commandLink>
+
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+	</h:panelGroup>
+</h:body>
+</h:html>

@@ -1,44 +1,47 @@
 package br.com.lacqua.util;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import java.math.BigDecimal;
+import java.util.Calendar;
 
-import br.com.lacqua.model.Cliente;
+import javax.persistence.EntityManager;
+
+import br.com.lacqua.model.Condominio;
+import br.com.lacqua.service.CondominioService;
 
 public class TesteJPA {
 
 	public static void main(String[] args) {
 
-		/*
-		Condominio condominio = new Condominio();
-		condominio.setNome("CondNEW TEST JPA");
-		condominio.setEndereco(2);
-		condominio.setAtivo(true);
-		condominio.setCnpj("53434534");
-		condominio.setInscricaoEstadual("6756756765");
-		condominio.setInscricaoMunicipal("7567567");
-		condominio.setTaxaDeLeitura(new BigDecimal(2.50));
-		condominio.setTelefone1("8131312525");
-		condominio.setTelefone2("8131314646");
-		*/
-		
-		Cliente cliente = new Cliente();
-		cliente.setNome("Beltrano de tal da Silva");
-		cliente.setNomeReferencia("Beltrano de Tal");
-		cliente.setEnderecoId(1);
-		cliente.setTelefone("8197084514");
-		cliente.setApartamentoId(300);
-		cliente.setAtivo(true);
-		cliente.setEmail("email@dominio.com.br");
-		cliente.setObservacao("Cliente de teste cadastrado para verificação do JPA.");
-		
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("lacqua");
-		EntityManager manager = emf.createEntityManager();
-		
+		System.out.println("Iniciando teste de gravação");
+
+		CondominioService condominioService = new CondominioService();
+		EntityManager manager = JPAUtil.getEntityManager();
 		manager.getTransaction().begin();
-		manager.persist(cliente);
+
+		Condominio condominio = new Condominio();
+		condominio.setNome("Condomínio Condemônio");
+		condominio.setAtivo(true);
+		condominio.setCnpj("481866789655");
+		condominio.setInscricaoEstadual("24631425631");
+		condominio.setInscricaoMunicipal("129381723891");
+		condominio.setTaxaLeitura(new BigDecimal(10.60));
+		condominio.setTelefone1("8165458798");
+		condominio.setTelefone2("8132156578");
+		condominio.setInicioContrato(Calendar.getInstance().getTime());
+		condominio.setPoco(Boolean.FALSE);
+		condominio.setAtivo(Boolean.TRUE);
+		condominio.setObservacao("Testando renomeação e criação de colunas.");
+		condominio.setLastModified(Calendar.getInstance().getTime());
+		condominio.setRuaComNumero("Rua das Bença");
+		condominio.setCidade("Olinda");
+		condominio.setBairro("Salgadinho");
+		condominio.setCep("53110120");
+		condominio.setEmail("mail@mail.com");
+		condominioService.inserir(condominio);
+		
+		//manager.persist(condominio);
 		manager.getTransaction().commit();
 		manager.close();
+		
 	}
 }

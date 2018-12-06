@@ -2,17 +2,26 @@ package br.com.lacqua.dao;
 
 import java.util.List;
 
+import javax.persistence.Query;
+
 import br.com.lacqua.model.Cliente;
 
-public interface ClienteDAO {
+public class ClienteDAO extends DAO {
 
-	public void salvar(Cliente cliente);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3077354785508887881L;
 
-	public void atualizar(Cliente cliente);
+	@SuppressWarnings("unchecked")
+	public List<Cliente> listarClientes() {
+		Query q = criarQuery("SELECT c FROM Cliente c");
+		return q.getResultList();
+	}
 
-	public void excluir(Cliente cliente);
-
-	public Cliente buscarPorId(Integer id);
-
-	public List<Cliente> listar();
+	@SuppressWarnings("unchecked")
+	public List<Cliente> listarClientesPorCondominio(Integer idCondominio) {
+		Query q = criarQuery("SELECT c FROM Cliente c WHERE c.condominio.idCondominio = " + idCondominio);
+		return q.getResultList();
+	}
 }

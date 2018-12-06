@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Lista de Condomínios</title>
+
+	<style type="text/css">
+.ui-widget, .ui-widget .ui-widget {
+	font-size: 90%
+}
+</style>
+
+	<script>
+		function excluir() {
+			return confirm("Deseja excluir o registro?")
+
+		}
+	</script>
+</h:head>
+
+<h:body>
+
+	<ui:decorate template="decorator.xhtml" />
+	<h:outputScript library="scripts" name="pt.js" />
+	<h:form id="form_sindico" prependId="false">
+
+		<br />
+		<p:fieldset legend="Dados">
+			<h:panelGrid columns="4">
+
+				<p:outputLabel for="nomeSindico" value="Nome" />
+				<p:inputText id="nomeSindico" style="width:350px" value="#{sindicoBean.sindico.nome}" size="80" required="true" requiredMessage="O nome deve ser preenchido." />
+
+				<p:outputLabel for="nomeReferencia" value="Nome Referência" style="size:50px" />
+				<p:inputText id="nomeReferencia" style="width:350px" value="#{sindicoBean.sindico.nomeReferencia}" size="80" required="true" requiredMessage="O nome de referência deve ser preenchido.">
+					<p:tooltip id="tipReferencia" for="nomeReferencia" value="É o nome pelo qual o síndico será chamado nos e-mails e relatórios" position="top" />
+				</p:inputText>
+
+				<p:outputLabel for="email1" value="E-mail 1" />
+				<p:inputText id="email1" value="#{sindicoBean.sindico.email1}" size="45" />
+
+				<p:outputLabel for="email2" value="E-mail 2" />
+				<p:inputText id="email2" value="#{sindicoBean.sindico.email2}" size="45" />
+
+				<p:outputLabel for="telefone1" value="Telefone 1" />
+				<p:inputMask id="telefone1" value="#{sindicoBean.sindico.telefone1}" mask="(99)9-9999-9999" converter="converterTelefone" requiredMessage="O telefone 1 deve ser preenchido." />
+
+				<p:outputLabel for="telefone2" value="Telefone 2" />
+				<p:inputMask id="telefone2" value="#{sindicoBean.sindico.telefone2}" mask="(99)9-9999-9999" converter="converterTelefone" requiredMessage="O telefone 2 deve ser preenchido." />
+
+				<p:outputLabel for="inicio" value="Início do mandato" />
+				<p:calendar mask="true" id="inicio" locale="pt" pattern="dd/MM/yyyy" value="#{sindicoBean.sindico.mandatoInicio}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</p:calendar>
+
+				<p:outputLabel for="final" value="Final do mandato" />
+				<p:calendar mask="true" id="final" locale="pt" pattern="dd/MM/yyyy" value="#{sindicoBean.sindico.mandatoFim}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</p:calendar>
+
+			</h:panelGrid>
+		</p:fieldset>
+
+		<br />
+
+		<p:fieldset legend="Observações">
+			<h:panelGrid>
+				<p:inputTextarea id="sindicoObservacao" rows="6" cols="120" maxlength="1000" counter="display" counterTemplate="{0} caracteres restantes." autoResize="true" value="#{sindicoBean.sindico.observacao}" />
+				<h:outputText id="display" />
+			</h:panelGrid>
+		</p:fieldset>
+	</h:form>
+
+	<p:commandButton icon="ui-icon-disk" id="formSindico" value="salvar" action="#{sindicoBean.salvar}" style="margin: 10px" update="form_sindico" />
+
+	<!-- Lista de condomínios exibida e atualizada após cadastro de um novo condomínio -->
+
+	<h:panelGroup>
+		<h:form>
+			<p:dataTable value="#{sindicoBean.sindicos}" var="s">
+				<f:facet name="header">Lista de Síndicos</f:facet>
+
+				<p:column width="2%">
+					<f:facet name="header">ID</f:facet>
+					<h:outputText value="#{s.id}" />
+				</p:column>
+
+				<p:column width="14%">
+					<f:facet name="header">Nome</f:facet>
+					<h:outputText value="#{s.nome}" />
+				</p:column>
+
+				<p:column width="10%">
+					<f:facet name="header">Telefone 1</f:facet>
+					<h:outputText value="#{s.telefone1}">
+						<f:converter converterId="converterTelefone" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="10%">
+					<f:facet name="header">Telefone 2</f:facet>
+					<h:outputText value="#{s.telefone2}">
+						<f:converter converterId="converterTelefone" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="14%">
+					<f:facet name="header">E-mail 1</f:facet>
+					<h:outputText value="#{s.email1}" />
+				</p:column>
+
+				<p:column width="7%">
+					<f:facet name="header">Início Mandato</f:facet>
+					<h:outputText value="#{s.mandatoInicio}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="7%">
+					<f:facet name="header">Fim Mandato</f:facet>
+					<h:outputText value="#{s.mandatoFim}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="8%">
+					<f:facet name="header">Ações</f:facet>
+					<p:commandLink action="#{condominioBean.alterar(c.id)}">Alterar</p:commandLink>
+					|
+					<p:commandLink action="#{condominioBean.excluir(c.id)}" onclick="return excluir();">Excluir</p:commandLink>
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+	</h:panelGroup>
+</h:body>
+</h:html>

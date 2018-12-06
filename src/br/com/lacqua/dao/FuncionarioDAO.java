@@ -2,17 +2,20 @@ package br.com.lacqua.dao;
 
 import java.util.List;
 
+import javax.persistence.Query;
+
 import br.com.lacqua.model.Funcionario;
 
-public interface FuncionarioDAO {
+public class FuncionarioDAO extends DAO {
 
-	public void salvar(Funcionario cliente);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1369437798012071837L;
 
-	public void atualizar(Funcionario cliente);
-
-	public void excluir(Funcionario cliente);
-
-	public Funcionario buscarPorId(Integer id);
-
-	public List<Funcionario> listar();
+	@SuppressWarnings("unchecked")
+	public List<Funcionario> listarFuncionarios() {
+		Query q = criarQuery("SELECT * FROM Funcionario f");
+		return q.getResultList();
+	}
 }

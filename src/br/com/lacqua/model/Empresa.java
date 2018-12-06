@@ -1,14 +1,16 @@
 package br.com.lacqua.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "TB_EMPRESA")
@@ -16,10 +18,9 @@ public class Empresa implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "ID")
-	@SequenceGenerator(name = "SEQ_ID_EMPRESA", sequenceName = "SEQ_ID_EMPRESA")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_ID_EMPRESA")
-	private Integer id;
+	@Column(name = "ID_EMPRESA")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer idEmpresa;
 
 	@Column(name = "NOME", nullable = false, length = 150)
 	private String nome;
@@ -50,17 +51,30 @@ public class Empresa implements Serializable {
 
 	@Column(name = "INSCRICAO_MUNICIPAL")
 	private String inscricaoMunicipal;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "LAST_MODIFIED", nullable = false)
+	private Calendar lastModified;
+	
+	/*
+	 * 
+	 * Relacionamentos
+	 * 
+	 */
+	
 
 	/*
+	 * 
 	 * Getters/Setters
+	 * 
 	 */
 	
 	public Integer getId() {
-		return id;
+		return idEmpresa;
 	}
 
 	public void setId(Integer id) {
-		this.id = id;
+		this.idEmpresa = id;
 	}
 
 	public String getNome() {
@@ -141,5 +155,29 @@ public class Empresa implements Serializable {
 
 	public void setInscricaoMunicipal(String inscricaoMunicipal) {
 		this.inscricaoMunicipal = inscricaoMunicipal;
+	}
+
+	public Integer getIdEmpresa() {
+		return idEmpresa;
+	}
+
+	public void setIdEmpresa(Integer idEmpresa) {
+		this.idEmpresa = idEmpresa;
+	}
+
+	public Integer getIdEndereco() {
+		return idEndereco;
+	}
+
+	public void setIdEndereco(Integer idEndereco) {
+		this.idEndereco = idEndereco;
+	}
+
+	public Calendar getLastModified() {
+		return lastModified;
+	}
+
+	public void setLastModified(Calendar lastModified) {
+		this.lastModified = lastModified;
 	}
 }

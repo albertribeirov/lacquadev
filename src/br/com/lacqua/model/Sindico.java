@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -18,49 +17,55 @@ import javax.persistence.TemporalType;
 public class Sindico implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@Column(name = "ID")
-	@SequenceGenerator(name = "SEQ_ID_SINDICO", sequenceName = "SEQ_ID_SINDICO")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_ID_SINDICO")
-	private Integer id;
-	
+	@Column(name = "ID_SINDICO")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer idSindico;
+
 	@Column(name = "NOME", nullable = false, length = 150)
 	private String nome;
-	
+
 	@Column(name = "NOME_REFERENCIA", nullable = false, length = 50)
 	private String nomeReferencia;
-	
+
 	@Column(name = "TELEFONE1")
 	private String telefone1;
-	
+
 	@Column(name = "TELEFONE2")
 	private String telefone2;
-	
+
 	@Column(name = "EMAIL1")
 	private String email1;
-	
+
 	@Column(name = "EMAIL2")
 	private String email2;
-	
+
 	@Column(name = "DT_ENTRADA")
 	@Temporal(TemporalType.DATE)
 	private Date mandatoInicio;
-	
+
 	@Column(name = "DT_SAIDA")
 	@Temporal(TemporalType.DATE)
 	private Date mandatoFim;
 
+	@Column(name = "OBSERVACAO", nullable = true, length = 1000)
+	private String observacao;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "LAST_MODIFIED", nullable = false)
+	private Date lastModified;
+
 	/*
 	 * Getters/Setters
 	 */
-	
+
 	public Integer getId() {
-		return id;
+		return idSindico;
 	}
 
 	public void setId(Integer id) {
-		this.id = id;
+		this.idSindico = id;
 	}
 
 	public String getNome() {
@@ -125,5 +130,29 @@ public class Sindico implements Serializable {
 
 	public void setMandatoFim(Date mandatoFim) {
 		this.mandatoFim = mandatoFim;
+	}
+
+	public Integer getIdSindico() {
+		return idSindico;
+	}
+
+	public void setIdSindico(Integer idSindico) {
+		this.idSindico = idSindico;
+	}
+
+	public Date getLastModified() {
+		return lastModified;
+	}
+
+	public void setLastModified(Date date) {
+		this.lastModified = date;
+	}
+
+	public String getObservacao() {
+		return observacao;
+	}
+
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
 	}
 }

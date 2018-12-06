@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml" 
+		xmlns:h="http://java.sun.com/jsf/html" 
+		xmlns:f="http://java.sun.com/jsf/core" 
+		xmlns:ui="http://java.sun.com/jsf/facelets" 
+		xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Lista de Tarifas</title>
+
+	<style type="text/css">
+.ui-widget, .ui-widget .ui-widget {
+	font-size: 90%
+}
+</style>
+
+	<script>
+		function excluir() {
+			return confirm("Deseja excluir o registro?")
+
+		}
+	</script>
+</h:head>
+
+<h:body>
+
+	<ui:decorate template="decorator.xhtml" />
+	<h:outputScript library="scripts" name="pt.js" />
+	<h:form id="form_tarifa" prependId="false">
+
+		<br />
+		<p:fieldset legend="Dados">
+			<h:panelGrid columns="2">
+
+				<p:outputLabel for="ate10k" value="Até 10.000 litros" style="size:50px" />
+				<p:inputNumber id="ate10k" value="#{tarifaCompesaBean.tarifaCompesa.valorAte10k}" size="20" required="true" decimalSeparator="," thousandSeparator="." />
+
+				<p:outputLabel for="de10k20k" value="10.001 a 20.000 litros" style="size:50px" />
+				<p:inputNumber id="de10k20k" value="#{tarifaCompesaBean.tarifaCompesa.valor10kAte20k}" size="20" required="true" decimalSeparator="," thousandSeparator="." />
+
+				<p:outputLabel for="de20k30k" value="20.001 a 30.000 litros" style="size:50px" />
+				<p:inputNumber id="de20k30k" value="#{tarifaCompesaBean.tarifaCompesa.valor20kAte30k}" size="20" required="true" decimalSeparator="," thousandSeparator="." />
+
+				<p:outputLabel for="de30k40k" value="30.001 a 50.000 litros" style="size:50px" />
+				<p:inputNumber id="de30k40k" value="#{tarifaCompesaBean.tarifaCompesa.valor30kAte50k}" size="20" required="true" decimalSeparator="," thousandSeparator="." />
+
+				<p:outputLabel for="de50k90k" value="50.001 a 90.000 litros" style="size:50px" />
+				<p:inputNumber id="de50k90k" value="#{tarifaCompesaBean.tarifaCompesa.valor50kAte90k}" size="20" required="true" decimalSeparator="," thousandSeparator="." />
+
+				<p:outputLabel for="de90k99k" value="90.001 a 99.999 litros" style="size:50px" />
+				<p:inputNumber id="de90k99k" value="#{tarifaCompesaBean.tarifaCompesa.valor90kAte999k}" size="20" required="true" decimalSeparator="," thousandSeparator="." />
+
+			</h:panelGrid>
+		</p:fieldset>
+
+		<br />
+	</h:form>
+
+	<p:commandButton icon="ui-icon-disk" id="formTarifa" value="salvar" action="#{tarifaCompesaBean.salvar}" style="margin: 10px" update="form_tarifa" />
+
+	<!-- Lista de tarifas da compesa exibida e atualizada após cadastro de um nova nova tarifa. -->
+
+	<h:panelGroup>
+		<h:form>
+			<p:dataTable value="#{tarifaCompesaBean.tarifasCompesa}" var="t">
+				<f:facet name="header">Lista de Tarifas</f:facet>
+
+				<p:column width="2%">
+					<f:facet name="header">ID</f:facet>
+					<h:outputText value="#{t.id}" />
+				</p:column>
+
+				<p:column width="6%">
+					<f:facet name="header">Até 10.000</f:facet>
+					<h:outputText value="#{t.valorAte10k}">
+						<f:convertNumber type="currency" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="6%">
+					<f:facet name="header">10.001 a 20.000</f:facet>
+					<h:outputText value="#{t.valor10kAte20k}">
+						<f:convertNumber type="currency" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="6%">
+					<f:facet name="header">20.001 a 30.000</f:facet>
+					<h:outputText value="#{t.valor20kAte30k}">
+						<f:convertNumber type="currency" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="6%">
+					<f:facet name="header">30.001 a 50.000</f:facet>
+					<h:outputText value="#{t.valor30kAte50k}">
+						<f:convertNumber type="currency" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="6%">
+					<f:facet name="header">50.001 a 90.000</f:facet>
+					<h:outputText value="#{t.valor50kAte90k}">
+						<f:convertNumber type="currency" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="6%">
+					<f:facet name="header">90.001 a 99.999</f:facet>
+					<h:outputText value="#{t.valor90kAte999k}">
+						<f:convertNumber type="currency" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="8%">
+					<f:facet name="header">Ações</f:facet>
+					<p:commandLink action="#{tarifaCompesaBean.alterar(t.id)}">Alterar</p:commandLink>
+					|
+					<p:commandLink action="#{tarifaCompesaBean.excluir(t.id)}" onclick="return excluir();">Excluir</p:commandLink>
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+	</h:panelGroup>
+</h:body>
+</h:html>

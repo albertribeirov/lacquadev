@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Cadastro de Clientes</title>
+
+	<style type="text/css">
+.ui-widget, .ui-widget .ui-widget {
+	font-size: 90%
+}
+</style>
+
+	<script>
+		function excluir() {
+			return confirm("Deseja excluir o registro?")
+
+		}
+	</script>
+</h:head>
+
+<h:body>
+
+	<ui:decorate template="decorator.xhtml" />
+	<h:outputScript library="scripts" name="pt.js" />
+	<h:form id="form_cliente" prependId="false">
+
+		<br />
+		<p:fieldset legend="Dados">
+			<h:panelGrid columns="6">
+
+				<p:outputLabel for="nomeCompleto" value="Nome completo" />
+				<p:inputText id="nomeCompleto" style="width:350px" value="#{clienteBean.cliente.nome}" size="80" required="true" requiredMessage="O nome deve ser preenchido." />
+
+				<p:outputLabel for="nomeReferencia" value="Nome Referência" style="size:50px" />
+				<p:inputText id="nomeReferencia" style="width:350px" value="#{clienteBean.cliente.nomeReferencia}" size="80" required="true" requiredMessage="O nome de referência deve ser preenchido.">
+					<p:tooltip id="tipReferencia" for="nomeReferencia" value="É o nome pelo qual o cliente será chamado nas contas enviadas por e-mail" position="top" />
+				</p:inputText>
+
+				<p:outputLabel for="email" value="E-mail" />
+				<p:inputText id="email" value="#{clienteBean.cliente.email}" size="45" />
+
+				<p:outputLabel for="telefone1" value="Telefone 1" />
+				<p:inputMask id="telefone1" value="#{clienteBean.cliente.telefone1}" mask="(99)9-9999-9999" converter="converterTelefone" />
+
+				<p:outputLabel for="telefone2" value="Telefone 2" />
+				<p:inputMask id="telefone2" value="#{clienteBean.cliente.telefone2}" mask="(99)9-9999-9999" converter="converterTelefone" />
+				
+				<p:outputLabel for="cpf" value="CPF" style="size:50px" />
+				<p:inputMask id="cpf" value="#{clienteBean.cliente.cpf}" size="20" mask="999.999.999-99" required="true" converter="converterCPF" requiredMessage="O CPF deve ser preenchido.">
+					<p:tooltip id="tipCPF" for="cpf" value="O CPF deve ter 11 dígitos" position="top" />
+				</p:inputMask>
+
+				<p:outputLabel for="ativo" value="Ativo  " />
+				<p:inputSwitch id="ativo" required="true" offLabel="Não" onLabel="Sim" value="#{clienteBean.cliente.ativo}" />
+
+			</h:panelGrid>
+		</p:fieldset>
+
+		<br />
+
+		<p:fieldset legend="Observações">
+			<h:panelGrid>
+				<p:inputTextarea id="clienteObservacao" rows="6" cols="120" maxlength="1000" counter="display" counterTemplate="{0} caracteres restantes." autoResize="true" value="#{clienteBean.cliente.observacao}" />
+				<h:outputText id="display" />
+			</h:panelGrid>
+		</p:fieldset>
+	</h:form>
+
+	<p:commandButton icon="ui-icon-disk" id="formCliente" value="salvar" action="#{clienteBean.salvar}" style="margin: 10px" update="form_cliente" />
+
+	<!-- Lista de condomínios exibida e atualizada após cadastro de um novo condomínio -->
+
+	<h:panelGroup>
+		<h:form>
+			<p:dataTable value="#{clienteBean.clientes}" var="cliente">
+				<f:facet name="header">Lista de Clientes</f:facet>
+
+				<p:column width="1%">
+					<f:facet name="header">ID</f:facet>
+					<h:outputText value="#{cliente.id}" />
+				</p:column>
+
+				<p:column width="1%">
+					<f:facet name="header">Ativo</f:facet>
+					<h:outputText value="#{cliente.ativo}" />
+				</p:column>
+
+				<p:column width="8%">
+					<f:facet name="header">Nome Referência</f:facet>
+					<h:outputText value="#{cliente.nomeReferencia}" />
+				</p:column>
+
+				<p:column width="3%">
+					<f:facet name="header">CPF</f:facet>
+					<h:outputText value="#{cliente.cpf}">
+						<f:converter converterId="converterCPF" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="3%">
+					<f:facet name="header">Telefone 1</f:facet>
+					<h:outputText value="#{cliente.telefone1}">
+						<f:converter converterId="converterTelefone" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="3%">
+					<f:facet name="header">Telefone 2</f:facet>
+					<h:outputText value="#{cliente.telefone2}">
+						<f:converter converterId="converterTelefone" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="8%">
+					<f:facet name="header">E-mail</f:facet>
+					<h:outputText value="#{cliente.email}" />
+				</p:column>
+
+
+				<p:column width="2%">
+					<f:facet name="header">Ações</f:facet>
+					<p:commandLink action="#{clienteBean.alterar(cliente.id)}">Alterar</p:commandLink>
+					|
+					<p:commandLink action="#{clienteBean.excluir(cliente.id)}" onclick="return excluir();">Excluir</p:commandLink>
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+	</h:panelGroup>
+</h:body>
+</h:html>

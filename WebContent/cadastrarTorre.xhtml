@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Lista de Torres</title>
+
+	<style type="text/css">
+.ui-widget, .ui-widget .ui-widget {
+	font-size: 90%
+}
+</style>
+
+	<script>
+		function excluir() {
+			return confirm("Deseja excluir o registro?")
+
+		}
+	</script>
+</h:head>
+<h:body>
+	<ui:decorate template="decorator.xhtml" />
+	<h:outputScript library="scripts" name="pt.js" />
+	<h:form id="form_torre" prependId="false">
+		<p:messages id="messages" showDetail="true" closable="true">
+			<p:autoUpdate />
+		</p:messages>
+
+		<br />
+
+		<p:fieldset legend="Dados">
+			<h:panelGrid columns="2">
+
+				<p:outputLabel for="nomeTorre" value="Nome" />
+				<p:inputText id="nomeTorre" value="#{torreBean.torre.nome}" required="true" placeholder="Ex: Rosée" />
+
+				<p:outputLabel for="numero" value="Número" />
+				<p:inputText id="numero" value="#{torreBean.torre.numero}" required="true" requiredMessage="O número deve ser preenchido." />
+
+				<p:outputLabel for="condominio" value="Condomínio" />
+				<p:selectOneMenu id="condominio" value="#{torreBean.torre.condominio}" converter="#{converterCondominio}" style="width:300px" required="true">
+					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="false" />
+					<f:selectItems value="#{condominioBean.condominios}" var="c" itemValue="#{c}" itemLabel="#{c.nome}" />
+				</p:selectOneMenu>
+
+			</h:panelGrid>
+		</p:fieldset>
+
+		<br />
+
+		<p:fieldset legend="Observação">
+			<h:panelGrid>
+				<p:inputTextarea id="torreObservacao" rows="6" cols="120" maxlength="1000" counter="display" counterTemplate="{0} caracteres restantes." autoResize="true" value="#{torreBean.torre.observacao}" />
+				<h:outputText id="display" />
+			</h:panelGrid>
+		</p:fieldset>
+	</h:form>
+	<p:messages>
+	</p:messages>
+
+	<p:commandButton icon="ui-icon-disk" id="formTorre" value="salvar" action="#{torreBean.salvar}" style="margin: 10px" update="form_torre" />
+
+
+	<h:panelGroup>
+		<h:form>
+			<p:dataTable value="#{torreBean.torres}" var="t">
+				<f:facet name="header">Lista de Torres</f:facet>
+
+				<p:column width="2%">
+					<f:facet name="header">ID</f:facet>
+					<h:outputText value="#{t.id}" />
+				</p:column>
+
+				<p:column width="14%">
+					<f:facet name="header">Nome</f:facet>
+					<h:outputText value="#{t.nome}" />
+				</p:column>
+
+				<p:column width="3%">
+					<f:facet name="header">Número</f:facet>
+					<h:outputText value="#{t.numero}" />
+				</p:column>
+
+				<p:column width="3%">
+					<f:facet name="header">Condomínio</f:facet>
+					<h:outputText value="#{t.condominio.nome}" />
+				</p:column>
+
+				<p:column width="8%">
+					<f:facet name="header">Ações</f:facet>
+					<p:commandLink action="#{condominioBean.alterar(c.id)}">Alterar</p:commandLink>
+					|
+					<p:commandLink action="#{condominioBean.excluir(c.id)}" onclick="return excluir();">Excluir</p:commandLink>
+
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+	</h:panelGroup>
+</h:body>
+</h:html>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+	<p:megaMenu orientation="#{megaMenuView.orientation}" style="margin-top:1px">
+		
+		<p:submenu label="Cadastros" icon="ui-icon-check" >
+			<p:column>
+				<p:submenu>
+					<p:menuitem value="Apartamento" target="cadastrarCondominio" url="http://localhost:8080/dev/cadastrarApartamento.jsf" />
+					<p:menuitem value="Cliente" target="cadastrarCondominio" url="http://localhost:8080/dev/cadastrarCliente.jsf" />
+					<p:menuitem value="Condomínio" target="cadastrarCondominio" url="http://localhost:8080/dev/cadastrarCondominio.jsf" />
+					<p:menuitem value="Síndico" target="cadastrarCondominio" url="http://localhost:8080/dev/cadastrarSindico.jsf" />
+					<p:menuitem value="Torre" target="cadastrarCondominio" url="http://localhost:8080/dev/cadastrarTorre.jsf" />
+					<p:menuitem value="Tarifa Compesa" target="cadastrarTorre" url="http://localhost:8080/dev/cadastrarTorifaCompesa.jsf" />
+					<p:menuitem value="Funcionário" target="cadastrarTorre" url="http://localhost:8080/dev/cadastrarFuncionario.jsf" />
+				</p:submenu>
+			</p:column>
+		</p:submenu>
+		
+		<p:submenu label="Consumos" icon="ui-icon-document">
+			<p:column>
+				<p:submenu>
+					<p:menuitem value="Apartamento" url="#" />
+					<p:menuitem value="Condomínio" url="#" />
+					<p:menuitem value="Cliente" url="#" />
+					<p:menuitem value="Torre" url="#" />
+				</p:submenu>
+			</p:column>
+		</p:submenu>
+
+		<p:submenu label="Relatórios" icon="ui-icon-document">
+			<p:column>
+				<p:submenu>
+					<p:menuitem value="Relatório 1" url="#" />
+					<p:menuitem value="Relatório" url="#" />
+					<p:menuitem value="Relatório" url="#" />
+					<p:menuitem value="Relatório" url="#" />
+					<p:menuitem value="Relatório" url="#" />
+					<p:menuitem value="Relatório" url="#" />
+					<p:menuitem value="Relatório" url="#" />
+					<p:menuitem value="Relatório" url="#" />
+					<p:menuitem value="Relatório" url="#" />
+					<p:menuitem value="Relatório" url="#" />
+				</p:submenu>
+			</p:column>
+		</p:submenu>
+
+		<p:menuitem value="Quit" url="http://www.primefaces.org" icon="ui-icon-close" />
+	</p:megaMenu>
+
+</ui:composition>
+</html>

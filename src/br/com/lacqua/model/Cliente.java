@@ -1,14 +1,20 @@
 package br.com.lacqua.model;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "TB_CLIENTE")
@@ -16,9 +22,8 @@ public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "ID")
-	@SequenceGenerator(name = "SEQ_ID_CLIENTE", sequenceName = "SEQ_ID_CLIENTE")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_ID_CLIENTE")
+	@Column(name = "ID_CLIENTE")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Column(name = "NOME", nullable = false, length = 150)
@@ -26,15 +31,15 @@ public class Cliente implements Serializable {
 	
 	@Column(name = "NOME_REFERENCIA", nullable = false, length = 50)
 	private String nomeReferencia;
+	
+	@Column(name = "CPF", nullable = true, length = 11)
+	private String cpf;
 
-	@Column(name = "ID_ENDERECO", nullable = true)
-	private Integer idEndereco;
-
-	@Column(name = "ID_APARTAMENTO")
-	private Integer idApartamento;
-
-	@Column(name = "TELEFONE")
-	private String telefone;
+	@Column(name = "TELEFONE", nullable = true, length = 11)
+	private String telefone1;
+	
+	@Column(name = "TELEFONE2", nullable = true, length = 11)
+	private String telefone2;
 
 	@Column(name = "EMAIL")
 	private String email;
@@ -44,12 +49,30 @@ public class Cliente implements Serializable {
 
 	@Column(name = "ATIVO")
 	private Boolean ativo;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "LAST_MODIFIED", nullable = false)
+	private Date lastModified;
 
 	/*
-	 * Getters/Setters
+	 * 
+	 * Relacionamentos
+	 * 
 	 */
 	
-	public Boolean isAtivo() {
+	@OneToMany(mappedBy = "cliente", targetEntity = Apartamento.class, fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	private List<Apartamento> apartamentos;
+	
+	@OneToMany(mappedBy = "cliente", targetEntity = ConsumoAgua.class, fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	private List<ConsumoAgua> consumosAgua;
+
+	/*
+	 * 
+	 * Getters/Setters
+	 * 
+	 */
+	
+	public Boolean getAtivo() {
 		return ativo;
 	}
 
@@ -72,6 +95,14 @@ public class Cliente implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
 
 	public String getNomeReferencia() {
 		return nomeReferencia;
@@ -81,28 +112,20 @@ public class Cliente implements Serializable {
 		this.nomeReferencia = nomeReferencia;
 	}
 
-	public Integer getEnderecoId() {
-		return idEndereco;
+	public String getTelefone1() {
+		return telefone1;
 	}
 
-	public void setEnderecoId(Integer idEndereco) {
-		this.idEndereco = idEndereco;
+	public void setTelefone1(String telefone1) {
+		this.telefone1 = telefone1;
+	}
+	
+	public String getTelefone2() {
+		return telefone2;
 	}
 
-	public Integer getApartamentoId() {
-		return idApartamento;
-	}
-
-	public void setApartamentoId(Integer idApartamento) {
-		this.idApartamento = idApartamento;
-	}
-
-	public String getTelefone() {
-		return telefone;
-	}
-
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
+	public void setTelefone2(String telefone2) {
+		this.telefone2 = telefone2;
 	}
 
 	public String getEmail() {
@@ -121,7 +144,55 @@ public class Cliente implements Serializable {
 		this.observacao = observacao;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public Date getLastModified() {
+		return lastModified;
 	}
+
+	public void setLastModified(Date lastModified) {
+		this.lastModified = lastModified;
+	}
+	
+	/*
+	 * 
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cliente other = (Cliente) obj;
+		if (cpf == null) {
+			if (other.cpf != null)
+				return false;
+		} else if (!cpf.equals(other.cpf))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+	
 }

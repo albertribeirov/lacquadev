@@ -8,7 +8,7 @@ import javax.inject.Named;
 import br.com.lacqua.model.Linguagem;
 
 @SuppressWarnings("serial")
-@Named("cadastro")
+@Named("cadastroBean")
 @RequestScoped
 public class CadastroBean implements Serializable {
 

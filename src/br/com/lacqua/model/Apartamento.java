@@ -1,13 +1,20 @@
 package br.com.lacqua.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "TB_APARTAMENTO")
@@ -15,30 +22,50 @@ public class Apartamento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "ID")
-	@SequenceGenerator(name = "SEQ_ID_APARTAMENTO", sequenceName = "SEQ_ID_APARTAMENTO")
-	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "SEQ_ID_APARTAMENTO")
+	@Column(name = "ID_APARTAMENTO")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Column(name = "NUMERO", nullable = false)
-	private int numero;
+	private String numero;
 
-	@Column(name = "NOME", nullable = true)
-	private String torre;
-
-	@Column(name = "ID_CONDOMINIO")
-	private Integer idCondominio;
-
-	@Column(name = "ID_CLIENTE")
-	private Integer idCliente;
-
-	@Column(name = "SERIAL_HIDROMETRO")
+	@Column(name = "SERIAL_HIDROMETRO", nullable = false, unique = true, length = 20)
 	private String serialHidrometro;
-
+	
+	@Column(name = "OBSERVACAO", nullable = true, length = 1000)
+	private String observacao;
+	
 	/*
-	 * Getters/Setters
+	 * 
+	 * Relacionamentos  
+	 * 
 	 */
 	
+	@ManyToOne
+	@JoinColumn(unique = true, name = "ID_CLIENTE", nullable = true, referencedColumnName = "ID_CLIENTE")
+	private Cliente cliente;
+	
+	@ManyToOne
+	@JoinColumn(unique = true, name = "ID_TORRE", nullable = true, referencedColumnName = "ID_TORRE")
+	private Torre torre;
+
+	@ManyToOne
+	@JoinColumn(unique = true, name = "ID_CONDOMINIO", nullable = false, referencedColumnName = "ID_CONDOMINIO")
+	private Condominio condominio;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "LAST_MODIFIED", nullable = false)
+	private Calendar lastModified;
+	
+	@OneToMany(mappedBy = "apartamento")
+	private List<ConsumoAgua> consumosAgua;
+
+	/*
+	 * 
+	 * Getters/Setters
+	 * 
+	 */
+
 	public Integer getId() {
 		return id;
 	}
@@ -46,37 +73,53 @@ public class Apartamento implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-	public int getNumero() {
-		return numero;
+	
+	public List<ConsumoAgua> getConsumosAgua() {
+		return consumosAgua;
 	}
 
-	public void setNumero(int numero) {
+	public void setConsumosAgua(List<ConsumoAgua> consumosAgua) {
+		this.consumosAgua = consumosAgua;
+	}
+
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 
-	public String getTorre() {
+	public String getNumero() {
+		return numero;
+	}
+	
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
+	}
+
+	public String getObservacao() {
+		return observacao;
+	}
+
+	public Torre getTorre() {
 		return torre;
 	}
 
-	public void setTorre(String torre) {
+	public void setTorre(Torre torre) {
 		this.torre = torre;
 	}
 
-	public Integer getCondominio() {
-		return idCondominio;
+	public Condominio getCondominio() {
+		return condominio;
 	}
 
-	public void setCondominio(Integer idCondominio) {
-		this.idCondominio = idCondominio;
+	public void setCondominio(Condominio condominio) {
+		this.condominio = condominio;
 	}
 
-	public Integer getCliente() {
-		return idCliente;
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setCliente(Integer cliente) {
-		this.idCliente = cliente;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public String getSerialHidrometro() {
@@ -85,5 +128,13 @@ public class Apartamento implements Serializable {
 
 	public void setSerialHidrometro(String serialHidrometro) {
 		this.serialHidrometro = serialHidrometro;
+	}
+
+	public Calendar getLastModified() {
+		return lastModified;
+	}
+
+	public void setLastModified(Calendar lastModified) {
+		this.lastModified = lastModified;
 	}
 }

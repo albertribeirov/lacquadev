@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Lista de Condomínios</title>
+</h:head>
+<body>
+
+	<br />
+
+	<h:panelGroup>
+		<h:form>
+			<p:dataTable value="#{condominioBean.condominios}" var="c">
+				<f:facet name="header">Lista de Condomínios</f:facet>
+
+				<p:column width="2%">
+					<f:facet name="header">ID</f:facet>
+					<h:outputText value="#{c.idCondominio}" />
+				</p:column>
+
+				<p:column width="3%">
+					<f:facet name="header">Ativo</f:facet>
+					<h:outputText value="#{c.ativo}" />
+				</p:column>
+
+				<p:column width="10%">
+					<f:facet name="header">Nome</f:facet>
+					<h:outputText value="#{c.nome}" />
+				</p:column>
+
+				<p:column width="9%">
+					<f:facet name="header">CNPJ</f:facet>
+					<h:outputText value="#{c.cnpj}" />
+				</p:column>
+
+				<p:column width="6%">
+					<f:facet name="header">Inscrição Estadual</f:facet>
+					<h:outputText value="#{c.inscricaoEstadual}" />
+				</p:column>
+
+				<p:column width="6%">
+					<f:facet name="header">Taxa de Leitura</f:facet>
+					<h:outputText value="#{c.taxaLeitura}">
+						<f:convertNumber type="currency" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="6%">
+					<f:facet name="header">Inscrição Estadual</f:facet>
+					<h:outputText value="#{c.inscricaoMunicipal}" />
+				</p:column>
+
+				<p:column width="3%">
+					<f:facet name="header">Poço</f:facet>
+					<h:outputText value="#{c.poco}" />
+				</p:column>
+
+				<p:column width="8%">
+					<f:facet name="header">Telefone 1</f:facet>
+					<h:outputText value="#{c.telefone1}" />
+				</p:column>
+
+				<p:column width="8%">
+					<f:facet name="header">Telefone 2</f:facet>
+					<h:outputText value="#{c.telefone2}">
+						<f:converter converterId="converterTelefone" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="7%">
+					<f:facet name="header">Inicio contrato</f:facet>
+					<h:outputText value="#{c.inicioContrato}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="7%">
+					<f:facet name="header">Fim contrato</f:facet>
+					<h:outputText value="#{c.fimContrato}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">Endereço</f:facet>
+					<h:outputText value="#{c.ruaComNumero}" />
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+	</h:panelGroup>
+
+</body>
+</html>

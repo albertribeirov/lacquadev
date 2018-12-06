@@ -11,7 +11,7 @@ public class ConectaMySQL {
 		
 		try {
 			//Registra classe JDBC e parï¿½metros de conexï¿½o em runtime
-			System.out.println("Conectando ao bando de dados.");
+			System.out.println("Conectando ao banco de dados.");
 			System.out.println("... \n...");
 			String url = "jdbc:mysql://localhost/lacqua";
 			String usuario = "admin";
@@ -20,7 +20,7 @@ public class ConectaMySQL {
 			System.out.println("Conectou!");
 			conexao.close();
 		} catch (SQLException e) {
-			System.out.println("Ocorreu um erro ao criar a conexÃ£o. Erro: " + e.getMessage());
+			System.out.println("Ocorreu um erro ao criar a conexão. Erro: " + e.getMessage());
 		}
 	}
 }
