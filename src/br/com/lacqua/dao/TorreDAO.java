@@ -6,12 +6,8 @@ import javax.persistence.Query;
 
 import br.com.lacqua.model.Torre;
 
+@SuppressWarnings("serial")
 public class TorreDAO extends DAO {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3341293440568954066L;
 
 	@SuppressWarnings("unchecked")
 	public List<Torre> listarTorres() {

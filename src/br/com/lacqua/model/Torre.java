@@ -41,7 +41,7 @@ public class Torre implements Serializable {
 	private String observacao;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_MODIFIED", nullable = false)
+	@Column(name = "LAST_MODIFIED", nullable = true)
 	private Date lastModified;
 
 	/*
@@ -58,7 +58,7 @@ public class Torre implements Serializable {
 	private List<Apartamento> apartamentos = new ArrayList<>();
 
 	@OneToMany(mappedBy = "torre")
-	private List<ConsumoAgua> consumoDoCondominio = new ArrayList<>();
+	private List<ConsumoGas> consumoDoCondominio = new ArrayList<>();
 
 	/*
 	 * 
@@ -98,14 +98,6 @@ public class Torre implements Serializable {
 		this.condominio = condominio;
 	}
 
-	public Integer getIdTorre() {
-		return id;
-	}
-
-	public void setIdTorre(Integer idTorre) {
-		this.id = idTorre;
-	}
-
 	public List<Apartamento> getApartamentos() {
 		return apartamentos;
 	}
@@ -114,11 +106,11 @@ public class Torre implements Serializable {
 		this.apartamentos = apartamentos;
 	}
 
-	public List<ConsumoAgua> getConsumoDoCondominio() {
+	public List<ConsumoGas> getConsumoDoCondominio() {
 		return consumoDoCondominio;
 	}
 
-	public void setConsumoDoCondominio(List<ConsumoAgua> consumoDoCondominio) {
+	public void setConsumoDoCondominio(List<ConsumoGas> consumoDoCondominio) {
 		this.consumoDoCondominio = consumoDoCondominio;
 	}
 

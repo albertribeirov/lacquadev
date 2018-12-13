@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Consumos</title>
+
+	<style type="text/css">
+.ui-widget, .ui-widget .ui-widget {
+	font-size: 90%
+}
+</style>
+
+	<script>
+		function excluir() {
+			return confirm("Deseja excluir o registro?")
+
+		}
+	</script>
+</h:head>
+<h:body>
+	<ui:decorate template="decorator.xhtml" />
+	<h:outputScript library="scripts" name="pt.js" />
+	<h:form id="form_consumo" prependId="false">
+	<p:growl id="message" for="consumo" sticky="false" />
+		<br />
+
+		<p:fieldset legend="Dados">
+			<h:panelGrid columns="2">
+
+				<p:outputLabel for="consumo" value="Número: " />
+				<p:inputText id="consumo" value="#{consumoGasBean.um}" placeholder="Ex: 103A" />
+
+				<p:outputLabel for="serialHidrometro" value="Serial do hidrômetro:" />
+				<p:inputText id="serialHidrometro" value="#{consumoGasBean.dois}" placeholder="Ex: SDJAI39DU3J3" requiredMessage="O serial do hidrômetro deve ser preenchido." />
+
+			</h:panelGrid>
+		</p:fieldset>
+	</h:form>
+
+	<p:commandButton icon="ui-icon-disk" id="formTorre" value="Calcular" action="#{consumoGasBean.calcularConsumo}" style="margin: 10px" update="form_consumo" />
+</h:body>
+</h:html>

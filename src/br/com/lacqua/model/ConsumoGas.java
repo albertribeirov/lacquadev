@@ -1,7 +1,8 @@
 package br.com.lacqua.model;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,30 +16,30 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "TB_CONSUMO_AGUA")
-public class ConsumoAgua implements Serializable {
+@Table(name = "TB_CONSUMO_GAS", schema = "lacqua")
+public class ConsumoGas implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "ID_CONSUMO_AGUA")
+	@Column(name = "ID_CONSUMO_GAS")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idConsumoAgua;
+	private Integer idConsumoGas;
 
 	@Column(name = "LEITURA", nullable = false)
-	private Integer leitura;
+	private BigDecimal leitura;
 
 	@Column(name = "MES_DE_REFERENCIA", nullable = false)
 	@Temporal(TemporalType.DATE)
-	private Calendar mesReferenciaLeitura;
+	private Date mesReferenciaLeitura;
 
 	@Column(name = "DIA_REALIZAZAO_LEITURA", nullable = true)
 	@Temporal(TemporalType.DATE)
-	private Calendar diaRealizacaoLeitura;
+	private Date diaRealizacaoLeitura;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "LAST_MODIFIED", nullable = false)
-	private Calendar lastModified;
+	private Date lastModified;
 
 	/*
 	 * 
@@ -62,10 +63,6 @@ public class ConsumoAgua implements Serializable {
 	@JoinColumn(name = "ID_CLIENTE", nullable = true)
 	private Cliente cliente;
 	
-	@ManyToOne
-	@JoinColumn(name = "ID_TARIFA_COMPESA", nullable = false)
-	private TarifaCompesa tarifaCompesa;
-
 	/*
 	 * 
 	 * Getters e setters
@@ -73,26 +70,26 @@ public class ConsumoAgua implements Serializable {
 	 */
 
 	public Integer getIdConsumoAgua() {
-		return idConsumoAgua;
+		return idConsumoGas;
 	}
 
-	public void setIdConsumoAgua(Integer idConsumoAgua) {
-		this.idConsumoAgua = idConsumoAgua;
+	public void setIdConsumoAgua(Integer idConsumoGas) {
+		this.idConsumoGas = idConsumoGas;
 	}
 
 	public Integer getId() {
-		return idConsumoAgua;
+		return idConsumoGas;
 	}
 
-	public void setId(Integer idConsumoAgua) {
-		this.idConsumoAgua = idConsumoAgua;
+	public void setId(Integer idConsumoGas) {
+		this.idConsumoGas = idConsumoGas;
 	}
 
-	public Integer getLeitura() {
+	public BigDecimal getLeitura() {
 		return leitura;
 	}
 
-	public void setLeitura(Integer leitura) {
+	public void setLeitura(BigDecimal leitura) {
 		this.leitura = leitura;
 	}
 
@@ -128,35 +125,27 @@ public class ConsumoAgua implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public TarifaCompesa getTarifaCompesa() {
-		return tarifaCompesa;
-	}
-
-	public void setTarifaCompesa(TarifaCompesa tarifaCompesa) {
-		this.tarifaCompesa = tarifaCompesa;
-	}
-
-	public Calendar getMesReferenciaLeitura() {
+	public Date getMesReferenciaLeitura() {
 		return mesReferenciaLeitura;
 	}
 
-	public void setMesReferenciaLeitura(Calendar mesReferenciaLeitura) {
+	public void setMesReferenciaLeitura(Date mesReferenciaLeitura) {
 		this.mesReferenciaLeitura = mesReferenciaLeitura;
 	}
 
-	public Calendar getDiaRealizacaoLeitura() {
+	public Date getDiaRealizacaoLeitura() {
 		return diaRealizacaoLeitura;
 	}
 
-	public void setDiaRealizacaoLeitura(Calendar diaRealizacaoLeitura) {
+	public void setDiaRealizacaoLeitura(Date diaRealizacaoLeitura) {
 		this.diaRealizacaoLeitura = diaRealizacaoLeitura;
 	}
 
-	public Calendar getLastModified() {
+	public Date getLastModified() {
 		return lastModified;
 	}
 
-	public void setLastModified(Calendar lastModified) {
+	public void setLastModified(Date lastModified) {
 		this.lastModified = lastModified;
 	}
 }

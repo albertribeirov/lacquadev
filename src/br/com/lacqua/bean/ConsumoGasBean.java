@@ -2,25 +2,25 @@ package br.com.lacqua.bean;
 
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.com.lacqua.ejb.ControladorConsumo;
 import br.com.lacqua.model.Apartamento;
 import br.com.lacqua.model.Cliente;
 import br.com.lacqua.model.Condominio;
-import br.com.lacqua.model.TarifaCompesa;
 import br.com.lacqua.model.Torre;
 import br.com.lacqua.service.ApartamentoService;
 import br.com.lacqua.service.ClienteService;
 import br.com.lacqua.service.CondominioService;
-import br.com.lacqua.service.TarifaCompesaService;
 import br.com.lacqua.service.TorreService;
 
 @SuppressWarnings("serial")
-@Named("consumoAguaBean")
+@Named("consumoGasBean")
 @RequestScoped
-public class ConsumoAguaBean extends AbstractBean {
+public class ConsumoGasBean extends AbstractBean {
 
 	@Inject
 	private ApartamentoService apartamentoService;
@@ -33,21 +33,28 @@ public class ConsumoAguaBean extends AbstractBean {
 
 	@Inject
 	private ClienteService clienteService;
+	
+	@EJB
+	private ControladorConsumo controlador;
 
-	@Inject
-	private TarifaCompesaService tarifaCompesaService;
-
+	private String um;
+	private String dois;
+	
+	
 	private Apartamento apartamento;
 	private Torre torre;
 	private Condominio condominio;
 	private Cliente cliente;
-	private TarifaCompesa tarifaCompesa;
 
 	private List<Apartamento> apartamentos;
 	private List<Torre> torres;
 	private List<Condominio> condominios;
 	private List<Cliente> clientes;
-	private List<TarifaCompesa> tarifasCompesa;
+	
+	public String calcularConsumo() {
+		controlador.calcularConsumo();
+		return null;
+	}
 
 	public List<Apartamento> getApartamentos() {
 		if (apartamentos == null) {
@@ -65,7 +72,7 @@ public class ConsumoAguaBean extends AbstractBean {
 		return torres;
 	}
 
-	public List<Condominio> getCondominio() {
+	public List<Condominio> getCondominios() {
 		if (condominios == null) {
 			condominios = condominioService.listarCondominios();
 		}
@@ -81,12 +88,52 @@ public class ConsumoAguaBean extends AbstractBean {
 		return clientes;
 	}
 
-	public List<TarifaCompesa> getTarifasCompesa() {
-		if (tarifasCompesa == null) {
-			tarifasCompesa = tarifaCompesaService.listarTarifasCompesa();
-		}
+	public Apartamento getApartamento() {
+		return apartamento;
+	}
 
-		return tarifasCompesa;
+	public void setApartamento(Apartamento apartamento) {
+		this.apartamento = apartamento;
+	}
+
+	public Torre getTorre() {
+		return torre;
+	}
+
+	public void setTorre(Torre torre) {
+		this.torre = torre;
+	}
+
+	public Condominio getCondominio() {
+		return condominio;
+	}
+
+	public void setCondominio(Condominio condominio) {
+		this.condominio = condominio;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public String getUm() {
+		return um;
+	}
+
+	public void setUm(String um) {
+		this.um = um;
+	}
+
+	public String getDois() {
+		return dois;
+	}
+
+	public void setDois(String dois) {
+		this.dois = dois;
 	}
 
 }

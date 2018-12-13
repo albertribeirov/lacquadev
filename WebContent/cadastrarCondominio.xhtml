@@ -9,7 +9,7 @@
 
 	<style type="text/css">
 .ui-widget, .ui-widget .ui-widget {
-	font-size: 90%
+	font-size: 80%
 }
 </style>
 
@@ -73,9 +73,6 @@
 				<p:calendar mask="true" id="final" locale="pt" pattern="dd/MM/yyyy" value="#{condominioBean.condominio.fimContrato}">
 				</p:calendar>
 
-				<p:outputLabel for="poco" value="Tem poço?  " />
-				<p:inputSwitch id="poco" required="true" offLabel="Não" onLabel="Sim" value="#{condominioBean.condominio.poco}" />
-
 			</h:panelGrid>
 		</p:fieldset>
 
@@ -127,7 +124,7 @@
 					<h:outputText value="#{c.nome}" />
 				</p:column>
 
-				<p:column width="6%">
+				<p:column width="5%">
 					<f:facet name="header">Taxa</f:facet>
 					<h:outputText value="#{c.taxaLeitura}">
 						<f:convertNumber type="currency" />
@@ -155,12 +152,7 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column width="3%">
-					<f:facet name="header">Poço</f:facet>
-					<h:outputText value="#{c.poco}" />
-				</p:column>
-
-				<p:column width="10%">
+				<p:column width="7%">
 					<f:facet name="header">Telefone 1</f:facet>
 					<h:outputText value="#{c.telefone1}">
 						<f:converter converterId="converterTelefone" />
@@ -174,12 +166,12 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column width="16%">
+				<p:column width="18%">
 					<f:facet name="header">Endereço</f:facet>
 					<h:outputText value="#{c.ruaComNumero}" />
 				</p:column>
 
-				<p:column width="8%">
+				<p:column width="6%">
 					<f:facet name="header">Ações</f:facet>
 					<p:commandLink action="#{condominioBean.alterar(c.id)}">Alterar</p:commandLink>
 					|

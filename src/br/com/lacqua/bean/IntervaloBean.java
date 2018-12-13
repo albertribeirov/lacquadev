@@ -12,18 +12,33 @@ import br.com.lacqua.model.Apartamento;
 import br.com.lacqua.service.ApartamentoService;
 
 @SuppressWarnings("serial")
-@Named("apartamentoBean")
+@Named("intervaloBean")
 @RequestScoped
-public class ApartamentoBean extends AbstractBean {
+public class IntervaloBean extends AbstractBean {
 
 	@EJB
 	private ControladorConsumo controlador;
+
 	@Inject
 	private ApartamentoService apartamentoService;
 
 	private List<Apartamento> apartamentos;
-
+	
 	private Apartamento apartamento;
+
+	private Integer inicio;
+	private Integer fim;
+
+	
+	public String cadastrarIntervalo() {
+		try {
+			controlador.cadastrarIntervalo(inicio, fim, apartamento);			
+			return redirect("cadastrarApartamento");
+		} catch (Exception e) {
+			handleException(e);
+		}
+		return null;
+	}
 
 	/*
 	 * 
@@ -45,20 +60,20 @@ public class ApartamentoBean extends AbstractBean {
 		}
 	}
 
-	public String salvar() {
-		try {
-			if (apartamento.getId() == null) {
-				apartamentoService.inserir(apartamento);
-			} else {
-				apartamentoService.alterar(apartamento);
-			}
-			apartamento = null;
-			return redirect("cadastrarApartamento");
+	public Integer getFim() {
+		return fim;
+	}
 
-		} catch (Exception e) {
-			addMessageToRequest(e.getMessage());
-			return null;
-		}
+	public void setFim(Integer fim) {
+		this.fim = fim;
+	}
+
+	public Integer getInicio() {
+		return inicio;
+	}
+
+	public void setInicio(Integer inicio) {
+		this.inicio = inicio;
 	}
 
 	public Apartamento getApartamento() {
@@ -68,22 +83,7 @@ public class ApartamentoBean extends AbstractBean {
 		return apartamento;
 	}
 
-	/*
-	 * Obtém apartamento
-	 * 
-	 * @return Objeto apartamento
-	 */
 	public void setApartamento(Apartamento apartamento) {
 		this.apartamento = apartamento;
 	}
-
-	public String alterar(Integer id) {
-		apartamento = apartamentoService.carregar(id);
-		return null;
-	}
-
-	public String excluir() {
-		return null;
-	}
-
 }

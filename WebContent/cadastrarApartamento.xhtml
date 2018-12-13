@@ -24,17 +24,17 @@
 	<ui:decorate template="decorator.xhtml" />
 	<h:outputScript library="scripts" name="pt.js" />
 	<h:form id="form_apartamento" prependId="false">
-		<p:messages id="messages" showDetail="true" closable="true">
-			<p:autoUpdate />
-		</p:messages>
+	<h:inputHidden value="#{apartamentoBean.apartamento.id}" />
+	<h:inputHidden id="msg" />
+		<p:growl for="apartamento" sticky="false" showDetail="true" life="400"/>
 
 		<br />
 
 		<p:fieldset legend="Dados">
 			<h:panelGrid columns="2">
 
-				<p:outputLabel for="numeroApartamento" value="Número: " />
-				<p:inputText id="numeroApartamento" value="#{apartamentoBean.apartamento.numero}" required="true" placeholder="Ex: 103A" />
+				<p:outputLabel for="apartamento" value="Número: " />
+				<p:inputText id="apartamento" value="#{apartamentoBean.apartamento.numero}" required="true" placeholder="Ex: 103A" />
 
 				<p:outputLabel for="serialHidrometro" value="Serial do hidrômetro:" />
 				<p:inputText id="serialHidrometro" value="#{apartamentoBean.apartamento.serialHidrometro}" required="true" placeholder="Ex: SDJAI39DU3J3" requiredMessage="O serial do hidrômetro deve ser preenchido." />
@@ -101,9 +101,9 @@
 
 				<p:column width="8%">
 					<f:facet name="header">Ações</f:facet>
-					<p:commandLink action="#{apartamentoBean.alterar(c.id)}">Alterar</p:commandLink>
+					<p:commandLink action="#{apartamentoBean.alterar(a.id)}">Alterar</p:commandLink>
 					|
-					<p:commandLink action="#{apartamentoBean.excluir(c.id)}" onclick="return excluir();">Excluir</p:commandLink>
+					<p:commandLink action="#{apartamentoBean.excluir(a.id)}" onclick="return excluir();">Excluir</p:commandLink>
 
 				</p:column>
 

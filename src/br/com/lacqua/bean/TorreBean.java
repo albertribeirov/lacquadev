@@ -1,6 +1,5 @@
 package br.com.lacqua.bean;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -12,28 +11,59 @@ import br.com.lacqua.model.Condominio;
 import br.com.lacqua.model.Torre;
 import br.com.lacqua.service.TorreService;
 
+@SuppressWarnings("serial")
 @Named("torreBean")
 @RequestScoped
-public class TorreBean implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7806488216288338187L;
+public class TorreBean extends AbstractBean {
 
 	@Inject
 	private TorreService torreService;
 
 	private Torre torre;
-	
+
 	private Condominio condominio;
 
 	private List<Torre> torres;
 
+	/**
+	 * Salva ou altera uma torre.
+	 */
+	public String salvar() {
+		try {
+			if (torre.getId() == null) {
+				torreService.salvar(torre);
+			} else {
+				torreService.atualizar(torre);
+			}
+			torre = null; 
+			return redirect("cadastrarTorre");
+			
+		} catch (Exception e) {
+			addMessageToRequest(e.getMessage());
+			return null;
+		}
+	}
+	
+	public String alterar(Integer id) {
+		this.torre = torreService.carregar(id);
+		return null;
+	}
+	
+	public String excluir() {
+		try {
+			torreService.excluir(torre.getId());
+		} catch (Exception e) {
+			handleException(e);
+		}
+		this.torre = null;
+		return null;
+	}
+	
 	public void carregarTorresPorCondominio(ValueChangeEvent event) {
 		Condominio cond = (Condominio) event.getNewValue();
 		torres = torreService.listarTorresPorCondominio(cond.getId());
 	}
+
 	/*
 	 * 
 	 * Obtém lista de torres
@@ -49,25 +79,12 @@ public class TorreBean implements Serializable {
 			return torres;
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			handleException(e);
 			return null;
 		}
 	}
 
-	public String salvar() {
-		try {
-
-			//torre.setCondominio(condominio);
-			torreService.inserir(torre);
-			return null;
-			// return Constantes.APARTAMENTO_SUCESSO;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
+	
 	public Torre getTorre() {
 		if (torre == null) {
 			torre = new Torre();
@@ -83,7 +100,7 @@ public class TorreBean implements Serializable {
 	public void setTorre(Torre torre) {
 		this.torre = torre;
 	}
-	
+
 	/*
 	 * Obtém torre
 	 * 
@@ -92,7 +109,7 @@ public class TorreBean implements Serializable {
 	public void setCondominio(Condominio condominio) {
 		this.condominio = condominio;
 	}
-	
+
 	/*
 	 * 
 	 * Obtém lista de torres

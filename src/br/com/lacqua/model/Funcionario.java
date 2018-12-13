@@ -1,7 +1,7 @@
 package br.com.lacqua.model;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,7 +34,7 @@ public class Funcionario implements Serializable {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "LAST_MODIFIED", nullable = false)
-	private Calendar lastModified;
+	private Date lastModified;
 
 	/*
 	 * Getters/Setters
@@ -72,11 +72,11 @@ public class Funcionario implements Serializable {
 		this.email = email;
 	}
 
-	public Calendar getLastModified() {
+	public Date getLastModified() {
 		return lastModified;
 	}
 
-	public void setLastModified(Calendar lastModified) {
+	public void setLastModified(Date lastModified) {
 		this.lastModified = lastModified;
 	}
 

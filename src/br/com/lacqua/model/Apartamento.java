@@ -1,7 +1,7 @@
 package br.com.lacqua.model;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -42,23 +42,23 @@ public class Apartamento implements Serializable {
 	 */
 	
 	@ManyToOne
-	@JoinColumn(unique = true, name = "ID_CLIENTE", nullable = true, referencedColumnName = "ID_CLIENTE")
+	@JoinColumn(unique = false, name = "ID_CLIENTE", nullable = true, referencedColumnName = "ID_CLIENTE")
 	private Cliente cliente;
 	
 	@ManyToOne
-	@JoinColumn(unique = true, name = "ID_TORRE", nullable = true, referencedColumnName = "ID_TORRE")
+	@JoinColumn(unique = false, name = "ID_TORRE", nullable = true, referencedColumnName = "ID_TORRE")
 	private Torre torre;
 
 	@ManyToOne
-	@JoinColumn(unique = true, name = "ID_CONDOMINIO", nullable = false, referencedColumnName = "ID_CONDOMINIO")
+	@JoinColumn(unique = false, name = "ID_CONDOMINIO", nullable = false, referencedColumnName = "ID_CONDOMINIO")
 	private Condominio condominio;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "LAST_MODIFIED", nullable = false)
-	private Calendar lastModified;
+	private Date lastModified;
 	
 	@OneToMany(mappedBy = "apartamento")
-	private List<ConsumoAgua> consumosAgua;
+	private List<ConsumoGas> consumosGas;
 
 	/*
 	 * 
@@ -74,12 +74,12 @@ public class Apartamento implements Serializable {
 		this.id = id;
 	}
 	
-	public List<ConsumoAgua> getConsumosAgua() {
-		return consumosAgua;
+	public List<ConsumoGas> getConsumosGas() {
+		return consumosGas;
 	}
 
-	public void setConsumosAgua(List<ConsumoAgua> consumosAgua) {
-		this.consumosAgua = consumosAgua;
+	public void setConsumosGas(List<ConsumoGas> consumosGas) {
+		this.consumosGas = consumosGas;
 	}
 
 	public void setNumero(String numero) {
@@ -130,11 +130,11 @@ public class Apartamento implements Serializable {
 		this.serialHidrometro = serialHidrometro;
 	}
 
-	public Calendar getLastModified() {
+	public Date getLastModified() {
 		return lastModified;
 	}
 
-	public void setLastModified(Calendar lastModified) {
+	public void setLastModified(Date lastModified) {
 		this.lastModified = lastModified;
 	}
 }

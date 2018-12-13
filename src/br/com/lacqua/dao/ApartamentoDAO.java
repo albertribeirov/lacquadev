@@ -8,11 +8,6 @@ import br.com.lacqua.model.Apartamento;
 
 public class ApartamentoDAO extends DAO {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5405082403129027933L;
-
 	@SuppressWarnings("unchecked")
 	public List<Apartamento> listarApartamentos() {
 		Query q = criarQuery("SELECT a FROM Apartamento a");

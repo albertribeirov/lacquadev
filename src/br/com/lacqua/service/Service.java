@@ -10,10 +10,9 @@ import javax.transaction.Status;
 /**
  * Superclasse de todos os services da aplicação
  */
+@SuppressWarnings("serial")
 @RequestScoped
 public abstract class Service implements Serializable {
-
-	private static final long serialVersionUID = -7516038192555296282L;
 
 	@Resource
 	private UserTransaction ut;
@@ -26,7 +25,6 @@ public abstract class Service implements Serializable {
 			if (ut.getStatus() != Status.STATUS_ACTIVE) {
 				ut.begin();
 			}
-
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -37,10 +35,9 @@ public abstract class Service implements Serializable {
 	 */
 	protected void commitTransaction() {
 		try {
-			if (ut.getStatus() != Status.STATUS_ACTIVE) {
+			if (ut.getStatus() == Status.STATUS_ACTIVE) {
 				ut.commit();
 			}
-
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -51,10 +48,9 @@ public abstract class Service implements Serializable {
 	 */
 	protected void rollbackTransaction() {
 		try {
-			if (ut.getStatus() != Status.STATUS_ACTIVE) {
+			if (ut.getStatus() == Status.STATUS_ACTIVE) {
 				ut.rollback();
 			}
-
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

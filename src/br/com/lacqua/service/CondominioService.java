@@ -42,7 +42,7 @@ public class CondominioService extends Service {
 
 			condominio.setLastModified(Calendar.getInstance().getTime());
 			condominioDAO.salvar(condominio);
-			logService.log("Condominio inserido: " + condominio, TipoMensagem.INFO);
+			logService.log("Condominio inserido: " + condominio.getNome(), TipoMensagem.INFO);
 
 			commitTransaction();
 
@@ -64,7 +64,7 @@ public class CondominioService extends Service {
 
 			condominio.setLastModified(Calendar.getInstance().getTime());
 			condominioDAO.alterar(condominio);
-			logService.log("Condominio alterado: " + condominio, TipoMensagem.INFO);
+			logService.log("Condominio alterado: " + condominio.getNome(), TipoMensagem.INFO);
 
 			commitTransaction();
 
@@ -86,7 +86,7 @@ public class CondominioService extends Service {
 
 			Condominio condominio = condominioDAO.carregar(Condominio.class, id);
 			condominioDAO.excluir(condominio);
-			logService.log("Condominio excluído: " + condominio, TipoMensagem.INFO);
+			logService.log("Condominio excluído: " + id, TipoMensagem.INFO);
 
 			commitTransaction();
 

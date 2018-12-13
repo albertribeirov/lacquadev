@@ -1,6 +1,5 @@
 package br.com.lacqua.service;
 
-import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -31,18 +30,17 @@ public class TorreService extends Service {
 	}
 	
 	/**
-	 * Insere uma novo Torre no banco de dados
+	 * Insere uma nova torre no banco de dados
 	 * 
-	 * @param Torre Torre a ser inserido
+	 * @param Torre Torre a ser inserida
 	 * @throws ServiceException
 	 */
-	public void inserir(Torre torre) {
+	public void salvar(Torre torre) throws Exception {
 		try {
 			beginTransaction();
 
-			torre.setLastModified(Calendar.getInstance().getTime());
 			torreDAO.salvar(torre);
-			logService.log("Torre inserido: " + torre.getId(), TipoMensagem.INFO);
+			logService.log("Torre inserida: " + torre.getId(), TipoMensagem.INFO);
 
 			commitTransaction();
 
@@ -58,13 +56,12 @@ public class TorreService extends Service {
 	 * @param Torre
 	 * @throws ServiceException
 	 */
-	public void alterar(Torre torre) {
+	public void atualizar(Torre torre) throws Exception {
 		try {
 			beginTransaction();
 
-			torre.setLastModified(Calendar.getInstance().getTime());
 			torreDAO.alterar(torre);
-			logService.log("Torre alterado: " + torre.getId(), TipoMensagem.INFO);
+			logService.log("Torre alterada: " + torre.getId(), TipoMensagem.INFO);
 
 			commitTransaction();
 
@@ -77,16 +74,16 @@ public class TorreService extends Service {
 	/**
 	 * Exclui uma torre do banco de dados.
 	 * 
-	 * @param integer Número de matrícula do Torre a ser excluído
+	 * @param integer Id da torre a ser excluída
 	 * @throws ServiceException
 	 */
-	public void excluir(Integer id) {
+	public void excluir(Integer id) throws Exception {
 		try {
 			beginTransaction();
 
 			Torre torre = torreDAO.carregar(Torre.class, id);
 			torreDAO.excluir(torre);
-			logService.log("Torre excluída: " + torre.getId(), TipoMensagem.INFO);
+			logService.log("Torre excluída: " + id, TipoMensagem.INFO);
 
 			commitTransaction();
 
@@ -99,7 +96,7 @@ public class TorreService extends Service {
 	/**
 	 * Lê todos as torres cadastradas no banco de dados
 	 * 
-	 * @return Lista de Condomínios cadastrados
+	 * @return Lista de torres cadastradas
 	 * @throws ServiceException
 	 */
 	public List<Torre> listarTorres() {
@@ -109,10 +106,10 @@ public class TorreService extends Service {
 	/**
 	 * Lista as torres por condomínio.
 	 * 
-	 * @return Lista de Condomínios cadastrados
+	 * @return Lista de torres cadastrados por condomínio
 	 * @throws ServiceException
 	 */
-	public List<Torre> listarTorresPorCondominio(Integer id) {
-		return torreDAO.listarTorresPorCondominio(id);
+	public List<Torre> listarTorresPorCondominio(Integer idCondominio) {
+		return torreDAO.listarTorresPorCondominio(idCondominio);
 	}
 }

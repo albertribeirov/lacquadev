@@ -59,9 +59,6 @@ public class Condominio implements Serializable {
 	@Column(name = "ATIVO", nullable = false)
 	private Boolean ativo;
 
-	@Column(name = "POCO", nullable = false)
-	private Boolean poco;
-
 	@Column(name = "INICIO_CONTRATO", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date inicioContrato;
@@ -99,8 +96,8 @@ public class Condominio implements Serializable {
 	@OneToMany(mappedBy = "condominio", targetEntity = Apartamento.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Apartamento> apartamentos = new ArrayList<>();
 
-	@OneToMany(mappedBy = "condominio", targetEntity = ConsumoAgua.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<ConsumoAgua> consumos = new ArrayList<>();
+	@OneToMany(mappedBy = "condominio", targetEntity = ConsumoGas.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<ConsumoGas> consumos = new ArrayList<>();
 
 	/*
 	 * 
@@ -252,14 +249,6 @@ public class Condominio implements Serializable {
 		this.id = id;
 	}
 
-	public Boolean getPoco() {
-		return poco;
-	}
-
-	public void setPoco(Boolean poco) {
-		this.poco = poco;
-	}
-
 	public Boolean getAtivo() {
 		return ativo;
 	}
@@ -288,11 +277,11 @@ public class Condominio implements Serializable {
 		this.apartamentos = apartamentos;
 	}
 
-	public List<ConsumoAgua> getConsumos() {
+	public List<ConsumoGas> getConsumos() {
 		return consumos;
 	}
 
-	public void setConsumos(List<ConsumoAgua> consumos) {
+	public void setConsumos(List<ConsumoGas> consumos) {
 		this.consumos = consumos;
 	}
 	

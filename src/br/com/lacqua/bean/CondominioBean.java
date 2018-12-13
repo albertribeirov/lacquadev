@@ -31,7 +31,7 @@ public class CondominioBean extends AbstractBean {
 		return condominios;
 	}
 
-	/*
+	/**
 	 * Salva um condomínio
 	 */
 	public String salvar() {
@@ -44,21 +44,20 @@ public class CondominioBean extends AbstractBean {
 			}
 
 			condominio = null;
-			return null;
-			// return Constantes.CONDOMINIO_SUCESSO;
-
+			return redirect("cadastrarCondominio");
+			
 		} catch (Exception e) {
-			e.printStackTrace();
+			addMessageToRequest(e.getMessage());
 			return null;
 		}
 
 	}
 
-	/*
+	/**
 	 * Altera um condomínio
 	 */
 	public String alterar(Integer id) {
-		condominio = condominioService.carregar(id);
+		this.condominio = condominioService.carregar(id);
 		return null;
 
 	}
@@ -69,7 +68,7 @@ public class CondominioBean extends AbstractBean {
 	public String excluir(Integer id) {
 		condominioService.excluir(id);
 		condominios = null;
-		return "cadastrarCondominio";
+		return redirect("cadastrarCondominio");
 
 	}
 
