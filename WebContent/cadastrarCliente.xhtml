@@ -85,10 +85,12 @@
 
 				<p:column width="1%">
 					<f:facet name="header">Ativo</f:facet>
-					<h:outputText value="#{cliente.ativo}" />
+					<h:outputText value="#{cliente.ativo}">
+						<f:converter converterId="converterBooleano" />
+					</h:outputText>
 				</p:column>
 
-				<p:column width="8%">
+				<p:column width="6%">
 					<f:facet name="header">Nome Referência</f:facet>
 					<h:outputText value="#{cliente.nomeReferencia}" />
 				</p:column>
@@ -120,7 +122,7 @@
 				</p:column>
 
 
-				<p:column width="2%">
+				<p:column width="4%">
 					<f:facet name="header">Ações</f:facet>
 					<p:commandLink action="#{clienteBean.alterar(cliente.id)}">Alterar</p:commandLink>
 					|

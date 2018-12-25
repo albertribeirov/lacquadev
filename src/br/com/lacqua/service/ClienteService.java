@@ -1,6 +1,5 @@
 package br.com.lacqua.service;
 
-import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -16,10 +15,10 @@ public class ClienteService extends Service {
 
 	@Inject
 	private ClienteDAO clienteDAO;
-	
+
 	@Inject
 	private LogService logService;
-	
+
 	/**
 	 * Carrega um cliente cadastrado no banco de dados.
 	 * 
@@ -29,20 +28,19 @@ public class ClienteService extends Service {
 	public Cliente carregar(Integer id) {
 		return clienteDAO.carregar(Cliente.class, id);
 	}
-	
+
 	/**
 	 * Insere um novo Cliente no banco de dados
 	 * 
 	 * @param Cliente Cliente a ser inserido
 	 * @throws ServiceException
 	 */
-	public void inserir(Cliente cliente) {
+	public void inserir(Cliente cliente) throws Exception {
 		try {
 			beginTransaction();
 
-			cliente.setLastModified(Calendar.getInstance().getTime());
-			logService.log("Cliente inserido: " + cliente.getNomeReferencia(), TipoMensagem.INFO);
 			clienteDAO.salvar(cliente);
+			logService.log("Cliente inserido: " + cliente.getNomeReferencia(), TipoMensagem.INFO);
 
 			commitTransaction();
 
@@ -58,13 +56,12 @@ public class ClienteService extends Service {
 	 * @param Cliente
 	 * @throws ServiceException
 	 */
-	public void alterar(Cliente cliente) {
+	public void atualizar(Cliente cliente) throws Exception {
 		try {
 			beginTransaction();
 
-			cliente.setLastModified(Calendar.getInstance().getTime());
 			clienteDAO.alterar(cliente);
-			logService.log("Cliente alterado: " + cliente.getNomeReferencia(), TipoMensagem.INFO);
+			logService.log("Cliente alterado: " + cliente.getId(), TipoMensagem.INFO);
 
 			commitTransaction();
 
@@ -80,13 +77,13 @@ public class ClienteService extends Service {
 	 * @param integer Número de matrícula do Cliente a ser excluído
 	 * @throws ServiceException
 	 */
-	public void excluir(Integer id) {
+	public void excluir(Integer id) throws Exception {
 		try {
 			beginTransaction();
 
 			Cliente cliente = clienteDAO.carregar(Cliente.class, id);
-			logService.log("Cliente excluído: " + cliente.getNomeReferencia(), TipoMensagem.INFO);
 			clienteDAO.excluir(cliente);
+			logService.log("Cliente excluído: " + id, TipoMensagem.INFO);
 
 			commitTransaction();
 

@@ -18,7 +18,7 @@ public class ApartamentoService extends Service {
 
 	@Inject
 	private ApartamentoDAO apartamentoDAO;
-	
+
 	@Inject
 	private LogService logService;
 
@@ -28,7 +28,7 @@ public class ApartamentoService extends Service {
 	public Apartamento carregar(Integer id) {
 		return apartamentoDAO.carregar(Apartamento.class, id);
 	}
-	
+
 	/**
 	 * Insere um novo Apartamento no banco de dados
 	 * 
@@ -101,5 +101,9 @@ public class ApartamentoService extends Service {
 	 */
 	public List<Apartamento> listarApartamentos() {
 		return apartamentoDAO.listarApartamentos();
+	}
+
+	public List<Apartamento> listarApartamentosPorCondominioTorre(Integer idCondominio, Integer idTorre) {
+		return apartamentoDAO.listarApartamentosPorCondominioTorre(idCondominio, idTorre);
 	}
 }
