@@ -8,7 +8,6 @@ import javax.inject.Named;
 
 import br.com.lacqua.model.Cliente;
 import br.com.lacqua.service.ClienteService;
-import br.com.lacqua.util.Constantes;
 
 @SuppressWarnings("serial")
 @Named("clienteBean")
@@ -45,10 +44,14 @@ public class ClienteBean extends AbstractBean {
 	 * Exclui um cliente
 	 */
 	public String excluir(Integer id) {
-		clienteService.excluir(id);
-		clientes = null;
-		return "cadastrarCondominio";
-
+		try {
+			clienteService.excluir(id);			
+		} catch (Exception e) {
+			handleException(e);
+		}
+		
+		this.cliente = null;
+		return null;
 	}
 
 	/*
@@ -58,20 +61,17 @@ public class ClienteBean extends AbstractBean {
 		try {
 			if (cliente.getId() == null) {
 				clienteService.inserir(cliente);
-
 			} else {
-				clienteService.alterar(cliente);
+				clienteService.atualizar(cliente);
 			}
 
 			cliente = null;
-			return Constantes.SUCESSO;
-			// return Constantes.CONDOMINIO_SUCESSO;
+			return redirect("cadastrarCliente");
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			addMessageToRequest(e.getMessage());
 			return null;
 		}
-
 	}
 
 	/*

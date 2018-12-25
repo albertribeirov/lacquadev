@@ -36,9 +36,6 @@
 				<p:outputLabel for="apartamento" value="Número: " />
 				<p:inputText id="apartamento" value="#{apartamentoBean.apartamento.numero}" required="true" placeholder="Ex: 103A" />
 
-				<p:outputLabel for="serialHidrometro" value="Serial do hidrômetro:" />
-				<p:inputText id="serialHidrometro" value="#{apartamentoBean.apartamento.serialHidrometro}" required="true" placeholder="Ex: SDJAI39DU3J3" requiredMessage="O serial do hidrômetro deve ser preenchido." />
-
 				<p:outputLabel for="condominio" value="Condomínio" />
 				<p:selectOneMenu id="condominio" value="#{apartamentoBean.apartamento.condominio}" valueChangeListener="#{torreBean.carregarTorresPorCondominio}" converter="#{converterCondominio}" immediate="true" style="width:300px" required="true">
 					<f:ajax event="valueChange" execute="@this" render="torre" />
@@ -84,12 +81,7 @@
 					<h:outputText value="#{a.numero}" />
 				</p:column>
 
-				<p:column width="3%">
-					<f:facet name="header">Hidrômetro</f:facet>
-					<h:outputText value="#{a.serialHidrometro}" />
-				</p:column>
-
-				<p:column width="3%">
+				<p:column width="6%">
 					<f:facet name="header">Condomínio</f:facet>
 					<h:outputText value="#{a.condominio.nome}" />
 				</p:column>
@@ -104,7 +96,6 @@
 					<p:commandLink action="#{apartamentoBean.alterar(a.id)}">Alterar</p:commandLink>
 					|
 					<p:commandLink action="#{apartamentoBean.excluir(a.id)}" onclick="return excluir();">Excluir</p:commandLink>
-
 				</p:column>
 
 			</p:dataTable>

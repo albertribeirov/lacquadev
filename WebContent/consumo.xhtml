@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
@@ -18,28 +19,76 @@
 			return confirm("Deseja excluir o registro?")
 
 		}
+		
+		function inserirConsumoApartamento(){
+			var leitura = document.getElementById("consumo").value;
+			var apartamento = document.getElementById("apartamento").value;
+			alert("Teste funcionou!");
+		}
 	</script>
 </h:head>
 <h:body>
 	<ui:decorate template="decorator.xhtml" />
 	<h:outputScript library="scripts" name="pt.js" />
 	<h:form id="form_consumo" prependId="false">
-	<p:growl id="message" for="consumo" sticky="false" />
+		<p:growl for="apartamento" sticky="false" showDetail="true" life="400" />
 		<br />
 
 		<p:fieldset legend="Dados">
 			<h:panelGrid columns="2">
-
-				<p:outputLabel for="consumo" value="Número: " />
-				<p:inputText id="consumo" value="#{consumoGasBean.um}" placeholder="Ex: 103A" />
-
-				<p:outputLabel for="serialHidrometro" value="Serial do hidrômetro:" />
-				<p:inputText id="serialHidrometro" value="#{consumoGasBean.dois}" placeholder="Ex: SDJAI39DU3J3" requiredMessage="O serial do hidrômetro deve ser preenchido." />
-
+				<p:outputLabel for="condominio" value="Condomínio" />
+				<p:selectOneMenu id="condominio" value="#{consumoGasBean.consumo.condominio}" valueChangeListener="#{torreBean.carregarTorresPorCondominio}" converter="#{converterCondominio}"
+					immediate="true" style="width:300px" required="true">
+					<f:ajax event="valueChange" execute="@this" render="torre" />
+					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="false" />
+					<f:selectItems value="#{condominioBean.condominios}" var="c" itemValue="#{c}" itemLabel="#{c.nome}" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel for="torre" value="Torre" />
+				<p:selectOneMenu id="torre" value="#{consumoGasBean.consumo.torre}" converter="#{converterTorre}" style="width:300px" required="true">
+					<f:selectItems value="#{torreBean.torres}" var="t" itemValue="#{t}" itemLabel="#{t.id} - #{t.nome}" />
+				</p:selectOneMenu>
 			</h:panelGrid>
 		</p:fieldset>
 	</h:form>
 
-	<p:commandButton icon="ui-icon-disk" id="formTorre" value="Calcular" action="#{consumoGasBean.calcularConsumo}" style="margin: 10px" update="form_consumo" />
+	<p:commandButton icon="ui-icon-disk" id="formTorre" value="Listar Apartamentos" action="#{consumoGasBean.carregarApartamentos}" style="margin: 10px" update="form_consumo" />
+	
+	<br/>
+	<h:panelGroup>
+		<h:form>
+			<p:dataTable value="#{consumoGasBean.apartamentos}" var="ap" rendered="#{consumoGasBean.apartamentos.size() > 0}">
+				<f:facet name="header">Consumos</f:facet>
+
+				<p:column width="2%">
+					<f:facet name="header">ID</f:facet>
+					<h:outputText id="apartamento" value="#{ap.id}" />
+				</p:column>
+
+				<p:column width="6%">
+					<f:facet name="header">Condomínio</f:facet>
+					<h:outputText value="#{ap.condominio.nome}" />
+				</p:column>
+
+				<p:column width="6%">
+					<f:facet name="header">Torre</f:facet>
+					<h:outputText value="#{ap.torre.nome}" />
+				</p:column>
+
+				<p:column width="2%">
+					<f:facet name="header">Número</f:facet>
+					<h:outputText value="#{ap.numero}" />
+				</p:column>
+
+				<p:column width="6%">
+					<f:facet name="header">Consumo</f:facet>
+					<p:inputNumber id="consumo" value="#{consumoGas.leitura}">
+						<f:ajax event="blur" execute="@this" onevent="inserirConsumoApartamento" />
+					</p:inputNumber>
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+	</h:panelGroup>
 </h:body>
 </h:html>

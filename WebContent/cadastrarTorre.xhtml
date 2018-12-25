@@ -28,7 +28,7 @@
 
 		<br />
 
-		<h:fieldset legend="Dados">
+		<p:fieldset legend="Dados">
 			<h:panelGrid columns="2">
 
 				<p:outputLabel for="nomeTorre" value="Nome" />
@@ -44,7 +44,7 @@
 				</p:selectOneMenu>
 
 			</h:panelGrid>
-		</h:fieldset>
+		</p:fieldset>
 
 		<br />
 
@@ -71,17 +71,17 @@
 					<h:outputText value="#{t.id}" />
 				</p:column>
 
-				<p:column width="14%">
-					<f:facet name="header">Nome</f:facet>
-					<h:outputText value="#{t.nome}" />
-				</p:column>
-
-				<p:column width="3%">
+				<p:column width="2%">
 					<f:facet name="header">Número</f:facet>
 					<h:outputText value="#{t.numero}" />
 				</p:column>
 
-				<p:column width="3%">
+				<p:column width="6%">
+					<f:facet name="header">Nome</f:facet>
+					<h:outputText value="#{t.nome}" />
+				</p:column>
+
+				<p:column width="6%">
 					<f:facet name="header">Condomínio</f:facet>
 					<h:outputText value="#{t.condominio.nome}" />
 				</p:column>

@@ -28,9 +28,6 @@ public class Apartamento implements Serializable {
 
 	@Column(name = "NUMERO", nullable = false)
 	private String numero;
-
-	@Column(name = "SERIAL_HIDROMETRO", nullable = false, unique = true, length = 20)
-	private String serialHidrometro;
 	
 	@Column(name = "OBSERVACAO", nullable = true, length = 1000)
 	private String observacao;
@@ -120,14 +117,6 @@ public class Apartamento implements Serializable {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
-	}
-
-	public String getSerialHidrometro() {
-		return serialHidrometro;
-	}
-
-	public void setSerialHidrometro(String serialHidrometro) {
-		this.serialHidrometro = serialHidrometro;
 	}
 
 	public Date getLastModified() {

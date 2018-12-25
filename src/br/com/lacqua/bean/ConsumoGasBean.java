@@ -1,5 +1,6 @@
 package br.com.lacqua.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -11,10 +12,12 @@ import br.com.lacqua.ejb.ControladorConsumo;
 import br.com.lacqua.model.Apartamento;
 import br.com.lacqua.model.Cliente;
 import br.com.lacqua.model.Condominio;
+import br.com.lacqua.model.ConsumoGas;
 import br.com.lacqua.model.Torre;
 import br.com.lacqua.service.ApartamentoService;
 import br.com.lacqua.service.ClienteService;
 import br.com.lacqua.service.CondominioService;
+import br.com.lacqua.service.ConsumoGasService;
 import br.com.lacqua.service.TorreService;
 
 @SuppressWarnings("serial")
@@ -33,26 +36,40 @@ public class ConsumoGasBean extends AbstractBean {
 
 	@Inject
 	private ClienteService clienteService;
-	
+
+	@Inject
+	private ConsumoGasService consumoService;
+
 	@EJB
 	private ControladorConsumo controlador;
 
-	private String um;
-	private String dois;
-	
-	
 	private Apartamento apartamento;
 	private Torre torre;
 	private Condominio condominio;
 	private Cliente cliente;
+	private ConsumoGas consumoGas;
+	private BigDecimal leitura;
 
 	private List<Apartamento> apartamentos;
 	private List<Torre> torres;
 	private List<Condominio> condominios;
 	private List<Cliente> clientes;
+	private List<ConsumoGas> consumos;
+
+	public String inserirConsumoMes() {
+		return null;
+	}
 	
-	public String calcularConsumo() {
-		controlador.calcularConsumo();
+	public String inserirConsumoApartamento(Integer idApartamento) {
+		controlador.inserirConsumoMensalApartamento(idApartamento, consumoGas);
+		return null;
+	}
+
+	public String carregarApartamentos() {
+		Integer idCondominio = consumoGas.getCondominio().getId();
+		Integer idTorre = consumoGas.getTorre().getId();
+		apartamentos = apartamentoService.listarApartamentosPorCondominioTorre(idCondominio, idTorre);
+
 		return null;
 	}
 
@@ -120,20 +137,30 @@ public class ConsumoGasBean extends AbstractBean {
 		this.cliente = cliente;
 	}
 
-	public String getUm() {
-		return um;
+	public ConsumoGas getConsumo() {
+		if (consumoGas == null) {
+			consumoGas = new ConsumoGas();
+		}
+		return consumoGas;
 	}
 
-	public void setUm(String um) {
-		this.um = um;
+	public void setConsumo(ConsumoGas consumo) {
+		this.consumoGas = consumo;
 	}
 
-	public String getDois() {
-		return dois;
+	public List<ConsumoGas> getConsumos() {
+		return consumos;
 	}
 
-	public void setDois(String dois) {
-		this.dois = dois;
+	public void setConsumos(List<ConsumoGas> consumos) {
+		this.consumos = consumos;
 	}
 
+	public BigDecimal getLeitura() {
+		return leitura;
+	}
+
+	public void setLeitura(BigDecimal leitura) {
+		this.leitura = leitura;
+	}
 }

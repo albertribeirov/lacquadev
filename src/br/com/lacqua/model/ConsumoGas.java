@@ -16,7 +16,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "TB_CONSUMO_GAS", schema = "lacqua")
+@Table(name = "TB_CONSUMO_GAS")
 public class ConsumoGas implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -26,14 +26,14 @@ public class ConsumoGas implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idConsumoGas;
 
-	@Column(name = "LEITURA", nullable = false)
+	@Column(name = "LEITURA", nullable = false, scale = 3)
 	private BigDecimal leitura;
 
 	@Column(name = "MES_DE_REFERENCIA", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date mesReferenciaLeitura;
 
-	@Column(name = "DIA_REALIZAZAO_LEITURA", nullable = true)
+	@Column(name = "DIA_REALIZACAO_LEITURA", nullable = true)
 	@Temporal(TemporalType.DATE)
 	private Date diaRealizacaoLeitura;
 	
