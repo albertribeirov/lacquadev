@@ -1,8 +1,5 @@
 package br.com.lacqua.ejb;
 
-import java.util.Iterator;
-import java.util.List;
-
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
@@ -11,7 +8,6 @@ import javax.persistence.PersistenceContext;
 
 import br.com.lacqua.model.Apartamento;
 import br.com.lacqua.model.ConsumoGas;
-import br.com.lacqua.service.ApartamentoService;
 
 /**
  * Session Bean implementation class ControladorConsumoBean
@@ -43,8 +39,10 @@ public class ControladorConsumoBean implements ControladorConsumo {
 	}
 
 	@Override
-	public void inserirConsumoMensalApartamento(Integer idApartamento, ConsumoGas consumo) {
+	public void inserirConsumoMensalApartamento(Integer idApartamento) {
 		Apartamento ap = em.find(Apartamento.class, idApartamento);
+		ConsumoGas consumo = new ConsumoGas();
+		
 		consumo.setApartamento(ap);
 	}
 }

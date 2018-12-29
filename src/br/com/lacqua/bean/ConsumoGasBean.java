@@ -61,7 +61,9 @@ public class ConsumoGasBean extends AbstractBean {
 	}
 	
 	public String inserirConsumoApartamento(Integer idApartamento) {
-		controlador.inserirConsumoMensalApartamento(idApartamento, consumoGas);
+		@SuppressWarnings("unused")
+		BigDecimal teste = leitura;
+		controlador.inserirConsumoMensalApartamento(idApartamento);
 		return null;
 	}
 

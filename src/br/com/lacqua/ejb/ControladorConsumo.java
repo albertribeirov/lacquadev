@@ -12,5 +12,5 @@ public interface ControladorConsumo {
 	
 	public void cadastrarIntervalo(Integer inicio, Integer fim, Apartamento ap);
 
-	public void inserirConsumoMensalApartamento(Integer idApartamento, ConsumoGas consumo);
+	public void inserirConsumoMensalApartamento(Integer idApartamento);
 }
