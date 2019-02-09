@@ -1,5 +1,8 @@
 package br.com.lacqua.ejb;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
@@ -39,10 +42,18 @@ public class ControladorConsumoBean implements ControladorConsumo {
 	}
 
 	@Override
-	public void inserirConsumoMensalApartamento(Integer idApartamento) {
+	public void inserirConsumoMensalApartamento(Integer idApartamento, BigDecimal leitura) {
 		Apartamento ap = em.find(Apartamento.class, idApartamento);
 		ConsumoGas consumo = new ConsumoGas();
 		
 		consumo.setApartamento(ap);
+		consumo.setLeitura(leitura);
+		consumo.setDiaRealizacaoLeitura(new Date());
+		consumo.setMesReferenciaLeitura(new Date());
+		consumo.setCliente(ap.getCliente());
+		consumo.setTorre(ap.getTorre());
+		consumo.setCondominio(ap.getCondominio());
+		
+		em.persist(consumo);
 	}
 }

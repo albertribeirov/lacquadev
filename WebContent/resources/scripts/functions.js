@@ -13,7 +13,7 @@ function dataFormatada(){
 	return dia+"/"+mes+"/"+ano;
 }
  
-//Chama função que preench o campo data
+//Chama função que preenche o campo data
 $('#Data').val(dataFormatada);
 
 //Verifica senha
@@ -31,4 +31,21 @@ function verificarSenha(){
 
 function listarApartamentos(){
 	
+}
+
+//Transforma o campo de leitura em readonly após seu preenchimento.
+function desabilitarCampoLeitura(pCampo){
+	let campo = $(pCampo);
+	let valor = campo.val();
+	if (valor != '' && valor != null) {
+		campo.prop('readonly', true);			
+	} else {
+		campo.prop('readonly', false);		
+	}
+}
+
+//Transforma o campo de leitura em writable com o evento doubleclick (duplo clique).
+function habilitarCampoLeitura(pCampo) {
+	let campo = $(pCampo);
+	let valor = campo.prop('readonly', false);
 }

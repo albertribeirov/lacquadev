@@ -106,4 +106,8 @@ public class ApartamentoService extends Service {
 	public List<Apartamento> listarApartamentosPorCondominioTorre(Integer idCondominio, Integer idTorre) {
 		return apartamentoDAO.listarApartamentosPorCondominioTorre(idCondominio, idTorre);
 	}
+	
+	public List<Apartamento> listarApartamentosPorCondominio(Integer idCondominio) {
+		return apartamentoDAO.listarApartamentosPorCondominio(idCondominio);
+	}
 }

@@ -52,7 +52,7 @@ public class ConsumoGas implements Serializable {
 	private Condominio condominio;
 
 	@ManyToOne
-	@JoinColumn(name = "ID_TORRE", nullable = false)
+	@JoinColumn(name = "ID_TORRE", nullable = true)
 	private Torre torre;
 
 	@ManyToOne

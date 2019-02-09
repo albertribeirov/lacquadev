@@ -1,9 +1,10 @@
 package br.com.lacqua.ejb;
 
+import java.math.BigDecimal;
+
 import javax.ejb.Local;
 
 import br.com.lacqua.model.Apartamento;
-import br.com.lacqua.model.ConsumoGas;
 
 @Local
 public interface ControladorConsumo {
@@ -12,5 +13,5 @@ public interface ControladorConsumo {
 	
 	public void cadastrarIntervalo(Integer inicio, Integer fim, Apartamento ap);
 
-	public void inserirConsumoMensalApartamento(Integer idApartamento);
+	public void inserirConsumoMensalApartamento(Integer idApartamento, BigDecimal leitura);
 }

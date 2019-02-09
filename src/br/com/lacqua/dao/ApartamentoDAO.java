@@ -17,13 +17,23 @@ public class ApartamentoDAO extends DAO {
 
 	@SuppressWarnings("unchecked")
 	public List<Apartamento> listarApartamentosPorCondominio(Integer idCondominio) {
-		Query q = criarQuery("SELECT a FROM Apartamento a WHERE a.condominio.idCondominio = " + idCondominio);
+		Query q = criarQuery("SELECT a FROM Apartamento a WHERE a.condominio.id = " + idCondominio);
 		return q.getResultList();
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<Apartamento> listarApartamentosPorCondominioTorre(Integer idCondominio, Integer idTorre) {
-		Query q = criarQuery("SELECT a FROM Apartamento a WHERE a.condominio.id = " + idCondominio + " AND a.torre.id = " + idTorre);
+		Query q;
+		String where;
+		String consulta = "SELECT a FROM Apartamento a WHERE a.condominio.id = " + idCondominio;
+		
+		if (idTorre != null) {
+			where = " AND a.torre.id = " + idTorre;			
+			consulta = consulta + where;
+			q = criarQuery(consulta);
+		} else {
+			q = criarQuery(consulta);
+		}
 		return q.getResultList();
 	}
 }

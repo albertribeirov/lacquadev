@@ -2,9 +2,12 @@ package br.com.lacqua.bean;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -59,18 +62,50 @@ public class ConsumoGasBean extends AbstractBean {
 	public String inserirConsumoMes() {
 		return null;
 	}
-	
+
 	public String inserirConsumoApartamento(Integer idApartamento) {
-		@SuppressWarnings("unused")
-		BigDecimal teste = leitura;
-		controlador.inserirConsumoMensalApartamento(idApartamento);
+		FacesContext fc = FacesContext.getCurrentInstance();
+		try {
+			if (leitura != null) {
+				controlador.inserirConsumoMensalApartamento(idApartamento, leitura);
+				fc.addMessage("message", new FacesMessage("Sucesso", "A leitura do apartamento " + apartamento.getNumero() + " foi gravada!"));
+			}
+			
+			leitura = null;
+		} catch (Exception e) {
+			fc.addMessage("message", new FacesMessage("Erro", "A leitura não pôde ser gravada"));
+		}
+		return null;
+	}
+	
+	public String salvarConsumos() {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		try {
+			if (leitura != null) {
+				//controlador.inserirConsumoMensalApartamento(idApartamento, leitura);
+				fc.addMessage("message", new FacesMessage("Sucesso", "As leituras dos apartamentos foram gravadas!"));
+			}
+			
+			leitura = null;
+		} catch (Exception e) {
+			fc.addMessage("message", new FacesMessage("Erro", "As leituras não puderam ser gravadas!"));
+		}
 		return null;
 	}
 
 	public String carregarApartamentos() {
-		Integer idCondominio = consumoGas.getCondominio().getId();
-		Integer idTorre = consumoGas.getTorre().getId();
-		apartamentos = apartamentoService.listarApartamentosPorCondominioTorre(idCondominio, idTorre);
+		Integer idCondominio = null;
+		Integer idTorre = null;
+
+		if (consumoGas.getCondominio() != null && consumoGas.getTorre() != null) {
+			idCondominio = consumoGas.getCondominio().getId();			
+			idTorre = consumoGas.getTorre().getId();
+			apartamentos = apartamentoService.listarApartamentosPorCondominioTorre(idCondominio, idTorre);
+		
+		} else if (consumoGas.getCondominio() != null) {
+			idCondominio = consumoGas.getCondominio().getId();
+			apartamentos = apartamentoService.listarApartamentosPorCondominio(idCondominio);
+		}
 
 		return null;
 	}
