@@ -30,12 +30,11 @@ public class ConsumoGas implements Serializable {
 	private BigDecimal leitura;
 
 	@Column(name = "MES_DE_REFERENCIA", nullable = false)
-	@Temporal(TemporalType.DATE)
-	private Date mesReferenciaLeitura;
+	private int mesReferenciaLeitura;
 
-	@Column(name = "DIA_REALIZACAO_LEITURA", nullable = true)
+	@Column(name = "DATA_REALIZACAO_LEITURA", nullable = true)
 	@Temporal(TemporalType.DATE)
-	private Date diaRealizacaoLeitura;
+	private Date dataRealizacaoLeitura;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "LAST_MODIFIED", nullable = false)
@@ -125,20 +124,20 @@ public class ConsumoGas implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public Date getMesReferenciaLeitura() {
+	public int getMesReferenciaLeitura() {
 		return mesReferenciaLeitura;
 	}
 
-	public void setMesReferenciaLeitura(Date mesReferenciaLeitura) {
+	public void setMesReferenciaLeitura(int mesReferenciaLeitura) {
 		this.mesReferenciaLeitura = mesReferenciaLeitura;
 	}
 
-	public Date getDiaRealizacaoLeitura() {
-		return diaRealizacaoLeitura;
+	public Date getDataRealizacaoLeitura() {
+		return dataRealizacaoLeitura;
 	}
 
-	public void setDiaRealizacaoLeitura(Date diaRealizacaoLeitura) {
-		this.diaRealizacaoLeitura = diaRealizacaoLeitura;
+	public void setDataRealizacaoLeitura(Date dataRealizacaoLeitura) {
+		this.dataRealizacaoLeitura = dataRealizacaoLeitura;
 	}
 
 	public Date getLastModified() {

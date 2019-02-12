@@ -48,8 +48,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 		
 		consumo.setApartamento(ap);
 		consumo.setLeitura(leitura);
-		consumo.setDiaRealizacaoLeitura(new Date());
-		consumo.setMesReferenciaLeitura(new Date());
+		consumo.setDataRealizacaoLeitura(new Date());
 		consumo.setCliente(ap.getCliente());
 		consumo.setTorre(ap.getTorre());
 		consumo.setCondominio(ap.getCondominio());

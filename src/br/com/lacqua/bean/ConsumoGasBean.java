@@ -1,8 +1,9 @@
 package br.com.lacqua.bean;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -20,8 +21,8 @@ import br.com.lacqua.model.Torre;
 import br.com.lacqua.service.ApartamentoService;
 import br.com.lacqua.service.ClienteService;
 import br.com.lacqua.service.CondominioService;
-import br.com.lacqua.service.ConsumoGasService;
 import br.com.lacqua.service.TorreService;
+import br.com.lacqua.util.Mes;
 
 @SuppressWarnings("serial")
 @Named("consumoGasBean")
@@ -40,8 +41,8 @@ public class ConsumoGasBean extends AbstractBean {
 	@Inject
 	private ClienteService clienteService;
 
-	@Inject
-	private ConsumoGasService consumoService;
+	// @Inject
+	// private ConsumoGasService consumoGasService;
 
 	@EJB
 	private ControladorConsumo controlador;
@@ -52,12 +53,13 @@ public class ConsumoGasBean extends AbstractBean {
 	private Cliente cliente;
 	private ConsumoGas consumoGas;
 	private BigDecimal leitura;
+	private List<String> listaLeituras;
 
 	private List<Apartamento> apartamentos;
 	private List<Torre> torres;
 	private List<Condominio> condominios;
 	private List<Cliente> clientes;
-	private List<ConsumoGas> consumos;
+	private List<ConsumoGas> consumos = new ArrayList<ConsumoGas>();
 
 	public String inserirConsumoMes() {
 		return null;
@@ -68,24 +70,36 @@ public class ConsumoGasBean extends AbstractBean {
 		try {
 			if (leitura != null) {
 				controlador.inserirConsumoMensalApartamento(idApartamento, leitura);
-				fc.addMessage("message", new FacesMessage("Sucesso", "A leitura do apartamento " + apartamento.getNumero() + " foi gravada!"));
+				fc.addMessage("message", new FacesMessage("Sucesso",
+						"A leitura do apartamento " + apartamento.getNumero() + " foi gravada!"));
 			}
-			
+
 			leitura = null;
 		} catch (Exception e) {
 			fc.addMessage("message", new FacesMessage("Erro", "A leitura não pôde ser gravada"));
 		}
 		return null;
 	}
-	
+
 	public String salvarConsumos() {
 		FacesContext fc = FacesContext.getCurrentInstance();
+		/*Iterator<Apartamento> it = apartamentos.iterator();
+		while (it.hasNext()) {
+			Apartamento ap = (Apartamento) it.next();
+			ConsumoGas consumo = new ConsumoGas();
+			consumo.setTorre(ap.getTorre());
+			consumo.setLeitura(leitura);
+			consumo.setCondominio(ap.getCondominio());
+			consumo.setApartamento(ap);
+			consumos.add(consumo);
+		}*/
+
 		try {
 			if (leitura != null) {
-				//controlador.inserirConsumoMensalApartamento(idApartamento, leitura);
+				// controlador.inserirConsumoMensalApartamento(idApartamento, leitura);
 				fc.addMessage("message", new FacesMessage("Sucesso", "As leituras dos apartamentos foram gravadas!"));
 			}
-			
+
 			leitura = null;
 		} catch (Exception e) {
 			fc.addMessage("message", new FacesMessage("Erro", "As leituras não puderam ser gravadas!"));
@@ -98,10 +112,10 @@ public class ConsumoGasBean extends AbstractBean {
 		Integer idTorre = null;
 
 		if (consumoGas.getCondominio() != null && consumoGas.getTorre() != null) {
-			idCondominio = consumoGas.getCondominio().getId();			
+			idCondominio = consumoGas.getCondominio().getId();
 			idTorre = consumoGas.getTorre().getId();
 			apartamentos = apartamentoService.listarApartamentosPorCondominioTorre(idCondominio, idTorre);
-		
+
 		} else if (consumoGas.getCondominio() != null) {
 			idCondominio = consumoGas.getCondominio().getId();
 			apartamentos = apartamentoService.listarApartamentosPorCondominio(idCondominio);
@@ -199,5 +213,17 @@ public class ConsumoGasBean extends AbstractBean {
 
 	public void setLeitura(BigDecimal leitura) {
 		this.leitura = leitura;
+	}
+
+	public Mes[] getMeses() {
+		return Mes.MESES;
+	}
+
+	public List<String> getListaLeituras() {
+		return listaLeituras;
+	}
+
+	public void setListaLeituras(List<String> listaLeituras) {
+		this.listaLeituras = listaLeituras;
 	}
 }

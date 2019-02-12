@@ -72,7 +72,7 @@
 	<h:panelGroup>
 		<h:form id="fconsumo" prependId="false">
 			<p:dataTable value="#{consumoGasBean.apartamentos}" var="ap" rendered="#{consumoGasBean.apartamentos.size() > 0}">
-				<f:facet name="header">Cadastro de Consumos - 1 clique fora do campo p/ salvar o consumo, 2 cliques para editar o consumo</f:facet>
+				<f:facet name="header">Cadastro de Consumos</f:facet>
 
 				<p:column width="2%">
 					<f:facet name="header">ID</f:facet>
@@ -102,6 +102,19 @@
 				</p:column>
 
 			</p:dataTable>
+			<br/>
+			<br/>
+			<p:panelGrid>
+			<p:outputLabel id="dataLeitura" value="Data da leitura  " />
+				<p:calendar locale="pt" required="true" pattern="dd/MM/yyyy" value="#{consumoGasBean.consumo.dataRealizacaoLeitura}" />
+				<br />
+				<br />
+				<p:outputLabel id="mesLeitura" value="Mês de referência  "/>
+				<p:selectOneMenu label="Mês de referência" value="#{consumoGasBean.consumo.mesReferenciaLeitura}" >
+				<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+					<f:selectItems value="#{consumoGasBean.meses}" var="m" itemValue="#{m.id}" itemLabel="#{m.nome}" />
+				</p:selectOneMenu>
+			</p:panelGrid>
 			<p:commandButton icon="ui-icon-disk" id="formcadastrarconsumo" value="Salvar Consumos" action="#{consumoGasBean.salvarConsumos}" style="margin: 10px" update="fconsumo" />
 			
 		</h:form>
