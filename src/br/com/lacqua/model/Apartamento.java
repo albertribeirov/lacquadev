@@ -1,6 +1,7 @@
 package br.com.lacqua.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "TB_APARTAMENTO")
@@ -56,6 +58,12 @@ public class Apartamento implements Serializable {
 	
 	@OneToMany(mappedBy = "apartamento")
 	private List<ConsumoGas> consumosGas;
+	
+	/*
+	 * Utilizada apenas para receber a leitura, não é persistida no banco.
+	 */
+	@Transient
+	private BigDecimal leitura;
 
 	/*
 	 * 
@@ -125,5 +133,13 @@ public class Apartamento implements Serializable {
 
 	public void setLastModified(Date lastModified) {
 		this.lastModified = lastModified;
+	}
+
+	public BigDecimal getLeitura() {
+		return leitura;
+	}
+
+	public void setLeitura(BigDecimal leitura) {
+		this.leitura = leitura;
 	}
 }

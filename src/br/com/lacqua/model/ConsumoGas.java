@@ -30,7 +30,7 @@ public class ConsumoGas implements Serializable {
 	private BigDecimal leitura;
 
 	@Column(name = "MES_DE_REFERENCIA", nullable = false)
-	private int mesReferenciaLeitura;
+	private Integer mesReferenciaLeitura;
 
 	@Column(name = "DATA_REALIZACAO_LEITURA", nullable = true)
 	@Temporal(TemporalType.DATE)
@@ -124,11 +124,11 @@ public class ConsumoGas implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public int getMesReferenciaLeitura() {
+	public Integer getMesReferenciaLeitura() {
 		return mesReferenciaLeitura;
 	}
 
-	public void setMesReferenciaLeitura(int mesReferenciaLeitura) {
+	public void setMesReferenciaLeitura(Integer mesReferenciaLeitura) {
 		this.mesReferenciaLeitura = mesReferenciaLeitura;
 	}
 

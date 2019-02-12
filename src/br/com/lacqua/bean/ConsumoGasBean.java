@@ -2,7 +2,6 @@ package br.com.lacqua.bean;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -81,7 +80,7 @@ public class ConsumoGasBean extends AbstractBean {
 		return null;
 	}
 
-	public String salvarConsumos() {
+	public String salvarConsumosEmTeste() {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		/*Iterator<Apartamento> it = apartamentos.iterator();
 		while (it.hasNext()) {
@@ -96,7 +95,7 @@ public class ConsumoGasBean extends AbstractBean {
 
 		try {
 			if (leitura != null) {
-				// controlador.inserirConsumoMensalApartamento(idApartamento, leitura);
+				//controlador.inserirConsumoMensalApartamentos(apartamentos, consumos);
 				fc.addMessage("message", new FacesMessage("Sucesso", "As leituras dos apartamentos foram gravadas!"));
 			}
 
@@ -105,6 +104,22 @@ public class ConsumoGasBean extends AbstractBean {
 			fc.addMessage("message", new FacesMessage("Erro", "As leituras não puderam ser gravadas!"));
 		}
 		return null;
+	}
+	
+	public String salvarConsumos() {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		
+		try {
+			if (apartamentos != null && consumos != null) {
+				controlador.inserirConsumoMensalApartamentos(apartamentos, consumos, consumoGas);
+				fc.addMessage("message", new FacesMessage("Sucesso", "As leituras dos apartamentos foram gravadas!"));
+			}
+
+			leitura = null;
+		} catch (Exception e) {
+			fc.addMessage("message", new FacesMessage("Erro", "As leituras não puderam ser gravadas!"));
+		}
+		return redirect("consumo");
 	}
 
 	public String carregarApartamentos() {
