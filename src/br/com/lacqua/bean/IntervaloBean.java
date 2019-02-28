@@ -33,7 +33,7 @@ public class IntervaloBean extends AbstractBean {
 	public String cadastrarIntervalo() {
 		try {
 			controlador.cadastrarIntervalo(inicio, fim, apartamento);			
-			return redirect("cadastrarApartamento");
+			return null;
 		} catch (Exception e) {
 			handleException(e);
 		}

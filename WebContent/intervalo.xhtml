@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
@@ -14,6 +15,19 @@
 </style>
 
 	<script>
+		function clonarInput(pInput) {
+			var linhaOriginal = $(pInput);
+			var trPai = linhaOriginal.parent().parent();			
+			
+			var arrayInputs = trPai.find('input');
+			var inputInicial = arrayInputs[0].value;
+			var inputFinal = arrayInputs[1].value;
+			
+			if (inputInicial != ""  &amp;&amp; inputFinal != "") {
+				trPai.parent().append(trPai.clone().find('input').val('').end());
+			}
+		}
+
 		function excluir() {
 			return confirm("Deseja excluir o registro?")
 
@@ -24,21 +38,23 @@
 	<ui:decorate template="decorator.xhtml" />
 	<h:outputScript library="scripts" name="pt.js" />
 	<h:form id="form_apartamento" prependId="false">
-	<p:growl id="msg" for="msg" sticky="false" showDetail="true" life="400"/>
+		<p:growl id="msg" for="msg" sticky="false" showDetail="true" life="400" />
 
 		<br />
 
 		<p:fieldset legend="Dados">
-			<h:panelGrid columns="2">
+			<h:panelGrid columns="4">
 
-				<p:outputLabel for="inicio" value="Início " />
-				<p:inputText id="inicio" value="#{intervaloBean.inicio}" required="true" placeholder="Ex: 101" />
-				
+				<p:outputLabel for="inicio" value="Início" />
+				<p:inputText id="inicio" value="#{intervaloBean.inicio}" required="true" />
+
 				<p:outputLabel for="fim" value="Fim " />
-				<p:inputText id="fim" value="#{intervaloBean.fim}" required="true" placeholder="Ex: 106" />
-
+				<p:inputText id="fim" value="#{intervaloBean.fim}" onblur="clonarInput(this)" required="true" />
+			</h:panelGrid>
+			<h:panelGrid columns="2">
 				<p:outputLabel for="condominio" value="Condomínio" />
-				<p:selectOneMenu id="condominio" value="#{intervaloBean.apartamento.condominio}" valueChangeListener="#{torreBean.carregarTorresPorCondominio}" converter="#{converterCondominio}" immediate="true" style="width:300px" required="true">
+				<p:selectOneMenu id="condominio" value="#{intervaloBean.apartamento.condominio}" valueChangeListener="#{torreBean.carregarTorresPorCondominio}" converter="#{converterCondominio}" immediate="true"
+					style="width:300px" required="true">
 					<f:ajax event="valueChange" execute="@this" render="torre" />
 					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="false" />
 					<f:selectItems value="#{condominioBean.condominios}" var="c" itemValue="#{c}" itemLabel="#{c.nome}" />
@@ -51,7 +67,7 @@
 
 			</h:panelGrid>
 		</p:fieldset>
-	<p:commandButton icon="ui-icon-disk" value="Processar" action="#{intervaloBean.cadastrarIntervalo}" style="margin: 10px" update="form_apartamento" />
+		<p:commandButton icon="ui-icon-disk" value="Processar" action="#{intervaloBean.cadastrarIntervalo}" style="margin: 10px" update="form_apartamento" />
 
 		<br />
 	</h:form>

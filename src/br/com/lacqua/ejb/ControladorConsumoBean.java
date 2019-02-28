@@ -71,7 +71,6 @@ public class ControladorConsumoBean implements ControladorConsumo {
 				isGravar = true;
 				leitura = ap.getLeitura();
 				leitura = leitura.setScale(0, RoundingMode.HALF_EVEN);
-			System.out.println("---------------------------------  " + leitura + "  ---------------------------------");
 				consumo.setLeitura(leitura);
 			}				
 
