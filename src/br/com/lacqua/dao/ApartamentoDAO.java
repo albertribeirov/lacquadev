@@ -36,4 +36,16 @@ public class ApartamentoDAO extends DAO {
 		}
 		return q.getResultList();
 	}
+	
+	public Apartamento carregarPorCondominioENumero(Integer idCondominio, String numero) {
+		Query q = null;
+		String consulta = "SELECT a FROM Apartamento";
+		
+		if (idCondominio != null && !numero.equals("")) {
+			consulta = consulta + " WHERE a.condominio.id = " + idCondominio + " AND a.apartamento.numero = " + numero;
+			q = criarQuery(consulta);
+		}
+
+		return (Apartamento) q.getSingleResult();
+	}
 }

@@ -12,10 +12,13 @@ import br.com.lacqua.model.ConsumoGas;
 public interface ControladorConsumo {
 
 	public void calcularConsumo();
-	
+
 	public void cadastrarIntervalo(Integer inicio, Integer fim, Apartamento ap);
 
 	public void inserirConsumoMensalApartamento(Integer idApartamento, BigDecimal leitura);
-	
-	public void inserirConsumoMensalApartamentos(List<Apartamento> pApartamentos, List<ConsumoGas> pConsumos, ConsumoGas consumoGas);
+
+	public void inserirConsumoMensalApartamentos(List<Apartamento> pApartamentos, List<ConsumoGas> pConsumos,
+			ConsumoGas consumoGas);
+
+	void cargaConsumoDocumentoTexto(ConsumoGas pConsumoGas);
 }

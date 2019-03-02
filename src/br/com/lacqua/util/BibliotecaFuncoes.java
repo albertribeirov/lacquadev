@@ -2,6 +2,8 @@ package br.com.lacqua.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -29,7 +31,7 @@ public class BibliotecaFuncoes {
 
 	public static List<String> split(String texto, String separador) {
 
-		Integer indice= null;
+		Integer indice = null;
 		String linha = "";
 		List<String> lista = new ArrayList<String>();
 
@@ -39,9 +41,33 @@ public class BibliotecaFuncoes {
 			indice += 1;
 			texto = texto.substring(indice);
 			lista.add(linha);
-		} 
+		}
 		lista.add(texto);
 
 		return lista;
+	}
+
+	public static BigDecimal escalarConsumo(String pValor) {
+		BigDecimal resposta = BigDecimal.ZERO;
+		BigDecimal valor = new BigDecimal(pValor);
+		resposta = valor.setScale(3, RoundingMode.HALF_EVEN);
+
+		return resposta;
+	}
+
+	public static BigDecimal escalarConsumo(BigDecimal pValor) {
+		return pValor.setScale(3, RoundingMode.HALF_EVEN);
+	}
+
+	public static BigDecimal escalarDinheiro(String pValor) {
+		BigDecimal resposta = BigDecimal.ZERO;
+		BigDecimal valor = new BigDecimal(pValor);
+		resposta = valor.setScale(2, RoundingMode.HALF_EVEN);
+
+		return resposta;
+	}
+
+	public static BigDecimal escalarDinheiro(BigDecimal pValor) {
+		return pValor.setScale(2, RoundingMode.HALF_EVEN);
 	}
 }

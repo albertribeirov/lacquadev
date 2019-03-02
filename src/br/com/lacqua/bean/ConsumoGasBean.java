@@ -80,6 +80,18 @@ public class ConsumoGasBean extends AbstractBean {
 		return null;
 	}
 
+	public String cargaConsumoDocumentoTexto() {
+		
+		try {
+			controlador.cargaConsumoDocumentoTexto(consumoGas);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	public String salvarConsumosEmTeste() {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		/*Iterator<Apartamento> it = apartamentos.iterator();

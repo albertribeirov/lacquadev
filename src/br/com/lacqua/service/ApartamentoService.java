@@ -10,7 +10,7 @@ import br.com.lacqua.model.Apartamento;
 import br.com.lacqua.model.Log.TipoMensagem;
 
 /**
- * Métodos de negócio relacionados à entidade Apartamento
+ * MÃ©todos de negÃ³cio relacionados Ã  entidade Apartamento
  */
 @RequestScoped
 public class ApartamentoService extends Service {
@@ -51,6 +51,14 @@ public class ApartamentoService extends Service {
 	}
 
 	/**
+	 * Carrega um apartamento com base no seu ID, ID do condomÃ­nio e nÃºmero do
+	 * apartamento
+	 */
+	public Apartamento carregarPorCondominioENumero(Integer id, String numero) {
+		return apartamentoDAO.carregarPorCondominioENumero(id, numero);
+	}
+
+	/**
 	 * Alter um Apartamento cadastrado no banco de dados.
 	 * 
 	 * @param Apartamento
@@ -74,7 +82,7 @@ public class ApartamentoService extends Service {
 	/**
 	 * Exclui um Apartamento do banco de dados
 	 * 
-	 * @param integer Número de matrícula do Apartamento a ser excluído
+	 * @param integer NÃºmero de matrÃ­cula do Apartamento a ser excluÃ­do
 	 * @throws ServiceException
 	 */
 	public void excluir(Integer id) {
@@ -83,7 +91,7 @@ public class ApartamentoService extends Service {
 
 			Apartamento apartamento = apartamentoDAO.carregar(Apartamento.class, id);
 			apartamentoDAO.excluir(apartamento);
-			logService.log("Apartamento excluído: " + apartamento, TipoMensagem.INFO);
+			logService.log("Apartamento excluÃ­do: " + apartamento, TipoMensagem.INFO);
 
 			commitTransaction();
 
@@ -94,7 +102,7 @@ public class ApartamentoService extends Service {
 	}
 
 	/**
-	 * Lê todos os Apartamentos cadastrados no banco de dados
+	 * LÃª todos os Apartamentos cadastrados no banco de dados
 	 * 
 	 * @return Lista de Apartamentos cadastrados
 	 * @throws ServiceException
@@ -106,7 +114,7 @@ public class ApartamentoService extends Service {
 	public List<Apartamento> listarApartamentosPorCondominioTorre(Integer idCondominio, Integer idTorre) {
 		return apartamentoDAO.listarApartamentosPorCondominioTorre(idCondominio, idTorre);
 	}
-	
+
 	public List<Apartamento> listarApartamentosPorCondominio(Integer idCondominio) {
 		return apartamentoDAO.listarApartamentosPorCondominio(idCondominio);
 	}
