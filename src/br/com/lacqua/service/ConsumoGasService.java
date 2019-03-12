@@ -4,6 +4,9 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import org.hibernate.service.spi.ServiceException;
+
 import br.com.lacqua.dao.ConsumoGasDAO;
 import br.com.lacqua.model.ConsumoGas;
 import br.com.lacqua.model.Log.TipoMensagem;
@@ -105,8 +108,19 @@ public class ConsumoGasService extends Service {
 	public List<ConsumoGas> listarConsumoGass() {
 		return consumoDAO.listarConsumosGas();
 	}
-	
-	public List<ConsumoGas> listarConsumosPorCondominioTorre(Integer idCondominio, Integer idTorre){
+
+	public List<ConsumoGas> listarConsumosPorCondominioTorre(Integer idCondominio, Integer idTorre) {
 		return consumoDAO.listarConsumosPorCondominioTorre(idCondominio, idTorre);
+	}
+
+	public List<ConsumoGas> listarConsumosPorCondominioTorreMes(ConsumoGas pConsumoGas) {
+		Integer idTorre = null;
+		if (pConsumoGas.getTorre() != null) {
+			idTorre = pConsumoGas.getTorre().getId();
+		}
+		Integer idCondominio = pConsumoGas.getCondominio().getId();
+		Integer mesReferencia = pConsumoGas.getMesReferenciaLeitura();
+		Integer anoReferencia = pConsumoGas.getAno();
+		return consumoDAO.listarConsumosPorCondominioTorreMes(idCondominio, idTorre, mesReferencia, anoReferencia);
 	}
 }

@@ -31,6 +31,9 @@ public class ConsumoGas implements Serializable {
 
 	@Column(name = "MES_DE_REFERENCIA", nullable = false)
 	private Integer mesReferenciaLeitura;
+	
+	@Column(name = "ANO", nullable = false)
+	private Integer ano;
 
 	@Column(name = "DATA_REALIZACAO_LEITURA", nullable = true)
 	@Temporal(TemporalType.DATE)
@@ -146,5 +149,13 @@ public class ConsumoGas implements Serializable {
 
 	public void setLastModified(Date lastModified) {
 		this.lastModified = lastModified;
+	}
+
+	public Integer getAno() {
+		return ano;
+	}
+
+	public void setAno(Integer ano) {
+		this.ano = ano;
 	}
 }

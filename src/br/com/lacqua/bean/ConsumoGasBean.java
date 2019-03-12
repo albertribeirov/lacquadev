@@ -2,6 +2,8 @@ package br.com.lacqua.bean;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -20,6 +22,7 @@ import br.com.lacqua.model.Torre;
 import br.com.lacqua.service.ApartamentoService;
 import br.com.lacqua.service.ClienteService;
 import br.com.lacqua.service.CondominioService;
+import br.com.lacqua.service.ConsumoGasService;
 import br.com.lacqua.service.TorreService;
 import br.com.lacqua.util.Mes;
 
@@ -40,8 +43,8 @@ public class ConsumoGasBean extends AbstractBean {
 	@Inject
 	private ClienteService clienteService;
 
-	// @Inject
-	// private ConsumoGasService consumoGasService;
+	@Inject
+	private ConsumoGasService consumoGasService;
 
 	@EJB
 	private ControladorConsumo controlador;
@@ -64,13 +67,70 @@ public class ConsumoGasBean extends AbstractBean {
 		return null;
 	}
 
+	@SuppressWarnings({ "unused" })
+	public String listarConsumosPorCondominioTorreMes() {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		List<ConsumoGas> consumoAnterior = new ArrayList<>();
+		List<ConsumoGas> consumoAtual = new ArrayList<>();
+		Integer anoConsumo = null;
+		Integer mesAnterior = null;
+		Integer mes = consumoGas.getMesReferenciaLeitura();
+		Date data = consumoGas.getDataRealizacaoLeitura();
+		Calendar cal = Calendar.getInstance();
+		Integer ano = cal.get(Calendar.YEAR);
+		consumoGas.setAno(ano);
+
+		fc.addMessage("message", new FacesMessage("Sucesso", "Consumo calculado!"));
+
+		try {
+
+			consumoAtual = consumoGasService.listarConsumosPorCondominioTorreMes(consumoGas);
+
+			if (mes == 1) {
+				mesAnterior = 12;
+				anoConsumo = ano - 1;
+			} else {
+				mesAnterior = mes - 1;
+			}
+
+			consumoGas.setAno(anoConsumo);
+			consumoGas.setMesReferenciaLeitura(mesAnterior);
+
+			consumoAnterior = consumoGasService.listarConsumosPorCondominioTorreMes(consumoGas);
+
+			controlador.listarConsumosPorCondominioTorreMes(consumoGas, consumoAtual, consumoAnterior);
+
+		} catch (Exception e) {
+			fc.addMessage("message", new FacesMessage("Erro", "O consumo mensal não pôde ser gerado."));
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public String gerarConsumosCondominio() {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		try {
+			if (condominio != null) {
+				controlador.gerarContaCondominio(consumoGas, condominio, torre);
+
+				// controlador.inserirConsumoMensalApartamento(idApartamento, leitura);
+				// fc.addMessage("message", new FacesMessage("Sucesso", "A leitura do apartamento " +
+				// apartamento.getNumero() + " foi gravada!"));
+			}
+
+			// leitura = null;
+		} catch (Exception e) {
+			fc.addMessage("message", new FacesMessage("Erro", "O consumo não pôde ser gerado."));
+		}
+		return null;
+	}
+
 	public String inserirConsumoApartamento(Integer idApartamento) {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
 			if (leitura != null) {
 				controlador.inserirConsumoMensalApartamento(idApartamento, leitura);
-				fc.addMessage("message", new FacesMessage("Sucesso",
-						"A leitura do apartamento " + apartamento.getNumero() + " foi gravada!"));
+				fc.addMessage("message", new FacesMessage("Sucesso", "A leitura do apartamento " + apartamento.getNumero() + " foi gravada!"));
 			}
 
 			leitura = null;
@@ -81,33 +141,23 @@ public class ConsumoGasBean extends AbstractBean {
 	}
 
 	public String cargaConsumoDocumentoTexto() {
-		
+		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
 			controlador.cargaConsumoDocumentoTexto(consumoGas);
-			
+			fc.addMessage("message", new FacesMessage("Sucesso", "Carga de dados realizada com sucesso!"));
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
-	
+
 	public String salvarConsumosEmTeste() {
 		FacesContext fc = FacesContext.getCurrentInstance();
-		/*Iterator<Apartamento> it = apartamentos.iterator();
-		while (it.hasNext()) {
-			Apartamento ap = (Apartamento) it.next();
-			ConsumoGas consumo = new ConsumoGas();
-			consumo.setTorre(ap.getTorre());
-			consumo.setLeitura(leitura);
-			consumo.setCondominio(ap.getCondominio());
-			consumo.setApartamento(ap);
-			consumos.add(consumo);
-		}*/
-
 		try {
 			if (leitura != null) {
-				//controlador.inserirConsumoMensalApartamentos(apartamentos, consumos);
+				// controlador.inserirConsumoMensalApartamentos(apartamentos, consumos);
 				fc.addMessage("message", new FacesMessage("Sucesso", "As leituras dos apartamentos foram gravadas!"));
 			}
 
@@ -117,10 +167,9 @@ public class ConsumoGasBean extends AbstractBean {
 		}
 		return null;
 	}
-	
+
 	public String salvarConsumos() {
 		FacesContext fc = FacesContext.getCurrentInstance();
-		
 		try {
 			if (apartamentos != null && consumos != null) {
 				controlador.inserirConsumoMensalApartamentos(apartamentos, consumos, consumoGas);

@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -31,8 +33,10 @@ public class IntervaloBean extends AbstractBean {
 
 	
 	public String cadastrarIntervalo() {
+		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
-			controlador.cadastrarIntervalo(inicio, fim, apartamento);			
+			controlador.cadastrarIntervalo(inicio, fim, apartamento);
+			fc.addMessage("message", new FacesMessage("Sucesso", "Apartamentos do " + inicio + " ao " + fim + " foram cadastrados."));
 			return null;
 		} catch (Exception e) {
 			handleException(e);

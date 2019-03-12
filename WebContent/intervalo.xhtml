@@ -38,7 +38,7 @@
 	<ui:decorate template="decorator.xhtml" />
 	<h:outputScript library="scripts" name="pt.js" />
 	<h:form id="form_apartamento" prependId="false">
-		<p:growl id="msg" for="msg" sticky="false" showDetail="true" life="400" />
+		<p:growl id="message" for="message" sticky="false" showDetail="true" life="3000" />
 
 		<br />
 
@@ -49,7 +49,7 @@
 				<p:inputText id="inicio" value="#{intervaloBean.inicio}" required="true" />
 
 				<p:outputLabel for="fim" value="Fim " />
-				<p:inputText id="fim" value="#{intervaloBean.fim}" onblur="clonarInput(this)" required="true" />
+				<p:inputText id="fim" value="#{intervaloBean.fim}" required="true" />
 			</h:panelGrid>
 			<h:panelGrid columns="2">
 				<p:outputLabel for="condominio" value="Condomínio" />
@@ -61,7 +61,7 @@
 				</p:selectOneMenu>
 
 				<p:outputLabel for="torre" value="Torre" />
-				<p:selectOneMenu id="torre" value="#{intervaloBean.apartamento.torre}" converter="#{converterTorre}" style="width:300px" required="true">
+				<p:selectOneMenu id="torre" value="#{intervaloBean.apartamento.torre}" converter="#{converterTorre}" style="width:300px" >
 					<f:selectItems value="#{torreBean.torres}" var="t" itemValue="#{t}" itemLabel="#{t.id} - #{t.nome}" />
 				</p:selectOneMenu>
 
