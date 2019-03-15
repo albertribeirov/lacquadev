@@ -53,7 +53,7 @@ public class Empresa implements Serializable {
 	private String inscricaoMunicipal;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_MODIFIED", nullable = false)
+	@Column(name = "LAST_MODIFIED", columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP")
 	private Calendar lastModified;
 	
 	/*

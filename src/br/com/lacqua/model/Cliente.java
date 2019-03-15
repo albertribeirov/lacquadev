@@ -51,7 +51,7 @@ public class Cliente implements Serializable {
 	private Boolean ativo;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_MODIFIED", nullable = false)
+	@Column(name = "LAST_MODIFIED", columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP")
 	private Date lastModified;
 
 	/*

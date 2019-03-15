@@ -31,7 +31,7 @@ public class Log {
 	 * Data da mensagem
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "DATA", nullable = false)
+	@Column(name = "DATA", columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP")
 	private Date data;
 	
 	/**

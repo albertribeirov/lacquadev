@@ -26,7 +26,7 @@ public class ConsumoGas implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idConsumoGas;
 
-	@Column(name = "LEITURA", nullable = false, scale = 3)
+	@Column(name = "LEITURA", nullable = false, precision = 10, scale = 3)
 	private BigDecimal leitura;
 
 	@Column(name = "MES_DE_REFERENCIA", nullable = false)
@@ -40,7 +40,7 @@ public class ConsumoGas implements Serializable {
 	private Date dataRealizacaoLeitura;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_MODIFIED", nullable = false)
+	@Column(name = "LAST_MODIFIED", columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP")
 	private Date lastModified;
 
 	/*

@@ -41,7 +41,7 @@ public class Torre implements Serializable {
 	private String observacao;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_MODIFIED", nullable = true)
+	@Column(name = "LAST_MODIFIED", columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP")
 	private Date lastModified;
 
 	/*

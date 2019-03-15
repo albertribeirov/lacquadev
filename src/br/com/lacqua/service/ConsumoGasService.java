@@ -105,7 +105,7 @@ public class ConsumoGasService extends Service {
 	 * @return Lista de Condomínios cadastrados
 	 * @throws ServiceException
 	 */
-	public List<ConsumoGas> listarConsumoGass() {
+	public List<ConsumoGas> listarConsumosGas() {
 		return consumoDAO.listarConsumosGas();
 	}
 

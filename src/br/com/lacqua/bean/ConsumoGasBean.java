@@ -67,39 +67,37 @@ public class ConsumoGasBean extends AbstractBean {
 		return null;
 	}
 
-	@SuppressWarnings({ "unused" })
 	public String listarConsumosPorCondominioTorreMes() {
 		FacesContext fc = FacesContext.getCurrentInstance();
-		List<ConsumoGas> consumoAnterior = new ArrayList<>();
-		List<ConsumoGas> consumoAtual = new ArrayList<>();
-		Integer anoConsumo = null;
-		Integer mesAnterior = null;
-		Integer mes = consumoGas.getMesReferenciaLeitura();
-		Date data = consumoGas.getDataRealizacaoLeitura();
+		List<ConsumoGas> consumoProximoMes = new ArrayList<>();
+		List<ConsumoGas> consumoMesSelecionado = new ArrayList<>();
+		Date dataConsumo = consumoGas.getDataRealizacaoLeitura();
 		Calendar cal = Calendar.getInstance();
+		cal.setTime(dataConsumo);
 		Integer ano = cal.get(Calendar.YEAR);
+		Integer mes = cal.get(Calendar.MONTH) + 1;
+		consumoGas.setMesReferenciaLeitura(mes);
 		consumoGas.setAno(ano);
-
-		fc.addMessage("message", new FacesMessage("Sucesso", "Consumo calculado!"));
 
 		try {
 
-			consumoAtual = consumoGasService.listarConsumosPorCondominioTorreMes(consumoGas);
+			consumoMesSelecionado = consumoGasService.listarConsumosPorCondominioTorreMes(consumoGas);
 
-			if (mes == 1) {
-				mesAnterior = 12;
-				anoConsumo = ano - 1;
+			if (mes == 12) {
+				mes = 1;
+				ano = ano + 1;
 			} else {
-				mesAnterior = mes - 1;
+				mes = mes + 1;
 			}
 
-			consumoGas.setAno(anoConsumo);
-			consumoGas.setMesReferenciaLeitura(mesAnterior);
+			consumoGas.setAno(ano);
+			consumoGas.setMesReferenciaLeitura(mes);
 
-			consumoAnterior = consumoGasService.listarConsumosPorCondominioTorreMes(consumoGas);
+			consumoProximoMes = consumoGasService.listarConsumosPorCondominioTorreMes(consumoGas);
 
-			controlador.listarConsumosPorCondominioTorreMes(consumoGas, consumoAtual, consumoAnterior);
+			controlador.listarConsumosPorCondominioTorreMes(consumoGas, consumoMesSelecionado, consumoProximoMes);
 
+			fc.addMessage("message", new FacesMessage("Sucesso", "Consumo calculado!"));
 		} catch (Exception e) {
 			fc.addMessage("message", new FacesMessage("Erro", "O consumo mensal não pôde ser gerado."));
 			e.printStackTrace();

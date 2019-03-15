@@ -33,7 +33,7 @@ public class Funcionario implements Serializable {
 	private String email;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_MODIFIED", nullable = false)
+	@Column(name = "LAST_MODIFIED", columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP")
 	private Date lastModified;
 
 	/*

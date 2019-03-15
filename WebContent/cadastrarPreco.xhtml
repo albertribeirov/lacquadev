@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Lista de Preços do Gás</title>
+
+	<style type="text/css">
+.ui-widget, .ui-widget .ui-widget {
+	font-size: 80%
+}
+</style>
+
+	<script>
+		function excluir() {
+			return confirm("Deseja excluir o registro?")
+
+		}
+	</script>
+</h:head>
+
+<h:body>
+
+	<ui:decorate template="decorator.xhtml" />
+	<h:outputScript library="scripts" name="pt.js" />
+	<h:form id="form_preco" prependId="false">
+	<p:growl for="message" id="message" sticky="false" showDetail="true" life="3000" />
+
+		<br />
+		<p:fieldset legend="Dados">
+			<h:panelGrid columns="2">
+
+				<p:outputLabel for="idPreco" value="ID" />
+				<p:inputText id="idPreco" style="width:40px" value="#{precoBean.precoGas.id}" readonly="true" />
+
+				<p:outputLabel for="gasValor" value="Valor m³" />
+				<p:inputNumber id="gasValor" value="#{precoBean.precoGas.valor}" decimalPlaces="2" decimalSeparator="," thousandSeparator="."
+					required="true" requiredMessage="A valor do m³ do gás deve ser informado" />
+
+				<p:outputLabel for="inicioVigencia" value="Início da Vigência" />
+				<p:calendar mask="true" id="inicioVigencia" locale="pt" pattern="dd/MM/yyyy" value="#{precoBean.precoGas.vigenciaInicio}" required="true">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</p:calendar>
+
+				<p:outputLabel for="finalVigencia" value="Final da Vigência" />
+				<p:calendar mask="true" id="finalVigencia" locale="pt" pattern="dd/MM/yyyy" value="#{precoBean.precoGas.vigenciaFinal}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</p:calendar>
+
+			</h:panelGrid>
+		</p:fieldset>
+	</h:form>
+
+	<p:commandButton icon="ui-icon-disk" value="Salvar" action="#{precoBean.salvarPreco}" style="margin: 10px" update="form_preco" />
+
+	<!-- Lista de condomínios exibida e atualizada após cadastro de um novo condomínio -->
+
+	<h:panelGroup>
+		<h:form>
+			<p:dataTable value="#{precoBean.listaPrecosGas}" var="preco">
+				<f:facet name="header">Lista de Condomínios</f:facet>
+
+				<p:column width="2%">
+					<f:facet name="header">ID</f:facet>
+					<h:outputText value="#{preco.id}" />
+				</p:column>
+
+				<p:column width="5%">
+					<f:facet name="header">Valor m³</f:facet>
+					<h:outputText value="#{preco.valor}">
+						<f:convertNumber type="currency" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="7%">
+					<f:facet name="header">Início Vigência</f:facet>
+					<h:outputText value="#{preco.vigenciaInicio}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="7%">
+					<f:facet name="header">Final Vigência</f:facet>
+					<h:outputText value="#{preco.vigenciaFinal}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column width="6%">
+					<f:facet name="header">Ações</f:facet>
+					<p:commandLink action="#{precoBean.alterar(c.id)}">Alterar</p:commandLink>
+					|
+					<p:commandLink action="#{precoBean.excluir(c.id)}" onclick="return excluir();">Excluir</p:commandLink>
+
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+	</h:panelGroup>
+</h:body>
+</h:html>

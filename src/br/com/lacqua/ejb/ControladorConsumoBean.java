@@ -22,6 +22,7 @@ import javax.persistence.PersistenceContext;
 import br.com.lacqua.model.Apartamento;
 import br.com.lacqua.model.Condominio;
 import br.com.lacqua.model.ConsumoGas;
+import br.com.lacqua.model.PrecoGas;
 import br.com.lacqua.model.Torre;
 import br.com.lacqua.util.BibliotecaFuncoes;
 
@@ -173,47 +174,53 @@ public class ControladorConsumoBean implements ControladorConsumo {
 	}
 
 	@Override
-	public void listarConsumosPorCondominioTorreMes(ConsumoGas pConsumoGas, List<ConsumoGas> pMesAtual, List<ConsumoGas> pMesAnterior) throws FileNotFoundException {
-		TreeMap<Integer, ConsumoGas> hashApartamentoAtual = new TreeMap<Integer, ConsumoGas>();
-		TreeMap<Integer, ConsumoGas> hashApartamentoAnterior = new TreeMap<Integer, ConsumoGas>();
-		BigDecimal consumoAtual = BigDecimal.ZERO;
-		BigDecimal consumoAnterior = BigDecimal.ZERO;
+	public void listarConsumosPorCondominioTorreMes(ConsumoGas pConsumoGas, List<ConsumoGas> pMesAtual, List<ConsumoGas> pProximoMes) throws FileNotFoundException {
+		TreeMap<Integer, ConsumoGas> hashApartamentoMesAtual = new TreeMap<Integer, ConsumoGas>();
+		TreeMap<Integer, ConsumoGas> hashApartamentoProximoMes = new TreeMap<Integer, ConsumoGas>();
+		BigDecimal leituraAtual = BigDecimal.ZERO;
+		BigDecimal leituraProximoMes = BigDecimal.ZERO;
 		BigDecimal consumo = BigDecimal.ZERO;
 		BigDecimal coeficiente = new BigDecimal("12.35");
 		BigDecimal valor = BigDecimal.ZERO;
 		PrintWriter pw = new PrintWriter(new File("D:\\saida.txt"));
 
-		Iterator<ConsumoGas> itAtual = pMesAtual.iterator();
-		while (itAtual.hasNext()) {
-			ConsumoGas voConsumoAtual = itAtual.next();
+		Iterator<ConsumoGas> itMesAtual = pMesAtual.iterator();
+		while (itMesAtual.hasNext()) {
+			ConsumoGas voConsumoAtual = itMesAtual.next();
 			Integer apartamento = Integer.parseInt(voConsumoAtual.getApartamento().getNumero());
-			hashApartamentoAtual.put(apartamento, voConsumoAtual);
+			hashApartamentoMesAtual.put(apartamento, voConsumoAtual);
 		}
 
-		Iterator<ConsumoGas> itAnterior = pMesAnterior.iterator();
-		while (itAnterior.hasNext()) {
-			ConsumoGas voConsumoAnterior = itAnterior.next();
-			Integer apartamento = Integer.parseInt(voConsumoAnterior.getApartamento().getNumero());
-			hashApartamentoAnterior.put(apartamento, voConsumoAnterior);
+		Iterator<ConsumoGas> itProximoMes = pProximoMes.iterator();
+		while (itProximoMes.hasNext()) {
+			ConsumoGas voConsumoProximoMes = itProximoMes.next();
+			Integer apartamento = Integer.parseInt(voConsumoProximoMes.getApartamento().getNumero());
+			hashApartamentoProximoMes.put(apartamento, voConsumoProximoMes);
 		}
 
-		Set<Integer> apartamentos = hashApartamentoAnterior.keySet();
+		Set<Integer> apartamentos = hashApartamentoProximoMes.keySet();
 		Iterator<Integer> it = apartamentos.iterator();
 		while (it.hasNext()) {
 			Integer numeroAp = it.next();
 
-			ConsumoGas atual = hashApartamentoAtual.get(numeroAp);
-			ConsumoGas anterior = hashApartamentoAnterior.get(numeroAp);
-			consumoAnterior = anterior.getLeitura();
-			consumoAtual = atual.getLeitura();
-			consumo = consumoAtual.subtract(consumoAnterior);
+			ConsumoGas consumoMesAtual = hashApartamentoMesAtual.get(numeroAp);
+			ConsumoGas consumoProximoMes = hashApartamentoProximoMes.get(numeroAp);
+			leituraProximoMes = consumoProximoMes.getLeitura();
+			leituraAtual = consumoMesAtual.getLeitura();
+			consumo = leituraProximoMes.subtract(leituraAtual);
 			consumo = BibliotecaFuncoes.escalarConsumo(consumo);
 			valor = BibliotecaFuncoes.escalarDinheiro(coeficiente.multiply(consumo));
 
-			pw.println("Apartamento " + anterior.getApartamento().getNumero() + ", consumo " + consumo + ", valor R$ " + valor);
+			pw.println("Apartamento " + consumoMesAtual.getApartamento().getNumero() + ", consumo " + consumo + ", valor R$ " + valor);
 			pw.flush();
-			System.out.println("Apartamento " + anterior.getApartamento().getNumero() + ", consumo " + consumo + ", valor R$ " + valor);
+			System.out.println("Apartamento " + consumoMesAtual.getApartamento().getNumero() + ", consumo " + consumo + ", valor R$ " + valor);
 		}
 		pw.close();
+	}
+
+	@Override
+	public void salvarPreco(PrecoGas pPrecoGas) {
+		em.persist(pPrecoGas);
+		
 	}
 }

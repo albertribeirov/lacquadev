@@ -35,7 +35,7 @@ public class Condominio implements Serializable {
 	@Column(name = "NOME", nullable = false, length = 150)
 	private String nome;
 
-	@Column(name = "TAXA_LEITURA", precision = 10, scale = 2, nullable = false)
+	@Column(name = "TAXA_LEITURA", precision = 10, scale = 3, nullable = false)
 	private BigDecimal taxaLeitura;
 
 	@Column(name = "CNPJ", nullable = true, length = 18)
@@ -87,7 +87,7 @@ public class Condominio implements Serializable {
 	private String cep;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_MODIFIED", nullable = false)
+	@Column(name = "LAST_MODIFIED", columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP")
 	private Date lastModified;
 
 	@OneToMany(mappedBy = "condominio")
