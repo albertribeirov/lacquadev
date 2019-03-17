@@ -16,31 +16,27 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "TB_CONSUMO_GAS")
-public class ConsumoGas implements Serializable {
+@Table(name = "TB_CONSUMO")
+public class Consumo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "ID_CONSUMO_GAS")
+	@Column(name = "ID_CONSUMO")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idConsumoGas;
+	private Integer id;
 
-	@Column(name = "LEITURA", nullable = false, precision = 10, scale = 3)
-	private BigDecimal leitura;
+	@Column(name = "VALOR_CONTA", nullable = false, precision = 10, scale = 2)
+	private BigDecimal valorConta;
 
-	@Column(name = "MES_DE_REFERENCIA", nullable = false)
-	private Integer mesReferenciaLeitura;
-	
+	@Column(name = "MES", nullable = false)
+	private Integer mes;
+
 	@Column(name = "ANO", nullable = false)
 	private Integer ano;
-
-	@Column(name = "DATA_REALIZACAO_LEITURA", nullable = true)
-	@Temporal(TemporalType.DATE)
-	private Date dataRealizacaoLeitura;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_MODIFIED", columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP")
+	@Column(name = "LAST_MODIFIED", columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP()")
 	private Date lastModified;
 
 	/*
@@ -64,35 +60,47 @@ public class ConsumoGas implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "ID_CLIENTE", nullable = true)
 	private Cliente cliente;
-	
+
+	@ManyToOne
+	@JoinColumn(name = "ID_PRECO_GAS", nullable = false)
+	private PrecoGas precoGas;
+
 	/*
 	 * 
 	 * Getters e setters
 	 * 
 	 */
 
-	public Integer getIdConsumoAgua() {
-		return idConsumoGas;
-	}
-
-	public void setIdConsumoAgua(Integer idConsumoGas) {
-		this.idConsumoGas = idConsumoGas;
-	}
-
 	public Integer getId() {
-		return idConsumoGas;
+		return id;
 	}
 
-	public void setId(Integer idConsumoGas) {
-		this.idConsumoGas = idConsumoGas;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public BigDecimal getLeitura() {
-		return leitura;
+	public BigDecimal getValorConta() {
+		return valorConta;
 	}
 
-	public void setLeitura(BigDecimal leitura) {
-		this.leitura = leitura;
+	public void setValorConta(BigDecimal valorConta) {
+		this.valorConta = valorConta;
+	}
+
+	public Integer getMes() {
+		return mes;
+	}
+
+	public void setMes(Integer mes) {
+		this.mes = mes;
+	}
+
+	public Integer getAno() {
+		return ano;
+	}
+
+	public void setAno(Integer ano) {
+		this.ano = ano;
 	}
 
 	public Condominio getCondominio() {
@@ -127,35 +135,15 @@ public class ConsumoGas implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public Integer getMesReferenciaLeitura() {
-		return mesReferenciaLeitura;
+	public PrecoGas getPrecoGas() {
+		return precoGas;
 	}
 
-	public void setMesReferenciaLeitura(Integer mesReferenciaLeitura) {
-		this.mesReferenciaLeitura = mesReferenciaLeitura;
-	}
-
-	public Date getDataRealizacaoLeitura() {
-		return dataRealizacaoLeitura;
-	}
-
-	public void setDataRealizacaoLeitura(Date dataRealizacaoLeitura) {
-		this.dataRealizacaoLeitura = dataRealizacaoLeitura;
+	public void setPrecoGas(PrecoGas precoGas) {
+		this.precoGas = precoGas;
 	}
 
 	public Date getLastModified() {
 		return lastModified;
-	}
-
-	public void setLastModified(Date lastModified) {
-		this.lastModified = lastModified;
-	}
-
-	public Integer getAno() {
-		return ano;
-	}
-
-	public void setAno(Integer ano) {
-		this.ano = ano;
-	}
+	}	
 }

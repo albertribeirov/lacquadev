@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
@@ -50,43 +50,31 @@
 		<p:fieldset legend="Dados">
 			<h:panelGrid columns="2">
 				<p:outputLabel for="condominio" value="Condomínio" />
-				<p:selectOneMenu id="condominio" value="#{consumoGasBean.consumo.condominio}" valueChangeListener="#{torreBean.carregarTorresPorCondominio}"
-					converter="#{converterCondominio}" immediate="true" style="width:300px" required="true">
+				<p:selectOneMenu id="condominio" value="#{leituraBean.consumo.condominio}" valueChangeListener="#{torreBean.carregarTorresPorCondominio}" converter="#{converterCondominio}" immediate="true"
+					style="width:300px" required="true">
 					<f:ajax event="valueChange" execute="@this" render="torre" />
 					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 					<f:selectItems value="#{condominioBean.condominios}" var="c" itemValue="#{c}" itemLabel="#{c.nome}" />
 				</p:selectOneMenu>
 
 				<p:outputLabel for="torre" value="Torre" />
-				<p:selectOneMenu id="torre" value="#{consumoGasBean.consumo.torre}" converter="#{converterTorre}" style="width:300px">
+				<p:selectOneMenu id="torre" value="#{leituraBean.consumo.torre}" converter="#{converterTorre}" style="width:300px">
 					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 					<f:selectItems value="#{torreBean.torres}" var="t" itemValue="#{t}" itemLabel="#{t.id} - #{t.nome}" />
+				</p:selectOneMenu>
+				<p:outputLabel id="dataLeitura" value="Data da leitura  " />
+				<p:calendar locale="pt" required="true" pattern="dd/MM/yyyy" value="#{leituraBean.consumo.dataRealizacaoLeitura}" />
+				<p:outputLabel id="mesLeitura" value="Mês de referência  " />
+				<p:selectOneMenu label="Mês de referência" value="#{leituraBean.consumo.mesReferenciaLeitura}" required="true">
+					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+					<f:selectItems value="#{leituraBean.meses}" var="m" itemValue="#{m.id}" itemLabel="#{m.nome}" />
 				</p:selectOneMenu>
 			</h:panelGrid>
 		</p:fieldset>
 
-		<p:commandButton icon="ui-icon-disk" id="calcularConsumoMensal" value="Calcular Consumo Mensal"
-			actionListener="#{consumoGasBean.listarConsumosPorCondominioTorreMes}" style="margin: 10px" />
+		<p:commandButton icon="ui-icon-disk" id="formTorre" value="Listar Apartamentos" action="#{leituraBean.carregarApartamentos}" style="margin: 10px" update="fconsumo" />
 
-		<p:commandButton icon="ui-icon-disk" id="formTorre" value="Listar Apartamentos" action="#{consumoGasBean.carregarApartamentos}" style="margin: 10px"
-			update="fconsumo" />
-
-		<p:commandButton icon="ui-icon-disk" id="salvarConsumos" value="Salvar Consumos" action="#{consumoGasBean.salvarConsumos}" style="margin: 10px"
-			update="fconsumo" />
-
-		<p:commandButton icon="ui-icon-disk" id="cargaDados" value="Carga de Dados" action="#{consumoGasBean.cargaConsumoDocumentoTexto}"
-			style="margin: 10px" />
-
-		<p:panelGrid>
-			<br />
-			<p:outputLabel id="dataLeitura" value="Data da leitura  " />
-			<p:calendar locale="pt" required="true" pattern="dd/MM/yyyy" value="#{consumoGasBean.consumo.dataRealizacaoLeitura}" />
-			<p:outputLabel id="mesLeitura" value="Mês de referência  " />
-			<p:selectOneMenu label="Mês de referência" value="#{consumoGasBean.consumo.mesReferenciaLeitura}" required="true">
-				<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
-				<f:selectItems value="#{consumoGasBean.meses}" var="m" itemValue="#{m.id}" itemLabel="#{m.nome}" />
-			</p:selectOneMenu>
-		</p:panelGrid>
+		<p:commandButton icon="ui-icon-disk" id="salvarConsumos" value="Salvar Consumos" action="#{leituraBean.salvarConsumos}" style="margin: 10px" update="fconsumo" />
 
 	</h:form>
 
@@ -94,7 +82,7 @@
 	<br />
 	<h:panelGroup>
 		<h:form id="fconsumo" prependId="false">
-			<p:dataTable value="#{consumoGasBean.apartamentos}" var="ap" rendered="#{consumoGasBean.apartamentos.size() > 0}">
+			<p:dataTable value="#{leituraBean.apartamentos}" var="ap" rendered="#{leituraBean.apartamentos.size() > 0}">
 				<f:facet name="header">Cadastro de Consumos</f:facet>
 
 				<p:column width="2%">
@@ -119,8 +107,7 @@
 
 				<p:column width="6%">
 					<f:facet name="header">Consumo</f:facet>
-					<p:inputNumber value="#{ap.leitura}" decimalPlaces="0" id="consumo" onblur="desabilitarCampoLeitura(this)"
-						ondblclick="habilitarCampoLeitura(this)">
+					<p:inputNumber value="#{ap.leitura}" decimalPlaces="0" id="consumo" onblur="desabilitarCampoLeitura(this)" ondblclick="habilitarCampoLeitura(this)">
 					</p:inputNumber>
 				</p:column>
 

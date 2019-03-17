@@ -7,45 +7,45 @@ import javax.inject.Inject;
 
 import org.hibernate.service.spi.ServiceException;
 
-import br.com.lacqua.dao.ConsumoGasDAO;
-import br.com.lacqua.model.ConsumoGas;
+import br.com.lacqua.dao.LeituraDAO;
+import br.com.lacqua.model.Leitura;
 import br.com.lacqua.model.Log.TipoMensagem;
 
 /**
- * Métodos de negócio relacionados à entidade ConsumoGas
+ * Métodos de negócio relacionados à entidade Leitura
  */
 @SuppressWarnings("serial")
-public class ConsumoGasService extends Service {
+public class LeituraService extends Service {
 
 	@Inject
-	private ConsumoGasDAO consumoDAO;
+	private LeituraDAO consumoDAO;
 
 	@Inject
 	private LogService logService;
 
 	/**
-	 * Carrega um ConsumoGas cadastrado no banco de dados.
+	 * Carrega um Leitura cadastrado no banco de dados.
 	 * 
-	 * @param ConsumoGas
+	 * @param Leitura
 	 * @throws ServiceException
 	 */
-	public ConsumoGas carregar(Integer id) {
-		return consumoDAO.carregar(ConsumoGas.class, id);
+	public Leitura carregar(Integer id) {
+		return consumoDAO.carregar(Leitura.class, id);
 	}
 
 	/**
-	 * Insere um novo ConsumoGasGas no banco de dados
+	 * Insere um novo LeituraGas no banco de dados
 	 * 
-	 * @param ConsumoGas ConsumoGas a ser inserido
+	 * @param Leitura Leitura a ser inserido
 	 * @throws ServiceException
 	 */
-	public void inserir(ConsumoGas consumo) {
+	public void inserir(Leitura consumo) {
 		try {
 			beginTransaction();
 
 			consumo.setLastModified(Calendar.getInstance().getTime());
 			consumoDAO.salvar(consumo);
-			logService.log("ConsumoGas inserido: " + consumo.getId(), TipoMensagem.INFO);
+			logService.log("Leitura inserido: " + consumo.getId(), TipoMensagem.INFO);
 
 			commitTransaction();
 
@@ -56,18 +56,18 @@ public class ConsumoGasService extends Service {
 	}
 
 	/**
-	 * Altera um ConsumoGas cadastrado no banco de dados.
+	 * Altera um Leitura cadastrado no banco de dados.
 	 * 
-	 * @param ConsumoGas
+	 * @param Leitura
 	 * @throws ServiceException
 	 */
-	public void alterar(ConsumoGas consumo) {
+	public void alterar(Leitura consumo) {
 		try {
 			beginTransaction();
 
 			consumo.setLastModified(Calendar.getInstance().getTime());
 			consumoDAO.alterar(consumo);
-			logService.log("ConsumoGas alterado: " + consumo.getId(), TipoMensagem.INFO);
+			logService.log("Leitura alterado: " + consumo.getId(), TipoMensagem.INFO);
 
 			commitTransaction();
 
@@ -78,18 +78,18 @@ public class ConsumoGasService extends Service {
 	}
 
 	/**
-	 * Exclui um ConsumoGas do banco de dados
+	 * Exclui um Leitura do banco de dados
 	 * 
-	 * @param integer Número de matrícula do ConsumoGas a ser excluído
+	 * @param integer Número de matrícula do Leitura a ser excluído
 	 * @throws ServiceException
 	 */
 	public void excluir(Integer id) {
 		try {
 			beginTransaction();
 
-			ConsumoGas consumo = consumoDAO.carregar(ConsumoGas.class, id);
+			Leitura consumo = consumoDAO.carregar(Leitura.class, id);
 			consumoDAO.excluir(consumo);
-			logService.log("ConsumoGas excluído: " + id, TipoMensagem.INFO);
+			logService.log("Leitura excluído: " + id, TipoMensagem.INFO);
 
 			commitTransaction();
 
@@ -105,22 +105,22 @@ public class ConsumoGasService extends Service {
 	 * @return Lista de Condomínios cadastrados
 	 * @throws ServiceException
 	 */
-	public List<ConsumoGas> listarConsumosGas() {
+	public List<Leitura> listarConsumosGas() {
 		return consumoDAO.listarConsumosGas();
 	}
 
-	public List<ConsumoGas> listarConsumosPorCondominioTorre(Integer idCondominio, Integer idTorre) {
+	public List<Leitura> listarConsumosPorCondominioTorre(Integer idCondominio, Integer idTorre) {
 		return consumoDAO.listarConsumosPorCondominioTorre(idCondominio, idTorre);
 	}
 
-	public List<ConsumoGas> listarConsumosPorCondominioTorreMes(ConsumoGas pConsumoGas) {
+	public List<Leitura> listarConsumosPorCondominioTorreMes(Leitura pLeitura) {
 		Integer idTorre = null;
-		if (pConsumoGas.getTorre() != null) {
-			idTorre = pConsumoGas.getTorre().getId();
+		if (pLeitura.getTorre() != null) {
+			idTorre = pLeitura.getTorre().getId();
 		}
-		Integer idCondominio = pConsumoGas.getCondominio().getId();
-		Integer mesReferencia = pConsumoGas.getMesReferenciaLeitura();
-		Integer anoReferencia = pConsumoGas.getAno();
+		Integer idCondominio = pLeitura.getCondominio().getId();
+		Integer mesReferencia = pLeitura.getMesReferenciaLeitura();
+		Integer anoReferencia = pLeitura.getAno();
 		return consumoDAO.listarConsumosPorCondominioTorreMes(idCondominio, idTorre, mesReferencia, anoReferencia);
 	}
 }

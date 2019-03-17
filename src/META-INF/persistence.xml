@@ -13,7 +13,7 @@
     <class>br.com.lacqua.model.Apartamento</class>
     <class>br.com.lacqua.model.Cliente</class>
     <class>br.com.lacqua.model.Condominio</class>
-    <class>br.com.lacqua.model.ConsumoGas</class>
+    <class>br.com.lacqua.model.Leitura</class>
     <class>br.com.lacqua.model.Empresa</class>
     <class>br.com.lacqua.model.Funcionario</class>
     <class>br.com.lacqua.model.Log</class>

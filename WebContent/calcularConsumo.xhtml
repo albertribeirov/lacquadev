@@ -13,55 +13,36 @@
 	font-size: 90%
 }
 </style>
-
-	<script>
-		function excluir() {
-			return confirm("Deseja excluir o registro?");
-
-		}
-	</script>
-
 </h:head>
 <h:body>
 	<ui:decorate template="decorator.xhtml" />
 	<h:outputScript library="scripts" name="pt.js" />
 	<h:form id="form_consumo" prependId="false">
-		<p:growl for="message" id="message" sticky="true" showDetail="true" life="3000" />
+		<p:growl for="message" id="message" sticky="false" showDetail="true" life="3000" />
 		<br />
 
 		<p:fieldset legend="Dados">
 			<h:panelGrid columns="2">
 				<p:outputLabel for="condominio" value="Condomínio" />
-				<p:selectOneMenu id="condominio" value="#{consumoGasBean.consumo.condominio}" valueChangeListener="#{torreBean.carregarTorresPorCondominio}" converter="#{converterCondominio}"
-					immediate="true" style="width:300px" required="true">
+				<p:selectOneMenu id="condominio" value="#{leituraBean.consumo.condominio}" valueChangeListener="#{torreBean.carregarTorresPorCondominio}" converter="#{converterCondominio}" immediate="true"
+					style="width:300px" required="true">
 					<f:ajax event="valueChange" execute="@this" render="torre" />
 					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 					<f:selectItems value="#{condominioBean.condominios}" var="c" itemValue="#{c}" itemLabel="#{c.nome}" />
 				</p:selectOneMenu>
 
 				<p:outputLabel for="torre" value="Torre" />
-				<p:selectOneMenu id="torre" value="#{consumoGasBean.consumo.torre}" converter="#{converterTorre}" style="width:300px">
+				<p:selectOneMenu id="torre" value="#{leituraBean.consumo.torre}" converter="#{converterTorre}" style="width:300px">
 					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 					<f:selectItems value="#{torreBean.torres}" var="t" itemValue="#{t}" itemLabel="#{t.id} - #{t.nome}" />
 				</p:selectOneMenu>
+				<p:outputLabel id="dataLeitura" value="Data da leitura  " />
+				<p:calendar locale="pt" required="true" pattern="MM/yyyy" value="#{leituraBean.consumo.dataRealizacaoLeitura}" />
 			</h:panelGrid>
 		</p:fieldset>
 
-		<p:commandButton icon="ui-icon-disk" id="calcularConsumoMensal" value="Calcular Consumo Mensal" actionListener="#{consumoGasBean.listarConsumosPorCondominioTorreMes}"
-			style="margin: 10px" />
-
-		<p:commandButton icon="ui-icon-disk" id="cargaDados" value="Carga de Dados" action="#{consumoGasBean.cargaConsumoDocumentoTexto}" style="margin: 10px" />
-
-		<p:panelGrid>
-			<br />
-			<p:outputLabel id="dataLeitura" value="Data da leitura  " />
-			<p:calendar locale="pt" required="true" pattern="MM/yyyy" value="#{consumoGasBean.consumo.dataRealizacaoLeitura}" />
-			<p:outputLabel id="mesLeitura" value="Mês de referência  " />
-			<p:selectOneMenu label="Mês de referência" value="#{consumoGasBean.consumo.mesReferenciaLeitura}" required="false">
-				<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
-				<f:selectItems value="#{consumoGasBean.meses}" var="m" itemValue="#{m.id}" itemLabel="#{m.nome}" />
-			</p:selectOneMenu>
-		</p:panelGrid>
+		<p:commandButton icon="ui-icon-disk" id="calcularConsumoMensal" value="Calcular Consumo Mensal" actionListener="#{leituraBean.listarConsumosPorCondominioTorreMes}" style="margin: 10px" />
+		<p:commandButton icon="ui-icon-disk" id="cargaDados" value="Carga de Dados" action="#{leituraBean.cargaConsumoDocumentoTexto}" style="margin: 10px" />
 
 	</h:form>
 </h:body>

@@ -21,7 +21,8 @@ import javax.persistence.PersistenceContext;
 
 import br.com.lacqua.model.Apartamento;
 import br.com.lacqua.model.Condominio;
-import br.com.lacqua.model.ConsumoGas;
+import br.com.lacqua.model.Consumo;
+import br.com.lacqua.model.Leitura;
 import br.com.lacqua.model.PrecoGas;
 import br.com.lacqua.model.Torre;
 import br.com.lacqua.util.BibliotecaFuncoes;
@@ -60,7 +61,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 	@Override
 	public void inserirConsumoMensalApartamento(Integer idApartamento, BigDecimal leitura) {
 		Apartamento ap = em.find(Apartamento.class, idApartamento);
-		ConsumoGas consumo = new ConsumoGas();
+		Leitura consumo = new Leitura();
 
 		consumo.setApartamento(ap);
 		consumo.setLeitura(leitura);
@@ -72,12 +73,12 @@ public class ControladorConsumoBean implements ControladorConsumo {
 	}
 
 	@Override
-	public void inserirConsumoMensalApartamentos(List<Apartamento> pApartamentos, List<ConsumoGas> pConsumos, ConsumoGas pConsumoGas) {
+	public void inserirConsumoMensalApartamentos(List<Apartamento> pApartamentos, List<Leitura> pConsumos, Leitura pLeitura) {
 
 		Iterator<Apartamento> it = pApartamentos.iterator();
 		while (it.hasNext()) {
 			Apartamento ap = it.next();
-			ConsumoGas consumo = new ConsumoGas();
+			Leitura consumo = new Leitura();
 			BigDecimal leitura = null;
 			boolean isGravar = false;
 
@@ -96,9 +97,9 @@ public class ControladorConsumoBean implements ControladorConsumo {
 				consumo.setTorre(ap.getTorre());
 			}
 
-			if (pConsumoGas != null) {
-				consumo.setMesReferenciaLeitura(pConsumoGas.getMesReferenciaLeitura());
-				consumo.setDataRealizacaoLeitura(pConsumoGas.getDataRealizacaoLeitura());
+			if (pLeitura != null) {
+				consumo.setMesReferenciaLeitura(pLeitura.getMesReferenciaLeitura());
+				consumo.setDataRealizacaoLeitura(pLeitura.getDataRealizacaoLeitura());
 			}
 
 			consumo.setApartamento(ap);
@@ -112,9 +113,9 @@ public class ControladorConsumoBean implements ControladorConsumo {
 	}
 
 	@Override
-	public void cargaConsumoDocumentoTexto(ConsumoGas pConsumoGas) {
-		Date dataRealizacaoLeitura = pConsumoGas.getDataRealizacaoLeitura();
-		Integer mesReferencia = pConsumoGas.getMesReferenciaLeitura();
+	public void cargaConsumoDocumentoTexto(Leitura pLeitura) {
+		Date dataRealizacaoLeitura = pLeitura.getDataRealizacaoLeitura();
+		Integer mesReferencia = pLeitura.getMesReferenciaLeitura();
 		Condominio cond = new Condominio();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(dataRealizacaoLeitura);
@@ -124,7 +125,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 		Iterator<String> it = texto.iterator();
 
 		while (it.hasNext()) {
-			ConsumoGas consumoGas = new ConsumoGas();
+			Leitura consumoGas = new Leitura();
 			BigDecimal leitura = BigDecimal.ZERO;
 			String linhaConcatenada = "";
 			String numeroApartamento = "";
@@ -136,7 +137,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 			numeroApartamento = line.get(0);
 			leitura = new BigDecimal(line.get(1));
 			leitura = BibliotecaFuncoes.escalarConsumo(leitura);
-			cond = em.find(Condominio.class, pConsumoGas.getCondominio().getId());
+			cond = em.find(Condominio.class, pLeitura.getCondominio().getId());
 
 			aps = cond.getApartamentos();
 
@@ -167,33 +168,37 @@ public class ControladorConsumoBean implements ControladorConsumo {
 	}
 
 	@Override
-	public void gerarContaCondominio(ConsumoGas pConsumoGas, Condominio pCondominio, Torre pTorre) {
+	public void gerarContaCondominio(Leitura pLeitura, Condominio pCondominio, Torre pTorre) {
 		// ConsumosGas consumo =
 		// Condominio cond = em.find(Condominio.class, pCondominio.getId());
 
 	}
 
 	@Override
-	public void listarConsumosPorCondominioTorreMes(ConsumoGas pConsumoGas, List<ConsumoGas> pMesAtual, List<ConsumoGas> pProximoMes) throws FileNotFoundException {
-		TreeMap<Integer, ConsumoGas> hashApartamentoMesAtual = new TreeMap<Integer, ConsumoGas>();
-		TreeMap<Integer, ConsumoGas> hashApartamentoProximoMes = new TreeMap<Integer, ConsumoGas>();
+	public void listarConsumosPorCondominioTorreMes(Leitura pLeitura, List<Leitura> pMesAtual, List<Leitura> pProximoMes) throws FileNotFoundException {
+		TreeMap<Integer, Leitura> hashApartamentoMesAtual = new TreeMap<Integer, Leitura>();
+		TreeMap<Integer, Leitura> hashApartamentoProximoMes = new TreeMap<Integer, Leitura>();
 		BigDecimal leituraAtual = BigDecimal.ZERO;
 		BigDecimal leituraProximoMes = BigDecimal.ZERO;
-		BigDecimal consumo = BigDecimal.ZERO;
+		BigDecimal valorConsumo = BigDecimal.ZERO;
 		BigDecimal coeficiente = new BigDecimal("12.35");
 		BigDecimal valor = BigDecimal.ZERO;
+		Integer mes = pLeitura.getMesReferenciaLeitura();
+		Integer ano = pLeitura.getAno();
+		Torre ap = pLeitura.getTorre();
+		Condominio cond = pLeitura.getCondominio();
 		PrintWriter pw = new PrintWriter(new File("D:\\saida.txt"));
 
-		Iterator<ConsumoGas> itMesAtual = pMesAtual.iterator();
+		Iterator<Leitura> itMesAtual = pMesAtual.iterator();
 		while (itMesAtual.hasNext()) {
-			ConsumoGas voConsumoAtual = itMesAtual.next();
+			Leitura voConsumoAtual = itMesAtual.next();
 			Integer apartamento = Integer.parseInt(voConsumoAtual.getApartamento().getNumero());
 			hashApartamentoMesAtual.put(apartamento, voConsumoAtual);
 		}
 
-		Iterator<ConsumoGas> itProximoMes = pProximoMes.iterator();
+		Iterator<Leitura> itProximoMes = pProximoMes.iterator();
 		while (itProximoMes.hasNext()) {
-			ConsumoGas voConsumoProximoMes = itProximoMes.next();
+			Leitura voConsumoProximoMes = itProximoMes.next();
 			Integer apartamento = Integer.parseInt(voConsumoProximoMes.getApartamento().getNumero());
 			hashApartamentoProximoMes.put(apartamento, voConsumoProximoMes);
 		}
@@ -203,17 +208,28 @@ public class ControladorConsumoBean implements ControladorConsumo {
 		while (it.hasNext()) {
 			Integer numeroAp = it.next();
 
-			ConsumoGas consumoMesAtual = hashApartamentoMesAtual.get(numeroAp);
-			ConsumoGas consumoProximoMes = hashApartamentoProximoMes.get(numeroAp);
+			Leitura consumoMesAtual = hashApartamentoMesAtual.get(numeroAp);
+			Leitura consumoProximoMes = hashApartamentoProximoMes.get(numeroAp);
 			leituraProximoMes = consumoProximoMes.getLeitura();
 			leituraAtual = consumoMesAtual.getLeitura();
-			consumo = leituraProximoMes.subtract(leituraAtual);
-			consumo = BibliotecaFuncoes.escalarConsumo(consumo);
-			valor = BibliotecaFuncoes.escalarDinheiro(coeficiente.multiply(consumo));
+			valorConsumo = leituraProximoMes.subtract(leituraAtual);
+			valorConsumo = BibliotecaFuncoes.escalarConsumo(valorConsumo);
+			valor = BibliotecaFuncoes.escalarDinheiro(coeficiente.multiply(valorConsumo));
 
-			pw.println("Apartamento " + consumoMesAtual.getApartamento().getNumero() + ", consumo " + consumo + ", valor R$ " + valor);
+			PrecoGas precoGas = em.find(PrecoGas.class, 1);
+			Consumo consumo = new Consumo();
+			consumo.setAno(ano);
+			consumo.setMes(mes);
+			consumo.setValorConta(valor);
+			consumo.setApartamento(consumoMesAtual.getApartamento());
+			consumo.setTorre(consumoMesAtual.getTorre());
+			consumo.setCondominio(consumoMesAtual.getCondominio());
+			consumo.setPrecoGas(precoGas);
+			
+			em.persist(consumo);
+
+			pw.println("Apartamento " + consumoMesAtual.getApartamento().getNumero() + ", consumo " + valorConsumo + ", valor R$ " + valor);
 			pw.flush();
-			System.out.println("Apartamento " + consumoMesAtual.getApartamento().getNumero() + ", consumo " + consumo + ", valor R$ " + valor);
 		}
 		pw.close();
 	}

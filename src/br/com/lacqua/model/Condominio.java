@@ -96,8 +96,8 @@ public class Condominio implements Serializable {
 	@OneToMany(mappedBy = "condominio", targetEntity = Apartamento.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Apartamento> apartamentos = new ArrayList<>();
 
-	@OneToMany(mappedBy = "condominio", targetEntity = ConsumoGas.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<ConsumoGas> consumos = new ArrayList<>();
+	@OneToMany(mappedBy = "condominio", targetEntity = Leitura.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Leitura> consumos = new ArrayList<>();
 
 	/*
 	 * 
@@ -277,11 +277,11 @@ public class Condominio implements Serializable {
 		this.apartamentos = apartamentos;
 	}
 
-	public List<ConsumoGas> getConsumos() {
+	public List<Leitura> getConsumos() {
 		return consumos;
 	}
 
-	public void setConsumos(List<ConsumoGas> consumos) {
+	public void setConsumos(List<Leitura> consumos) {
 		this.consumos = consumos;
 	}
 	

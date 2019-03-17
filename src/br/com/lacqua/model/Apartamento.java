@@ -57,7 +57,7 @@ public class Apartamento implements Serializable {
 	private Date lastModified;
 	
 	@OneToMany(mappedBy = "apartamento")
-	private List<ConsumoGas> consumosGas;
+	private List<Leitura> consumosGas;
 	
 	/*
 	 * Utilizada apenas para receber a leitura, não é persistida no banco.
@@ -79,11 +79,11 @@ public class Apartamento implements Serializable {
 		this.id = id;
 	}
 	
-	public List<ConsumoGas> getConsumosGas() {
+	public List<Leitura> getConsumosGas() {
 		return consumosGas;
 	}
 
-	public void setConsumosGas(List<ConsumoGas> consumosGas) {
+	public void setConsumosGas(List<Leitura> consumosGas) {
 		this.consumosGas = consumosGas;
 	}
 

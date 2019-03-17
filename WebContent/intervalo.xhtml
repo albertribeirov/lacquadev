@@ -61,15 +61,13 @@
 				</p:selectOneMenu>
 
 				<p:outputLabel for="torre" value="Torre" />
-				<p:selectOneMenu id="torre" value="#{intervaloBean.apartamento.torre}" converter="#{converterTorre}" style="width:300px" >
+				<p:selectOneMenu id="torre" value="#{intervaloBean.apartamento.torre}" converter="#{converterTorre}" style="width:300px">
 					<f:selectItems value="#{torreBean.torres}" var="t" itemValue="#{t}" itemLabel="#{t.id} - #{t.nome}" />
 				</p:selectOneMenu>
 
 			</h:panelGrid>
 		</p:fieldset>
 		<p:commandButton icon="ui-icon-disk" value="Processar" action="#{intervaloBean.cadastrarIntervalo}" style="margin: 10px" update="form_apartamento" />
-
-		<br />
 	</h:form>
 </h:body>
 </h:html>

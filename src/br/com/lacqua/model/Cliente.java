@@ -63,8 +63,8 @@ public class Cliente implements Serializable {
 	@OneToMany(mappedBy = "cliente", targetEntity = Apartamento.class, fetch = FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<Apartamento> apartamentos;
 	
-	@OneToMany(mappedBy = "cliente", targetEntity = ConsumoGas.class, fetch = FetchType.LAZY, cascade=CascadeType.ALL)
-	private List<ConsumoGas> consumosAgua;
+	@OneToMany(mappedBy = "cliente", targetEntity = Leitura.class, fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	private List<Leitura> consumosAgua;
 
 	/*
 	 * 

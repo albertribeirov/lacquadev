@@ -58,7 +58,7 @@ public class Torre implements Serializable {
 	private List<Apartamento> apartamentos = new ArrayList<>();
 
 	@OneToMany(mappedBy = "torre")
-	private List<ConsumoGas> consumoDoCondominio = new ArrayList<>();
+	private List<Leitura> consumoDoCondominio = new ArrayList<>();
 
 	/*
 	 * 
@@ -106,11 +106,11 @@ public class Torre implements Serializable {
 		this.apartamentos = apartamentos;
 	}
 
-	public List<ConsumoGas> getConsumoDoCondominio() {
+	public List<Leitura> getConsumoDoCondominio() {
 		return consumoDoCondominio;
 	}
 
-	public void setConsumoDoCondominio(List<ConsumoGas> consumoDoCondominio) {
+	public void setConsumoDoCondominio(List<Leitura> consumoDoCondominio) {
 		this.consumoDoCondominio = consumoDoCondominio;
 	}
 

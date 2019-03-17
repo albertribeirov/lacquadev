@@ -8,7 +8,7 @@ import javax.ejb.Local;
 
 import br.com.lacqua.model.Apartamento;
 import br.com.lacqua.model.Condominio;
-import br.com.lacqua.model.ConsumoGas;
+import br.com.lacqua.model.Leitura;
 import br.com.lacqua.model.PrecoGas;
 import br.com.lacqua.model.Torre;
 
@@ -21,13 +21,13 @@ public interface ControladorConsumo {
 
 	public void inserirConsumoMensalApartamento(Integer idApartamento, BigDecimal leitura);
 
-	public void inserirConsumoMensalApartamentos(List<Apartamento> pApartamentos, List<ConsumoGas> pConsumos, ConsumoGas consumoGas);
+	public void inserirConsumoMensalApartamentos(List<Apartamento> pApartamentos, List<Leitura> pConsumos, Leitura consumoGas);
 
-	public void cargaConsumoDocumentoTexto(ConsumoGas pConsumoGas);
+	public void cargaConsumoDocumentoTexto(Leitura pLeitura);
 	
-	public void gerarContaCondominio(ConsumoGas pConsumoGas, Condominio pCondominio, Torre pTorre);
+	public void gerarContaCondominio(Leitura pLeitura, Condominio pCondominio, Torre pTorre);
 	
-	public void listarConsumosPorCondominioTorreMes(ConsumoGas pConsumoGas,  List<ConsumoGas> pMesAtual, List<ConsumoGas> pProximoMes) throws FileNotFoundException;
+	public void listarConsumosPorCondominioTorreMes(Leitura pLeitura,  List<Leitura> pMesAtual, List<Leitura> pProximoMes) throws FileNotFoundException;
 
 	public void salvarPreco(PrecoGas pPrecoGas);
 }

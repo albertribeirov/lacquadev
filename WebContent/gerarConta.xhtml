@@ -44,13 +44,13 @@
 	<ui:decorate template="decorator.xhtml" />
 	<h:outputScript library="scripts" name="pt.js" />
 	<h:form id="form_gerarConta" prependId="false">
-		<p:growl for="message" id="message" sticky="true" showDetail="true" life="3000" />
+		<p:growl id="message" for="message" sticky="false" showDetail="true" life="3000" />
 		<br />
 
 		<p:fieldset legend="Dados">
 			<h:panelGrid columns="2">
 				<p:outputLabel for="condominio" value="Condomínio" />
-				<p:selectOneMenu id="condominio" value="#{consumoGasBean.consumo.condominio}" valueChangeListener="#{torreBean.carregarTorresPorCondominio}" converter="#{converterCondominio}" immediate="true"
+				<p:selectOneMenu id="condominio" value="#{leituraBean.consumo.condominio}" valueChangeListener="#{torreBean.carregarTorresPorCondominio}" converter="#{converterCondominio}" immediate="true"
 					style="width:300px" required="true">
 					<f:ajax event="valueChange" execute="@this" render="torre" />
 					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
@@ -58,23 +58,23 @@
 				</p:selectOneMenu>
 
 				<p:outputLabel for="torre" value="Torre" />
-				<p:selectOneMenu id="torre" value="#{consumoGasBean.consumo.torre}" converter="#{converterTorre}" style="width:300px">
+				<p:selectOneMenu id="torre" value="#{leituraBean.consumo.torre}" converter="#{converterTorre}" style="width:300px">
 					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 					<f:selectItems value="#{torreBean.torres}" var="t" itemValue="#{t}" itemLabel="#{t.id} - #{t.nome}" />
 				</p:selectOneMenu>
 				
 				<p:outputLabel id="dataLeitura" value="Data da leitura  " />
-				<p:calendar locale="pt" required="true" pattern="dd/MM/yyyy" value="#{consumoGasBean.consumo.dataRealizacaoLeitura}" />
+				<p:calendar locale="pt" required="true" pattern="dd/MM/yyyy" value="#{leituraBean.consumo.dataRealizacaoLeitura}" />
 				<p:outputLabel id="mesLeitura" value="Mês de referência  "/>
-				<p:selectOneMenu label="Mês de referência" value="#{consumoGasBean.consumo.mesReferenciaLeitura}" >
+				<p:selectOneMenu label="Mês de referência" value="#{leituraBean.consumo.mesReferenciaLeitura}" >
 				<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
-					<f:selectItems value="#{consumoGasBean.meses}" var="m" itemValue="#{m.id}" itemLabel="#{m.nome}" />
+					<f:selectItems value="#{leituraBean.meses}" var="m" itemValue="#{m.id}" itemLabel="#{m.nome}" />
 				</p:selectOneMenu>
 			</h:panelGrid>
 		</p:fieldset>
 	</h:form>
 
-	<p:commandButton icon="ui-icon-disk" id="formGerarConta" value="Gerar Consumos" action="#{consumoGasBean.carregarApartamentos}" style="margin: 10px" />
+	<p:commandButton icon="ui-icon-disk" id="formGerarConta" value="Gerar Consumos" action="#{leituraBean.carregarApartamentos}" style="margin: 10px" />
 
 </h:body>
 </h:html>
