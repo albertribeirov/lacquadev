@@ -76,11 +76,6 @@
 					<h:outputText value="#{a.id}" />
 				</p:column>
 
-				<p:column width="14%">
-					<f:facet name="header">Número</f:facet>
-					<h:outputText value="#{a.numero}" />
-				</p:column>
-
 				<p:column width="6%">
 					<f:facet name="header">Condomínio</f:facet>
 					<h:outputText value="#{a.condominio.nome}" />
@@ -89,6 +84,10 @@
 				<p:column width="3%">
 					<f:facet name="header">Torre</f:facet>
 					<h:outputText value="#{a.torre.nome}" />
+				</p:column>
+				<p:column width="14%">
+					<f:facet name="header">Número</f:facet>
+					<h:outputText value="#{a.numero}" />
 				</p:column>
 
 				<p:column width="8%">

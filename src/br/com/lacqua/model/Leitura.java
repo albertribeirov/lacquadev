@@ -20,6 +20,19 @@ import javax.persistence.TemporalType;
 public class Leitura implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	public Leitura() {
+		
+	}
+	
+	public Leitura(Condominio condominio, Torre torre, Integer ano, Integer mes) {
+		this.condominio = condominio;
+		if (torre != null) {
+			this.torre = torre;
+		}
+		this.ano = ano;
+		this.mesReferenciaLeitura = mes;
+	}
 
 	@Id
 	@Column(name = "ID_LEITURA")
@@ -38,7 +51,7 @@ public class Leitura implements Serializable {
 	@Column(name = "DATA_REALIZACAO_LEITURA", nullable = true)
 	@Temporal(TemporalType.DATE)
 	private Date dataRealizacaoLeitura;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "LAST_MODIFIED", columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP")
 	private Date lastModified;
@@ -64,7 +77,7 @@ public class Leitura implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "ID_CLIENTE", nullable = true)
 	private Cliente cliente;
-	
+
 	/*
 	 * 
 	 * Getters e setters

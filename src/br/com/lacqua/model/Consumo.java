@@ -29,6 +29,9 @@ public class Consumo implements Serializable {
 	@Column(name = "VALOR_CONTA", nullable = false, precision = 10, scale = 2)
 	private BigDecimal valorConta;
 
+	@Column(name = "CONSUMO", nullable = false, precision = 10, scale = 3)
+	private BigDecimal consumo;
+
 	@Column(name = "MES", nullable = false)
 	private Integer mes;
 
@@ -145,5 +148,13 @@ public class Consumo implements Serializable {
 
 	public Date getLastModified() {
 		return lastModified;
+	}
+
+	public BigDecimal getConsumo() {
+		return consumo;
+	}
+
+	public void setConsumo(BigDecimal consumo) {
+		this.consumo = consumo;
 	}	
 }

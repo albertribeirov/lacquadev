@@ -11,7 +11,7 @@ public class ApartamentoDAO extends DAO {
 
 	@SuppressWarnings("unchecked")
 	public List<Apartamento> listarApartamentos() {
-		Query q = criarQuery("SELECT a FROM Apartamento a");
+		Query q = criarQuery("SELECT a FROM Apartamento a ORDER BY a.condominio.nome, a.torre.nome, a.numero");
 		return q.getResultList();
 	}
 

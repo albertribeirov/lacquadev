@@ -1,9 +1,11 @@
 package br.com.lacqua.bean;
 
 import java.io.Serializable;
+
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+
 import br.com.lacqua.model.Log.TipoMensagem;
 import br.com.lacqua.service.LogService;
 

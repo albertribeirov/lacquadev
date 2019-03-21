@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -69,5 +71,121 @@ public class BibliotecaFuncoes {
 
 	public static BigDecimal escalarDinheiro(BigDecimal pValor) {
 		return pValor.setScale(2, RoundingMode.HALF_EVEN);
+	}
+
+	public static Integer getMesFromDate(Date date) {
+		Integer mes = null;
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		mes = cal.get(Calendar.MONTH) + 1;
+		return mes;
+	}
+
+	public static Integer getAnoFromDate(Date date) {
+		Integer ano = null;
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		ano = cal.get(Calendar.YEAR);
+		return ano;
+	}
+	
+	public static String getDataComoString(Date date) {
+		String resposta = "";
+		Integer dia = null;
+		Integer ano = null;
+		Integer mes = null;
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		dia = cal.get(Calendar.DAY_OF_MONTH);
+		mes = cal.get(Calendar.MONTH);
+		ano = cal.get(Calendar.YEAR);
+		
+		String diaString = dia.toString();
+		String mesString = mes.toString();
+		String anoString = ano.toString();
+		
+		if (dia < 10) {
+			diaString = "0" + dia;
+		}
+		if (mes < 10) {
+			mesString = "0" + mes;
+		}
+		
+		resposta = diaString + "/" + mesString + "/" + anoString;
+		return resposta;
+	}
+
+	public static String getMesPorExtenso(Integer mes) {
+		if (mes == 1) {
+			return "Janeiro";
+		}
+		else if (mes == 2) {
+			return "Fevereiro";
+		}
+		else if (mes == 3) {
+			return "Março";
+		}
+		else if (mes == 4) {
+			return "Abril";
+		}
+		else if (mes == 5) {
+			return "Maio";
+		}
+		else if (mes == 6) {
+			return "Junho";
+		}
+		else if (mes == 7) {
+			return "Julho";
+		}
+		else if (mes == 8) {
+			return "Agosto";
+		}
+		else if (mes == 9) {
+			return "Setembro";
+		}
+		else if (mes == 10) {
+			return "Outubro";
+		}
+		else if (mes == 11) {
+			return "Novembro";
+		}
+		else if (mes == 12) {
+			return "Dezembro";
+		} else {
+			return "Mes inválido";
+		}
+	}
+	
+	public static List<Integer> getPeriodoProximo(Integer ano, Integer mes){
+		List<Integer> listaMesAno = new ArrayList<Integer>();
+		Integer month = mes;
+		Integer year = ano;
+		
+		if (mes == 12) {
+			month = 1;
+			year = ano + 1;
+		} else {
+			month = mes + 1;
+		}
+		
+		listaMesAno.add(month);
+		listaMesAno.add(year);
+		return listaMesAno;
+	}
+	public static List<Integer> getPeriodoAnterior(Integer ano, Integer mes){
+		List<Integer> listaMesAno = new ArrayList<Integer>();
+		Integer month = mes;
+		Integer year = ano;
+		
+		if (mes == 1) {
+			month = 12;
+			year = ano - 1;
+		} else {
+			month = mes - 1;
+		}
+		
+		listaMesAno.add(month);
+		listaMesAno.add(year);
+		return listaMesAno;
 	}
 }

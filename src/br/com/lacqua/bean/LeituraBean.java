@@ -17,13 +17,16 @@ import br.com.lacqua.ejb.ControladorConsumo;
 import br.com.lacqua.model.Apartamento;
 import br.com.lacqua.model.Cliente;
 import br.com.lacqua.model.Condominio;
+import br.com.lacqua.model.Consumo;
 import br.com.lacqua.model.Leitura;
 import br.com.lacqua.model.Torre;
 import br.com.lacqua.service.ApartamentoService;
 import br.com.lacqua.service.ClienteService;
 import br.com.lacqua.service.CondominioService;
+import br.com.lacqua.service.ConsumoService;
 import br.com.lacqua.service.LeituraService;
 import br.com.lacqua.service.TorreService;
+import br.com.lacqua.util.BibliotecaFuncoes;
 import br.com.lacqua.util.Mes;
 
 @SuppressWarnings("serial")
@@ -46,6 +49,9 @@ public class LeituraBean extends AbstractBean {
 	@Inject
 	private LeituraService leituraService;
 
+	@Inject
+	private ConsumoService consumoService;
+
 	@EJB
 	private ControladorConsumo controlador;
 
@@ -56,6 +62,7 @@ public class LeituraBean extends AbstractBean {
 	private Leitura leitura;
 	private BigDecimal leituraValor;
 	private List<String> listaLeituras;
+	private Consumo consumo;
 
 	private List<Apartamento> apartamentos;
 	private List<Torre> torres;
@@ -67,57 +74,115 @@ public class LeituraBean extends AbstractBean {
 		return null;
 	}
 
-	public String listarConsumosPorCondominioTorreMes() {
+	public String gerarDemonstrativosCondominio() {
 		FacesContext fc = FacesContext.getCurrentInstance();
-		List<Leitura> consumoProximoMes = new ArrayList<>();
-		List<Leitura> consumoMesSelecionado = new ArrayList<>();
+		List<Consumo> consumoMesAnterior3 = new ArrayList<>();
+		List<Consumo> consumoMesAnterior2 = new ArrayList<>();
+		List<Consumo> consumoMesAnterior1 = new ArrayList<>();
+		List<Consumo> consumoMesSelecionado = new ArrayList<>();
+		List<Leitura> leituraMesAnterior = new ArrayList<>();
+		List<Leitura> leituraMesSelecionado = new ArrayList<>();
 		Date dataConsumo = leitura.getDataRealizacaoLeitura();
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(dataConsumo);
-		Integer ano = cal.get(Calendar.YEAR);
-		Integer mes = cal.get(Calendar.MONTH) + 1;
+		Integer ano = BibliotecaFuncoes.getAnoFromDate(dataConsumo);
+		Integer mes = BibliotecaFuncoes.getMesFromDate(dataConsumo);
 		leitura.setMesReferenciaLeitura(mes);
 		leitura.setAno(ano);
+		Consumo cons = new Consumo();
+		cons.setAno(ano);
+		cons.setMes(mes);
+		cons.setCondominio(leitura.getCondominio());
+		consumoMesSelecionado = consumoService.listarConsumosPorCondominioTorreMes(cons);
+
+		consumoMesAnterior1 = consultarConsumoMesesAnteriores(ano, mes - 1, leitura.getCondominio(), leitura.getTorre());
+		consumoMesAnterior2 = consultarConsumoMesesAnteriores(ano, mes - 2, leitura.getCondominio(), leitura.getTorre());
+		consumoMesAnterior3 = consultarConsumoMesesAnteriores(ano, mes - 3, leitura.getCondominio(), leitura.getTorre());
+		
+		leituraMesSelecionado = leituraService.listarLeiturasPorCondominioTorreMes(leitura, ano, mes);
+		leituraMesAnterior = leituraService.listarLeiturasPorCondominioTorreMes(leitura, ano, mes - 1);
+		
+		String point = "";
 
 		try {
-
-			consumoMesSelecionado = leituraService.listarConsumosPorCondominioTorreMes(leitura);
-
-			if (mes == 12) {
-				mes = 1;
-				ano = ano + 1;
-			} else {
-				mes = mes + 1;
-			}
-
-			leitura.setAno(ano);
-			leitura.setMesReferenciaLeitura(mes);
-
-			consumoProximoMes = leituraService.listarConsumosPorCondominioTorreMes(leitura);
-
-			controlador.listarConsumosPorCondominioTorreMes(leitura, consumoMesSelecionado, consumoProximoMes);
-			fc.addMessage("message", new FacesMessage("Sucesso", "Consumo calculado!"));
+			controlador.gerarDemonstrativosCondominioTorre(leitura, leituraMesSelecionado, leituraMesAnterior, consumoMesSelecionado, consumoMesAnterior1, consumoMesAnterior2, consumoMesAnterior3);
+			fc.addMessage("message", new FacesMessage("Sucesso", "Demonstrativos exportados!"));
 		} catch (Exception e) {
-			fc.addMessage("message", new FacesMessage("Erro", "O consumo mensal não pôde ser gerado."));
+			// TODO: handle exception
+			fc.addMessage("message", new FacesMessage("Erro", "Falha na geração dos demonstrativos!"));
 			e.printStackTrace();
 		}
+		
 		return null;
 	}
 
-	public String gerarConsumosCondominio() {
+	private List<Consumo> consultarConsumoMesesAnteriores(Integer pAno, Integer pMes, Condominio pCond, Torre pTorre) {
+		List<Consumo> listaConsumo = new ArrayList<Consumo>();
+		Consumo c = new Consumo();
+		c.setAno(pAno);
+		c.setMes(pMes);
+		c.setCondominio(pCond);
+		if (pTorre != null) {
+			c.setTorre(pTorre);			
+		}
+		
+		listaConsumo = consumoService.listarConsumosPorCondominioTorreMes(c);
+
+		return listaConsumo;
+	}
+
+	public String gravarConsumosPorCondominioTorreMes() {
 		FacesContext fc = FacesContext.getCurrentInstance();
+		List<Integer> listMesAno = new ArrayList<Integer>();
+		List<Leitura> leituraMesAnterior = new ArrayList<Leitura>();
+		List<Leitura> leituraMesSelecionado = new ArrayList<Leitura>();
+		List<Consumo> consumosMesSelecionado = new ArrayList<Consumo>();
+		Date dataConsumo = leitura.getDataRealizacaoLeitura();
+		Integer ano = BibliotecaFuncoes.getAnoFromDate(dataConsumo);
+		Integer mes = BibliotecaFuncoes.getMesFromDate(dataConsumo);
+		Integer mesAnterior = null;
+		Integer anoAnterior = null;
+		leitura.setMesReferenciaLeitura(mes);
+		leitura.setAno(ano);
+		Condominio cond = leitura.getCondominio();
+		Torre torre = null;
+
+		if (leitura.getTorre() != null) {
+			torre = leitura.getTorre();
+		}
+
 		try {
-			if (condominio != null) {
-				controlador.gerarContaCondominio(leitura, condominio, torre);
+			Consumo cons = new Consumo();
+			cons.setCondominio(cond);
+			cons.setTorre(torre);
+			cons.setAno(ano);
+			cons.setMes(mes);
+			consumosMesSelecionado = consumoService.listarConsumosPorCondominioTorreMes(cons);
 
-				// controlador.inserirConsumoMensalApartamento(idApartamento, leituraValor);
-				// fc.addMessage("message", new FacesMessage("Sucesso", "A leituraValor do apartamento " +
-				// apartamento.getNumero() + " foi gravada!"));
+			if (consumosMesSelecionado == null || consumosMesSelecionado.isEmpty()) {
+
+				leituraMesSelecionado = leituraService.listarLeiturasPorCondominioTorreMes(leitura, ano, mes);
+
+				listMesAno = BibliotecaFuncoes.getPeriodoAnterior(ano, mes);
+				mesAnterior = listMesAno.get(0);
+				anoAnterior = listMesAno.get(1);
+
+				Leitura leituraClone = new Leitura(cond, torre, ano, mes);
+				leituraClone.setDataRealizacaoLeitura(dataConsumo);
+
+				leituraMesAnterior = leituraService.listarLeiturasPorCondominioTorreMes(leituraClone, anoAnterior, mesAnterior);
+				
+				if (!leituraMesSelecionado.isEmpty() && !leituraMesAnterior.isEmpty()) {
+					controlador.gravarConsumosPorCondominioTorreMes(leitura, leituraMesSelecionado, leituraMesAnterior);					
+					fc.addMessage("message", new FacesMessage("Sucesso", "Consumo calculado!"));
+				} else {
+					fc.addMessage("message", new FacesMessage("Erro", "Não há consumo para " + mes + "/" + ano + " ou para " + mesAnterior + "/" + anoAnterior + "."));
+				}
+
+			} else {
+				fc.addMessage("message", new FacesMessage("Erro", "Já existe consumo registrado para este mês."));
 			}
-
-			// leituraValor = null;
 		} catch (Exception e) {
-			fc.addMessage("message", new FacesMessage("Erro", "O consumo não pôde ser gerado."));
+			fc.addMessage("message", new FacesMessage("Erro", "O consumo mensal não pôde ser gerado."));
+			e.printStackTrace();
 		}
 		return null;
 	}

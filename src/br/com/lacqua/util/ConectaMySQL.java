@@ -15,7 +15,7 @@ public class ConectaMySQL {
 			System.out.println("... \n...");
 			String url = "jdbc:mysql://localhost/lacqua";
 			String usuario = "admin";
-			String senha = "admin";
+			String senha = "senhaadm@10";
 			conexao = DriverManager.getConnection(url, usuario, senha);
 			System.out.println("Conectou!");
 			conexao.close();

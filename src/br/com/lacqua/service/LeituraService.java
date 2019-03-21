@@ -105,22 +105,22 @@ public class LeituraService extends Service {
 	 * @return Lista de Condomínios cadastrados
 	 * @throws ServiceException
 	 */
-	public List<Leitura> listarConsumosGas() {
-		return consumoDAO.listarConsumosGas();
+	public List<Leitura> listarLeituras() {
+		return consumoDAO.listarLeituras();
 	}
 
 	public List<Leitura> listarConsumosPorCondominioTorre(Integer idCondominio, Integer idTorre) {
 		return consumoDAO.listarConsumosPorCondominioTorre(idCondominio, idTorre);
 	}
 
-	public List<Leitura> listarConsumosPorCondominioTorreMes(Leitura pLeitura) {
+	public List<Leitura> listarLeiturasPorCondominioTorreMes(Leitura pLeitura, Integer pAno, Integer pMes) {
 		Integer idTorre = null;
 		if (pLeitura.getTorre() != null) {
 			idTorre = pLeitura.getTorre().getId();
 		}
 		Integer idCondominio = pLeitura.getCondominio().getId();
-		Integer mesReferencia = pLeitura.getMesReferenciaLeitura();
-		Integer anoReferencia = pLeitura.getAno();
-		return consumoDAO.listarConsumosPorCondominioTorreMes(idCondominio, idTorre, mesReferencia, anoReferencia);
+		Integer mesReferencia = pMes;
+		Integer anoReferencia = pAno;
+		return consumoDAO.listarLeiturasPorCondominioTorreMes(idCondominio, idTorre, mesReferencia, anoReferencia);
 	}
 }
