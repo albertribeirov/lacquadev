@@ -1,6 +1,5 @@
 package br.com.lacqua.service;
 
-import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -8,8 +7,8 @@ import javax.inject.Inject;
 import org.hibernate.service.spi.ServiceException;
 
 import br.com.lacqua.dao.PrecoGasDAO;
-import br.com.lacqua.model.PrecoGas;
 import br.com.lacqua.model.Log.TipoMensagem;
+import br.com.lacqua.model.PrecoGas;
 
 /**
  * Métodos de negócio relacionados à entidade PrecoGas
@@ -43,9 +42,8 @@ public class PrecoGasService extends Service {
 		try {
 			beginTransaction();
 
-			preco.setLastModified(Calendar.getInstance().getTime());
 			precoDAO.salvar(preco);
-			logService.log("PrecoGas inserido: " + preco.getId(), TipoMensagem.INFO);
+			logService.log("PrecoGas inserido: " + preco.getValor(), TipoMensagem.INFO);
 
 			commitTransaction();
 
@@ -65,7 +63,6 @@ public class PrecoGasService extends Service {
 		try {
 			beginTransaction();
 
-			preco.setLastModified(Calendar.getInstance().getTime());
 			precoDAO.alterar(preco);
 			logService.log("PrecoGas alterado: " + preco.getId(), TipoMensagem.INFO);
 

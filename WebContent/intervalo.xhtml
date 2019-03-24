@@ -8,35 +8,12 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>Intervalos</title>
 
-	<style type="text/css">
-.ui-widget, .ui-widget .ui-widget {
-	font-size: 90%
-}
-</style>
-
-	<script>
-		function clonarInput(pInput) {
-			var linhaOriginal = $(pInput);
-			var trPai = linhaOriginal.parent().parent();			
-			
-			var arrayInputs = trPai.find('input');
-			var inputInicial = arrayInputs[0].value;
-			var inputFinal = arrayInputs[1].value;
-			
-			if (inputInicial != ""  &amp;&amp; inputFinal != "") {
-				trPai.parent().append(trPai.clone().find('input').val('').end());
-			}
-		}
-
-		function excluir() {
-			return confirm("Deseja excluir o registro?")
-
-		}
-	</script>
 </h:head>
 <h:body>
 	<ui:decorate template="decorator.xhtml" />
 	<h:outputScript library="scripts" name="pt.js" />
+	<h:outputScript library="scripts" name="functions.js" />
+	<h:outputStylesheet library="css" name="styles.css" />
 	<h:form id="form_apartamento" prependId="false">
 		<p:growl id="message" for="message" sticky="false" showDetail="true" life="3000" />
 

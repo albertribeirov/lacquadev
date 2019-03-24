@@ -1,30 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>Lista de Condomínios</title>
-
-	<style type="text/css">
-.ui-widget, .ui-widget .ui-widget {
-	font-size: 80%
-}
-</style>
-
-	<script>
-		function excluir() {
-			return confirm("Deseja excluir o registro?")
-
-		}
-	</script>
 </h:head>
 
 <h:body>
 
 	<ui:decorate template="decorator.xhtml" />
 	<h:outputScript library="scripts" name="pt.js" />
+	<h:outputScript library="scripts" name="functions.js" />
+	<h:outputStylesheet library="css" name="styles.css" />
 	<h:form id="form_condominio" prependId="false">
 
 		<br />
@@ -32,7 +22,8 @@
 			<h:panelGrid columns="6">
 
 				<p:outputLabel for="nomeCondominio" value="Nome" />
-				<p:inputText id="nomeCondominio" style="width:350px" value="#{condominioBean.condominio.nome}" size="80" required="true" placeholder="Ex: Condomínio Morada das Bença" requiredMessage="O nome deve ser preenchido." />
+				<p:inputText id="nomeCondominio" style="width:350px" value="#{condominioBean.condominio.nome}" size="80" required="true" placeholder="Ex: Condomínio Morada das Bença"
+					requiredMessage="O nome deve ser preenchido." />
 
 				<p:outputLabel for="cnpj" value="CNPJ" style="size:50px" />
 				<p:inputMask id="cnpj" value="#{condominioBean.condominio.cnpj}" size="20" mask="99.999.999/9999-99" required="true" converter="converterCNPJ" requiredMessage="O CNPJ deve ser preenchido.">
@@ -51,7 +42,8 @@
 				<p:inputMask id="inscricaoMunicipal" mask="9999999-99" converter="converterInscricao" value="#{condominioBean.condominio.inscricaoMunicipal}" />
 
 				<p:outputLabel for="taxaLeitura" value="Taxa de leitura" />
-				<p:inputNumber id="taxaLeitura" value="#{condominioBean.condominio.taxaLeitura}" decimalPlaces="2" decimalSeparator="," thousandSeparator="." required="true" requiredMessage="A taxa de leitura deve ser informada." size="5">
+				<p:inputNumber id="taxaLeitura" value="#{condominioBean.condominio.taxaLeitura}" decimalPlaces="2" decimalSeparator="," thousandSeparator="." required="true"
+					requiredMessage="A taxa de leitura deve ser informada." size="5">
 					<p:tooltip id="tipTaxa" for="taxaLeitura" value="A taxa deve estar no formato 9,99" position="top" />
 				</p:inputNumber>
 
@@ -99,7 +91,8 @@
 
 		<p:fieldset legend="Observações">
 			<h:panelGrid>
-				<p:inputTextarea id="condominioObservacao" rows="6" cols="120" maxlength="1000" counter="display" counterTemplate="{0} caracteres restantes." autoResize="true" value="#{condominioBean.condominio.observacao}" />
+				<p:inputTextarea id="condominioObservacao" rows="6" cols="120" maxlength="1000" counter="display" counterTemplate="{0} caracteres restantes." autoResize="true"
+					value="#{condominioBean.condominio.observacao}" />
 				<h:outputText id="display" />
 			</h:panelGrid>
 		</p:fieldset>
@@ -114,14 +107,9 @@
 			<p:dataTable value="#{condominioBean.condominios}" var="c">
 				<f:facet name="header">Lista de Condomínios</f:facet>
 
-				<p:column width="2%">
-					<f:facet name="header">ID</f:facet>
-					<h:outputText value="#{c.id}" />
-				</p:column>
-
 				<p:column width="14%">
 					<f:facet name="header">Nome</f:facet>
-					<h:outputText value="#{c.nome}" />
+					<h:outputText  value="#{c.nome}" />
 				</p:column>
 
 				<p:column width="5%">
@@ -131,51 +119,51 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column width="11%">
+				<p:column width="10%">
 					<f:facet name="header">CNPJ</f:facet>
 					<h:outputText value="#{c.cnpj}">
 						<f:converter converterId="converterCNPJ" />
 					</h:outputText>
 				</p:column>
 
-				<p:column width="8%">
+				<p:column width="6%" visible="false">
 					<f:facet name="header">Inscrição Estadual</f:facet>
 					<h:outputText value="#{c.inscricaoEstadual}">
 						<f:converter converterId="converterInscricao" />
 					</h:outputText>
 				</p:column>
 
-				<p:column width="8%">
+				<p:column width="6%" visible="false">
 					<f:facet name="header">Inscrição Estadual</f:facet>
 					<h:outputText value="#{c.inscricaoMunicipal}">
 						<f:converter converterId="converterInscricao" />
 					</h:outputText>
 				</p:column>
 
-				<p:column width="7%">
+				<p:column width="9%">
 					<f:facet name="header">Telefone 1</f:facet>
 					<h:outputText value="#{c.telefone1}">
 						<f:converter converterId="converterTelefone" />
 					</h:outputText>
 				</p:column>
 
-				<p:column width="7%">
+				<p:column width="6%">
 					<f:facet name="header">Início contrato</f:facet>
 					<h:outputText value="#{c.inicioContrato}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</p:column>
 
-				<p:column width="18%">
+				<p:column width="20%">
 					<f:facet name="header">Endereço</f:facet>
 					<h:outputText value="#{c.ruaComNumero}" />
 				</p:column>
 
-				<p:column width="6%">
+				<p:column width="7%" >
 					<f:facet name="header">Ações</f:facet>
-					<p:commandLink action="#{condominioBean.alterar(c.id)}">Alterar</p:commandLink>
+					<h:commandLink action="#{condominioBean.alterar(c.id)}">Alterar</h:commandLink>
 					|
-					<p:commandLink action="#{condominioBean.excluir(c.id)}" onclick="return excluir();">Excluir</p:commandLink>
+					<h:commandLink action="#{condominioBean.excluir(c.id)}" onclick="return excluir();">Excluir</h:commandLink>
 
 				</p:column>
 

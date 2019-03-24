@@ -36,7 +36,7 @@ public class PrecoGas implements Serializable {
 	private Date vigenciaFinal;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_MODIFIED", columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP")
+	@Column(name = "LAST_MODIFIED", columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
 	private Date lastModified;
 
 	public Integer getId() {

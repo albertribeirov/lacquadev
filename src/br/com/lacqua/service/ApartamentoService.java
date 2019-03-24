@@ -40,7 +40,7 @@ public class ApartamentoService extends Service {
 			beginTransaction();
 			apartamento.setLastModified(Calendar.getInstance().getTime());
 			apartamentoDAO.salvar(apartamento);
-			logService.log("Apartamento inserido: " + apartamento, TipoMensagem.INFO);
+			logService.log("Apartamento inserido: " + apartamento.getId(), TipoMensagem.INFO);
 
 			commitTransaction();
 
@@ -69,7 +69,7 @@ public class ApartamentoService extends Service {
 			beginTransaction();
 
 			apartamentoDAO.alterar(apartamento);
-			logService.log("Apartamento alterado: " + apartamento, TipoMensagem.INFO);
+			logService.log("Apartamento alterado: " + apartamento.getId(), TipoMensagem.INFO);
 
 			commitTransaction();
 
@@ -91,7 +91,7 @@ public class ApartamentoService extends Service {
 
 			Apartamento apartamento = apartamentoDAO.carregar(Apartamento.class, id);
 			apartamentoDAO.excluir(apartamento);
-			logService.log("Apartamento excluído: " + apartamento, TipoMensagem.INFO);
+			logService.log("Apartamento excluído: " + id, TipoMensagem.INFO);
 
 			commitTransaction();
 

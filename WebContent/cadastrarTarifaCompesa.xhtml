@@ -1,34 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<h:html xmlns="http://www.w3.org/1999/xhtml" 
-		xmlns:h="http://java.sun.com/jsf/html" 
-		xmlns:f="http://java.sun.com/jsf/core" 
-		xmlns:ui="http://java.sun.com/jsf/facelets" 
-		xmlns:p="http://primefaces.org/ui">
+<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>Lista de Tarifas</title>
-
-	<style type="text/css">
-.ui-widget, .ui-widget .ui-widget {
-	font-size: 90%
-}
-</style>
-
-	<script>
-		function excluir() {
-			return confirm("Deseja excluir o registro?")
-
-		}
-	</script>
 </h:head>
 
 <h:body>
 
 	<ui:decorate template="decorator.xhtml" />
 	<h:outputScript library="scripts" name="pt.js" />
+	<h:outputScript library="scripts" name="functions.js" />
+	<h:outputStylesheet library="css" name="styles.css" />
 	<h:form id="form_tarifa" prependId="false">
 
 		<br />

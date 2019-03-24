@@ -4,12 +4,15 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.lacqua.ejb.ControladorConsumo;
 import br.com.lacqua.model.PrecoGas;
 import br.com.lacqua.service.PrecoGasService;
+import br.com.lacqua.util.Constantes;
 
 @SuppressWarnings("serial")
 @Named("precoBean")
@@ -22,7 +25,6 @@ public class PrecoBean extends AbstractBean {
 	@EJB
 	private ControladorConsumo controlador;
 
-	@Inject
 	private PrecoGas precoGas;
 
 	private List<PrecoGas> listaPrecosGas = null;
@@ -34,29 +36,81 @@ public class PrecoBean extends AbstractBean {
 
 		return listaPrecosGas;
 	}
-
-	public String salvarPreco() {
-		controlador.salvarPreco(precoGas);
-		System.out.println(precoGas);
+	
+	/*
+	 * Cancela a alteração
+	 */
+	public String cancelar() {
+		precoGas = null;
+		listaPrecosGas = precoGasService.listarPrecoGas();
 		return null;
 	}
-	public PrecoGas getPrecoGas() {
-		return precoGas;
+
+	/*
+	 * Exclui um precoGas
+	 */
+	public String excluir(Integer id) {
+		try {
+			precoGasService.excluir(id);			
+		} catch (Exception e) {
+			handleException(e);
+		}
+		
+		this.precoGas = null;
+		return redirect(Constantes.PRECO_GAS_CADASTRAR);
 	}
 
-	public void setPrecoGas(PrecoGas precoGas) {
-		this.precoGas = precoGas;
+	/*
+	 * Salva um precoGas
+	 */
+	public String salvar() {
+		try {
+			if (precoGas.getId() == null) {
+				precoGasService.inserir(precoGas);
+			} else {
+				precoGasService.alterar(precoGas);
+			}
+
+			precoGas = null;
+			return redirect(Constantes.PRECO_GAS_CADASTRAR);
+
+		} catch (Exception e) {
+			addMessageToRequest(e.getMessage());
+			return null;
+		}
 	}
 
 	public void setListaPrecosGas(List<PrecoGas> listaPrecosGas) {
 		this.listaPrecosGas = listaPrecosGas;
 	}
 
-	public void excluir(Integer id) {
-
+	public String alterar(Integer id) {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		try {
+			precoGas = precoGasService.carregar(id);
+			fc.addMessage("message", new FacesMessage("Sucesso!", "Preço carregado!"));
+			
+		} catch (Exception e) {
+			handleException(e);
+			fc.addMessage("message", new FacesMessage("Erro!", "Erro ao carregar preço!"));
+		}
+		return null;
+	}
+	
+	/*
+	 * Obter cliente
+	 */
+	public PrecoGas getPrecoGas() {
+		if (precoGas == null) {
+			precoGas = new PrecoGas();
+		}
+		return precoGas;
 	}
 
-	public void alterar(Integer id) {
-
+	/*
+	 * Setar cliente
+	 */
+	public void setPrecoGas(PrecoGas precoGas) {
+		this.precoGas = precoGas;
 	}
 }

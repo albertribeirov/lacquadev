@@ -18,7 +18,7 @@ public class LoginBean implements Serializable {
 
 	public String doLogin() {
 		if("albert".equals(name) && "senha".equals(password)) {
-			return "success";
+			return "cadastrarCondominio";
 			
 		} else {
 			FacesContext.getCurrentInstance().addMessage("form:button", new FacesMessage("Login inválido!"));

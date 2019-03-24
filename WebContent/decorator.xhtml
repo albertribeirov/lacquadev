@@ -10,13 +10,14 @@
 		<p:submenu label="Cadastros" icon="ui-icon-check" >
 			<p:column>
 				<p:submenu>
-					<p:menuitem value="Apartamento" target="cadastrarCondominio" url="http://localhost:8080/dev/cadastrarApartamento.jsf" />
-					<p:menuitem value="Cliente" target="cadastrarCondominio" url="http://localhost:8080/dev/cadastrarCliente.jsf" />
-					<p:menuitem value="Condomínio" target="cadastrarCondominio" url="http://localhost:8080/dev/cadastrarCondominio.jsf" />
-					<p:menuitem value="Síndico" target="cadastrarCondominio" url="http://localhost:8080/dev/cadastrarSindico.jsf" />
-					<p:menuitem value="Torre" target="cadastrarCondominio" url="http://localhost:8080/dev/cadastrarTorre.jsf" />
-					<p:menuitem value="Tarifa Compesa" target="cadastrarTorre" url="http://localhost:8080/dev/cadastrarTorifaCompesa.jsf" />
-					<p:menuitem value="Funcionário" target="cadastrarTorre" url="http://localhost:8080/dev/cadastrarFuncionario.jsf" />
+					<p:menuitem value="Apartamento" url="cadastrarApartamento.jsf" />
+					<p:menuitem value="Cliente" url="cadastrarCliente.jsf" />
+					<p:menuitem value="Condomínio" url="cadastrarCondominio.jsf" />
+					<p:menuitem value="Síndico" url="cadastrarSindico.jsf" />
+					<p:menuitem value="Torre" url="cadastrarTorre.jsf" />
+					<p:menuitem value="Tarifa Compesa" url="cadastrarTarifaCompesa.jsf" />
+					<p:menuitem value="Funcionário" url="cadastrarFuncionario.jsf" />
+					<p:menuitem value="Preço Gás" url="cadastrarPreco.jsf" />
 				</p:submenu>
 			</p:column>
 		</p:submenu>
@@ -40,7 +41,7 @@
 			</p:column>
 		</p:submenu>
 
-		<p:menuitem value="Quit" url="http://www.primefaces.org" icon="ui-icon-close" />
+		<p:menuitem value="Quit" url="login.jsf" icon="ui-icon-close" />
 	</p:megaMenu>
 
 </ui:composition>

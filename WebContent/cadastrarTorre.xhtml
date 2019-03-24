@@ -1,30 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>Lista de Torres</title>
 
-	<style type="text/css">
-.ui-widget, .ui-widget .ui-widget {
-	font-size: 110%
-}
-</style>
 </h:head>
 <h:body>
 	<ui:decorate template="decorator.xhtml" />
 	<h:outputScript library="scripts" name="pt.js" />
-	
-	<script>
-		function excluir() {
-			return confirm("Deseja excluir o registro?")
-		}
-	</script>
+	<h:outputScript library="scripts" name="functions.js" />
+	<h:outputStylesheet library="css" name="styles.css" />
+
 	<h:form prependId="false">
-	<h:inputHidden value="#{torreBean.torre.id}" />
-		 <p:growl id="msg" for="msg" showDetail="true" sticky="false" life="400" />
+		<h:inputHidden value="#{torreBean.torre.id}" />
+		<p:growl id="msg" for="msg" showDetail="true" sticky="false" life="400" />
 
 		<br />
 
@@ -66,7 +59,7 @@
 			<p:dataTable value="#{torreBean.torres}" var="t" rendered="#{torreBean.torres.size() > 0}">
 				<f:facet name="header">Lista de Torres</f:facet>
 
-				<p:column width="2%">
+				<p:column width="2%" visible="false">
 					<f:facet name="header">ID</f:facet>
 					<h:outputText value="#{t.id}" />
 				</p:column>
@@ -86,7 +79,7 @@
 					<h:outputText value="#{t.condominio.nome}" />
 				</p:column>
 
-				<p:column width="8%">
+				<p:column width="2%">
 					<f:facet name="header">Ações</f:facet>
 					<p:commandLink action="#{torreBean.alterar(t.id)}">Editar</p:commandLink>
 					|

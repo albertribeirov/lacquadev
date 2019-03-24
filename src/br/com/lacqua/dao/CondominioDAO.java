@@ -10,13 +10,13 @@ public class CondominioDAO extends DAO {
 
 	@SuppressWarnings("unchecked")
 	public List<Condominio> listarCondominios(){
-		Query q = criarQuery("SELECT c FROM Condominio c");
+		Query q = criarQuery("SELECT c FROM Condominio c ORDER BY c.nome");
 		return q.getResultList();
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<Condominio> listarMoradoresCondominio(Integer condominioId) {
-		Query q = criarQuery("SELECT c FROM Cliente c WHERE c.condominio.idCondominio = " + condominioId);
+		Query q = criarQuery("SELECT c FROM Cliente c WHERE c.condominio.idCondominio = " + condominioId + " ORDER BY");
 		return q.getResultList();
 	}
 }

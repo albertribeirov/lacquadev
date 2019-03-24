@@ -16,6 +16,7 @@ public class Constantes {
 	
 	public static final String CLIENTE_CADASTRAR = "cadastrarCliente";
 	
+	public static final String PRECO_GAS_CADASTRAR = "cadastrarPreco";
 	/*
 	 *  Constantes de Condomínio
 	 */	

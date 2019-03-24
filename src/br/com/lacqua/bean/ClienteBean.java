@@ -42,7 +42,7 @@ public class ClienteBean extends AbstractBean {
 	}
 	
 	/*
-	 * Altera um cliente
+	 * Cancela a alteração
 	 */
 	public String cancelar() {
 		cliente = null;
