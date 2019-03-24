@@ -4,12 +4,15 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.lacqua.ejb.ControladorConsumo;
 import br.com.lacqua.model.Apartamento;
 import br.com.lacqua.service.ApartamentoService;
+import br.com.lacqua.util.Constantes;
 
 @SuppressWarnings("serial")
 @Named("apartamentoBean")
@@ -33,16 +36,12 @@ public class ApartamentoBean extends AbstractBean {
 	 */
 	public List<Apartamento> getApartamentos() {
 		try {
-			if (apartamentos == null) {
-				apartamentos = apartamentoService.listarApartamentos();
-
-			}
-			return apartamentos;
+			apartamentos = apartamentoService.listarApartamentos();
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
 		}
+		return apartamentos;
 	}
 
 	public String salvar() {
@@ -53,9 +52,10 @@ public class ApartamentoBean extends AbstractBean {
 				apartamentoService.alterar(apartamento);
 			}
 			apartamento = null;
-			return redirect("cadastrarApartamento");
+			return redirect(Constantes.APARTAMENTO_CADASTRAR);
 
 		} catch (Exception e) {
+			handleException(e);
 			addMessageToRequest(e.getMessage());
 			return null;
 		}
@@ -78,12 +78,26 @@ public class ApartamentoBean extends AbstractBean {
 	}
 
 	public String alterar(Integer id) {
-		apartamento = apartamentoService.carregar(id);
+		FacesContext fc = FacesContext.getCurrentInstance();
+		try {
+			apartamento = apartamentoService.carregar(id);
+			fc.addMessage("message", new FacesMessage("Sucesso!", "Apartamento carregado!"));
+		} catch (Exception e) {
+			fc.addMessage("message", new FacesMessage("Erro!", "Apartamento não carregado!"));
+			handleException(e);
+		}
 		return null;
 	}
 
-	public String excluir() {
+	public String excluir(Integer id) {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		try {
+			apartamentoService.excluir(id);
+			return redirect(Constantes.APARTAMENTO_CADASTRAR);
+		} catch (Exception e) {
+			handleException(e);
+			fc.addMessage("message", new FacesMessage("Erro!", "Apartamento não excluído!"));
+		}
 		return null;
 	}
-
 }

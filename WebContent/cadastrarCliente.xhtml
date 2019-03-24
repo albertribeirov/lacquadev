@@ -13,18 +13,13 @@
 }
 </style>
 
-	<script>
-		function excluir() {
-			return confirm("Deseja excluir o registro?")
-
-		}
-	</script>
 </h:head>
 
 <h:body>
 
 	<ui:decorate template="decorator.xhtml" />
 	<h:outputScript library="scripts" name="pt.js" />
+	<h:outputScript library="scripts" name="functions.js" />
 	<h:form id="form_cliente" prependId="false">
 
 		<br />
@@ -69,7 +64,8 @@
 		</p:fieldset>
 	</h:form>
 
-	<p:commandButton icon="ui-icon-disk" id="formCliente" value="salvar" action="#{clienteBean.salvar}" style="margin: 10px" update="form_cliente" />
+	<p:commandButton icon="ui-icon-disk" id="clienteSalvar" value="salvar" action="#{clienteBean.salvar}" style="margin: 10px" update="form_cliente" />
+	<p:commandButton icon="ui-icon-disk" id="clienteCancelar" value="Cancelar" action="#{clienteBean.cancelar}" style="margin: 10px" update="form_cliente" />
 
 	<!-- Lista de condomínios exibida e atualizada após cadastro de um novo condomínio -->
 
@@ -83,40 +79,40 @@
 					<h:outputText value="#{cliente.id}" />
 				</p:column>
 
-				<p:column width="1%">
+				<p:column width="2%" >
 					<f:facet name="header">Ativo</f:facet>
 					<h:outputText value="#{cliente.ativo}">
 						<f:converter converterId="converterBooleano" />
 					</h:outputText>
 				</p:column>
 
-				<p:column width="6%">
-					<f:facet name="header">Nome Referência</f:facet>
-					<h:outputText value="#{cliente.nomeReferencia}" />
+				<p:column width="10%">
+					<f:facet name="header">Nome</f:facet>
+					<h:outputText value="#{cliente.nome}" />
 				</p:column>
 
-				<p:column width="3%">
+				<p:column width="4%">
 					<f:facet name="header">CPF</f:facet>
 					<h:outputText value="#{cliente.cpf}">
 						<f:converter converterId="converterCPF" />
 					</h:outputText>
 				</p:column>
 
-				<p:column width="3%">
+				<p:column width="4%">
 					<f:facet name="header">Telefone 1</f:facet>
 					<h:outputText value="#{cliente.telefone1}">
 						<f:converter converterId="converterTelefone" />
 					</h:outputText>
 				</p:column>
 
-				<p:column width="3%">
+				<p:column width="4%">
 					<f:facet name="header">Telefone 2</f:facet>
 					<h:outputText value="#{cliente.telefone2}">
 						<f:converter converterId="converterTelefone" />
 					</h:outputText>
 				</p:column>
 
-				<p:column width="8%">
+				<p:column width="9%">
 					<f:facet name="header">E-mail</f:facet>
 					<h:outputText value="#{cliente.email}" />
 				</p:column>
@@ -124,9 +120,9 @@
 
 				<p:column width="4%">
 					<f:facet name="header">Ações</f:facet>
-					<p:commandLink action="#{clienteBean.alterar(cliente.id)}">Alterar</p:commandLink>
+					<h:commandLink action="#{clienteBean.alterar(cliente.id)}">Alterar</h:commandLink>
 					|
-					<p:commandLink action="#{clienteBean.excluir(cliente.id)}" onclick="return excluir();">Excluir</p:commandLink>
+					<h:commandLink action="#{clienteBean.excluir(cliente.id)}" onclick="return excluir();">Excluir</h:commandLink>
 				</p:column>
 
 			</p:dataTable>

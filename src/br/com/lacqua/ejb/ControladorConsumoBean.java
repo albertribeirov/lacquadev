@@ -19,6 +19,7 @@ import java.util.TreeMap;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.mail.Session;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -30,6 +31,7 @@ import br.com.lacqua.model.PrecoGas;
 import br.com.lacqua.model.Torre;
 import br.com.lacqua.util.BibliotecaFuncoes;
 import br.com.lacqua.util.Conta;
+import br.com.lacqua.util.MailSender;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
@@ -50,57 +52,41 @@ public class ControladorConsumoBean implements ControladorConsumo {
 	@PersistenceContext
 	private EntityManager em;
 
-	/*public void gerarDemonstrativosCondominio(Integer mes, Integer ano, Integer condominio, Integer torre) throws JRException, FileNotFoundException {
-		JasperCompileManager.compileReportToFile("Demonstrativo.jrxml");
-
-		Map<String, Object> parametros = new HashMap<String, Object>();
-		BigDecimal coeficiente = new BigDecimal("12.35");
-		BigDecimal valorTotalCondominio = new BigDecimal("98765.00");
-		BigDecimal consumoTotalCondominio = new BigDecimal("654.00");
-		BigDecimal lei = new BigDecimal("54.16");
-		BigDecimal taxaLeitura = new BigDecimal("4.00");
-		String dataLeitura = "17/03/2019";
-		BigDecimal valorConsumo = BigDecimal.ZERO;
-		BigDecimal leituraAnterior = new BigDecimal("58.559");
-		BigDecimal leituraAtual = new BigDecimal("68.018");
-		BigDecimal consumo = leituraAtual.subtract(leituraAnterior);
-		BigDecimal individual = BibliotecaFuncoes.escalarDinheiro(consumo.multiply(coeficiente));
-
-		Conta conta = new Conta();
-		conta.setId(1);
-		conta.setAno("2018");
-		conta.setConsumo(consumo);
-		conta.setValorTotal(valorTotalCondominio);
-		conta.setVolumeTotal(consumoTotalCondominio);
-		conta.setApartamento(1004);
-		conta.setCondominio("ACQUA HOME CLUB");
-		conta.setTorre("ATLANTIC");
-		conta.setCliente("GEORGE BRENO DE AGUIAR E SILVA");
-		conta.setCoeficiente(coeficiente);
-		conta.setMes("Novembro");
-		conta.setConsumoComTaxa(individual.add(taxaLeitura));
-		conta.setDataLeituraAnterior(dataLeitura);
-		conta.setDataLeituraAtual(dataLeitura);
-		conta.setDataProximaLeitura(dataLeitura);
-		conta.setLeituraAnterior(leituraAnterior);
-		conta.setLeituraAtual(leituraAtual);
-		conta.setTaxaLeitura(taxaLeitura);
-		conta.setIndividual(BibliotecaFuncoes.escalarDinheiro(consumo.multiply(coeficiente)));
-		conta.setAnt1(new BigDecimal("100.00"));
-		conta.setAnt2(new BigDecimal("150.00"));
-		conta.setAnt3(new BigDecimal("300.00"));
-		conta.setAnt4(new BigDecimal("600.00"));
-		List contas = new ArrayList<>();
-		contas.add(conta);
-
-		JRDataSource dataSource = new JRBeanCollectionDataSource(contas);
-		JasperPrint jasperPrint = JasperFillManager.fillReport("Demonstrativo.jasper", parametros, dataSource);
-
-		JRExporter exporter = new JRPdfExporter();
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, new FileOutputStream("Demonstrativo.pdf"));
-		exporter.exportReport();
-	}*/
+	/*
+	 * public void gerarDemonstrativosCondominio(Integer mes, Integer ano, Integer condominio, Integer
+	 * torre) throws JRException, FileNotFoundException {
+	 * JasperCompileManager.compileReportToFile("Demonstrativo.jrxml");
+	 * 
+	 * Map<String, Object> parametros = new HashMap<String, Object>(); BigDecimal coeficiente = new
+	 * BigDecimal("12.35"); BigDecimal valorTotalCondominio = new BigDecimal("98765.00"); BigDecimal
+	 * consumoTotalCondominio = new BigDecimal("654.00"); BigDecimal lei = new BigDecimal("54.16");
+	 * BigDecimal taxaLeitura = new BigDecimal("4.00"); String dataLeitura = "17/03/2019"; BigDecimal
+	 * valorConsumo = BigDecimal.ZERO; BigDecimal leituraAnterior = new BigDecimal("58.559"); BigDecimal
+	 * leituraAtual = new BigDecimal("68.018"); BigDecimal consumo =
+	 * leituraAtual.subtract(leituraAnterior); BigDecimal individual =
+	 * BibliotecaFuncoes.escalarDinheiro(consumo.multiply(coeficiente));
+	 * 
+	 * Conta conta = new Conta(); conta.setId(1); conta.setAno("2018"); conta.setConsumo(consumo);
+	 * conta.setValorTotal(valorTotalCondominio); conta.setVolumeTotal(consumoTotalCondominio);
+	 * conta.setApartamento(1004); conta.setCondominio("ACQUA HOME CLUB"); conta.setTorre("ATLANTIC");
+	 * conta.setCliente("GEORGE BRENO DE AGUIAR E SILVA"); conta.setCoeficiente(coeficiente);
+	 * conta.setMes("Novembro"); conta.setConsumoComTaxa(individual.add(taxaLeitura));
+	 * conta.setDataLeituraAnterior(dataLeitura); conta.setDataLeituraAtual(dataLeitura);
+	 * conta.setDataProximaLeitura(dataLeitura); conta.setLeituraAnterior(leituraAnterior);
+	 * conta.setLeituraAtual(leituraAtual); conta.setTaxaLeitura(taxaLeitura);
+	 * conta.setIndividual(BibliotecaFuncoes.escalarDinheiro(consumo.multiply(coeficiente)));
+	 * conta.setAnt1(new BigDecimal("100.00")); conta.setAnt2(new BigDecimal("150.00"));
+	 * conta.setAnt3(new BigDecimal("300.00")); conta.setAnt4(new BigDecimal("600.00")); List contas =
+	 * new ArrayList<>(); contas.add(conta);
+	 * 
+	 * JRDataSource dataSource = new JRBeanCollectionDataSource(contas); JasperPrint jasperPrint =
+	 * JasperFillManager.fillReport("Demonstrativo.jasper", parametros, dataSource);
+	 * 
+	 * JRExporter exporter = new JRPdfExporter();
+	 * exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+	 * exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, new
+	 * FileOutputStream("Demonstrativo.pdf")); exporter.exportReport(); }
+	 */
 
 	@Override
 	public void cadastrarIntervalo(Integer inicio, Integer fim, Apartamento ap) {
@@ -316,7 +302,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 		TreeMap<Integer, Consumo> hashConsumoMesMenos1 = new TreeMap<>();
 		TreeMap<Integer, Consumo> hashConsumoMesMenos2 = new TreeMap<>();
 		TreeMap<Integer, Consumo> hashConsumoMesMenos3 = new TreeMap<>();
-		
+
 		BigDecimal valorTotalCondominio = BigDecimal.ZERO;
 		BigDecimal consumoTotalCondominio = BigDecimal.ZERO;
 		/*
@@ -354,7 +340,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 				hashConsumoMesSelecionado.put(apartamento, consumoMesSelecionado);
 			}
 		}
-		
+
 		if (pConsumoMesMenos1 != null) {
 			Iterator<Consumo> itConsumoMesMenos1 = pConsumoMesMenos1.iterator();
 			while (itConsumoMesMenos1.hasNext()) {
@@ -363,7 +349,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 				hashConsumoMesMenos1.put(apartamento, consumoMesMenos1);
 			}
 		}
-		
+
 		if (pConsumoMesMenos2 != null) {
 			Iterator<Consumo> itConsumoMesMenos2 = pConsumoMesMenos2.iterator();
 			while (itConsumoMesMenos2.hasNext()) {
@@ -372,7 +358,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 				hashConsumoMesMenos2.put(apartamento, consumoMesMenos2);
 			}
 		}
-		
+
 		if (pConsumoMesMenos3 != null) {
 			Iterator<Consumo> itConsumoMesMenos3 = pConsumoMesMenos3.iterator();
 			while (itConsumoMesMenos3.hasNext()) {
@@ -381,8 +367,8 @@ public class ControladorConsumoBean implements ControladorConsumo {
 				hashConsumoMesMenos3.put(apartamento, consumoMesMenos3);
 			}
 		}
-
 		
+		Session session = MailSender.getInstance().autenticar("albertribeirov@gmail.com", "senhaadm@10");
 
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		PrecoGas preco = em.find(PrecoGas.class, 1);
@@ -393,10 +379,9 @@ public class ControladorConsumoBean implements ControladorConsumo {
 		String dataString = BibliotecaFuncoes.getDataComoString(dataLeitura);
 		Integer ano = BibliotecaFuncoes.getAnoFromDate(dataLeitura);
 		Integer mes = BibliotecaFuncoes.getMesFromDate(dataLeitura);
-		
-		
+
 		BigDecimal valorConsumo = BigDecimal.ZERO;
-		
+
 		Set<Integer> conj = hashLeituraMesSelecionado.keySet();
 		Iterator<Integer> it = conj.iterator();
 		while (it.hasNext()) {
@@ -408,9 +393,9 @@ public class ControladorConsumoBean implements ControladorConsumo {
 			conta.setAno(ano.toString());
 			conta.setMes(BibliotecaFuncoes.getMesPorExtenso(mes));
 			conta.setApartamento(l.getApartamento().getNumero());
-			
+
 			if (l.getCliente() != null) {
-				conta.setCliente(l.getCliente().getNome());				
+				conta.setCliente(l.getCliente().getNome());
 			} else {
 				conta.setCliente("Cliente " + conta.getApartamento());
 			}
@@ -436,7 +421,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 			conta.setAnt2(new BigDecimal("150.00"));
 			conta.setAnt3(new BigDecimal("300.00"));
 			conta.setAnt4(new BigDecimal("600.00"));
-			
+
 			BigDecimal ant1 = new BigDecimal("100.00");
 			BigDecimal ant2 = new BigDecimal("150.00");
 			BigDecimal ant3 = new BigDecimal("300.00");
@@ -450,11 +435,20 @@ public class ControladorConsumoBean implements ControladorConsumo {
 
 			JRDataSource dataSource = new JRBeanCollectionDataSource(contas);
 			JasperPrint jasperPrint = JasperFillManager.fillReport("D:\\Demonstrativo.jasper", parametros, dataSource);
+			String nomeArquivo = "Demonstrativo-" + mes + "-" + conta.getAno() + "-" + conta.getApartamento() + ".pdf";
 
 			JRExporter exporter = new JRPdfExporter();
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, new FileOutputStream("D:\\Contas\\Demonstrativo-"+ mes + "-" + conta.getAno() + "-" + conta.getApartamento() + ".pdf"));
+			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, new FileOutputStream("D:\\Contas\\" + nomeArquivo));
 			exporter.exportReport();
+
+			MailSender.getInstance().enviarEmail(
+					"albertribeiro@live.com", //Destinatario
+					"Demonstrativo-" + mes + "-" + conta.getAno() + "-" + conta.getApartamento() + ".pdf", //Asssunto
+					"Demonstrativo referente a " + BibliotecaFuncoes.getMesPorExtenso(mes) + "/" + ano + ".", // Corpo email
+					"D:/Contas/" + nomeArquivo, // Caminho do arquivo
+					nomeArquivo, //Nome do arquivo
+					session); // Sessão já autenticada
 		}
 	}
 }

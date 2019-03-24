@@ -17,7 +17,7 @@ public class ApartamentoDAO extends DAO {
 
 	@SuppressWarnings("unchecked")
 	public List<Apartamento> listarApartamentosPorCondominio(Integer idCondominio) {
-		Query q = criarQuery("SELECT a FROM Apartamento a WHERE a.condominio.id = " + idCondominio);
+		Query q = criarQuery("SELECT a FROM Apartamento a WHERE a.condominio.id = " + idCondominio + " ORDER BY a.condominio.nome, a.torre.nome, a.numero");
 		return q.getResultList();
 	}
 	
@@ -30,10 +30,10 @@ public class ApartamentoDAO extends DAO {
 		if (idTorre != null) {
 			where = " AND a.torre.id = " + idTorre;			
 			consulta = consulta + where;
-			q = criarQuery(consulta);
-		} else {
-			q = criarQuery(consulta);
 		}
+		 consulta = consulta + " ORDER BY a.condominio.nome, a.torre.nome, a.numero";
+		 q = criarQuery(consulta);
+		
 		return q.getResultList();
 	}
 	

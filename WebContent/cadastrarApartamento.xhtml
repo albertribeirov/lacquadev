@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
@@ -9,24 +10,19 @@
 
 	<style type="text/css">
 .ui-widget, .ui-widget .ui-widget {
-	font-size: 90%
+	font-size: 110%
 }
 </style>
 
-	<script>
-		function excluir() {
-			return confirm("Deseja excluir o registro?")
-
-		}
-	</script>
 </h:head>
 <h:body>
 	<ui:decorate template="decorator.xhtml" />
 	<h:outputScript library="scripts" name="pt.js" />
+	<h:outputScript library="scripts" name="functions.js" />
 	<h:form id="form_apartamento" prependId="false">
-	<h:inputHidden value="#{apartamentoBean.apartamento.id}" />
-	<h:inputHidden id="msg" />
-		<p:growl for="apartamento" sticky="false" showDetail="true" life="400"/>
+		<h:inputHidden value="#{apartamentoBean.apartamento.id}" />
+		<h:inputHidden id="msg" />
+		<p:growl for="message" sticky="false" showDetail="true" life="4000" />
 
 		<br />
 
@@ -37,7 +33,8 @@
 				<p:inputText id="apartamento" value="#{apartamentoBean.apartamento.numero}" required="true" placeholder="Ex: 103A" />
 
 				<p:outputLabel for="condominio" value="Condomínio" />
-				<p:selectOneMenu id="condominio" value="#{apartamentoBean.apartamento.condominio}" valueChangeListener="#{torreBean.carregarTorresPorCondominio}" converter="#{converterCondominio}" immediate="true" style="width:300px" required="true">
+				<p:selectOneMenu id="condominio" value="#{apartamentoBean.apartamento.condominio}" valueChangeListener="#{torreBean.carregarTorresPorCondominio}" converter="#{converterCondominio}"
+					immediate="true" style="width:300px" required="true">
 					<f:ajax event="valueChange" execute="@this" render="torre" />
 					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="false" />
 					<f:selectItems value="#{condominioBean.condominios}" var="c" itemValue="#{c}" itemLabel="#{c.nome}" />
@@ -45,6 +42,7 @@
 
 				<p:outputLabel for="torre" value="Torre" />
 				<p:selectOneMenu id="torre" value="#{apartamentoBean.apartamento.torre}" converter="#{converterTorre}" style="width:300px">
+					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="false" />
 					<f:selectItems value="#{torreBean.torres}" var="t" itemValue="#{t}" itemLabel="#{t.id} - #{t.nome}" />
 				</p:selectOneMenu>
 
@@ -55,7 +53,8 @@
 
 		<p:fieldset legend="Observação">
 			<h:panelGrid>
-				<p:inputTextarea id="apartamentoObservacao" rows="6" cols="120" maxlength="1000" counter="display" counterTemplate="{0} caracteres restantes." autoResize="true" value="#{apartamentoBean.apartamento.observacao}" />
+				<p:inputTextarea id="apartamentoObservacao" rows="6" cols="120" maxlength="1000" counter="display" counterTemplate="{0} caracteres restantes." autoResize="true"
+					value="#{apartamentoBean.apartamento.observacao}" />
 				<h:outputText id="display" />
 			</h:panelGrid>
 		</p:fieldset>
@@ -69,7 +68,7 @@
 	<h:panelGroup>
 		<h:form>
 			<p:dataTable value="#{apartamentoBean.apartamentos}" var="a">
-				<f:facet name="header">Lista de Torres</f:facet>
+				<f:facet name="header">Lista de Apartamentos</f:facet>
 
 				<p:column width="2%">
 					<f:facet name="header">ID</f:facet>
@@ -85,16 +84,21 @@
 					<f:facet name="header">Torre</f:facet>
 					<h:outputText value="#{a.torre.nome}" />
 				</p:column>
-				<p:column width="14%">
+				<p:column width="6%">
 					<f:facet name="header">Número</f:facet>
 					<h:outputText value="#{a.numero}" />
 				</p:column>
 
+				<p:column width="24%">
+					<f:facet name="header">Observação</f:facet>
+					<h:outputText value="#{a.observacao}" />
+				</p:column>
+
 				<p:column width="8%">
 					<f:facet name="header">Ações</f:facet>
-					<p:commandLink action="#{apartamentoBean.alterar(a.id)}">Alterar</p:commandLink>
+					<h:commandLink action="#{apartamentoBean.alterar(a.id)}">Alterar</h:commandLink>
 					|
-					<p:commandLink action="#{apartamentoBean.excluir(a.id)}" onclick="return excluir();">Excluir</p:commandLink>
+					<h:commandLink action="#{apartamentoBean.excluir(a.id)}" onclick="return excluir();">Excluir</h:commandLink>
 				</p:column>
 
 			</p:dataTable>

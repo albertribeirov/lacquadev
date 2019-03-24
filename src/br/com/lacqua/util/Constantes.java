@@ -8,23 +8,13 @@ public class Constantes {
 	 *  Constantes de Apartamento
 	 */
 	
-	public static final String APARTAMENTO_NOVO = "ApartamentoCadastrar";
-	public static final String APARTAMENTO_ALTERAR = "ApartamentoAlterar";
-	public static final String APARTAMENTO_SALVAR = "ApartamentoSalvar";
-	public static final String APARTAMENTO_INCLUIR = "ApartamentoIncluir";
-	public static final String APARTAMENTO_EXCLUIR = "ApartamentoExcluir";
-	public static final String APARTAMENTO_SUCESSO = "ApartamentoSucesso";
+	public static final String APARTAMENTO_CADASTRAR = "cadastrarApartamento";
 	
 	/*
 	 *  Constantes de Cliente
 	 */
 	
-	public static final String CLIENTE_NOVO = "ClienteCadastrar";
-	public static final String CLIENTE_ALTERAR = "ClienteAlterar";
-	public static final String CLIENTE_SALVAR = "ClienteSalvar";
-	public static final String CLIENTE_INCLUIR = "ClienteIncluir";
-	public static final String CLIENTE_EXCLUIR = "ClienteExcluir";
-	public static final String CLIENTE_SUCESSO = "ClienteSucesso";
+	public static final String CLIENTE_CADASTRAR = "cadastrarCliente";
 	
 	/*
 	 *  Constantes de Condomínio

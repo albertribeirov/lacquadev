@@ -1,7 +1,7 @@
 package br.com.lacqua.model;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -54,7 +54,7 @@ public class Empresa implements Serializable {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "LAST_MODIFIED", columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP")
-	private Calendar lastModified;
+	private Date lastModified;
 	
 	/*
 	 * 
@@ -173,11 +173,11 @@ public class Empresa implements Serializable {
 		this.idEndereco = idEndereco;
 	}
 
-	public Calendar getLastModified() {
+	public Date getLastModified() {
 		return lastModified;
 	}
 
-	public void setLastModified(Calendar lastModified) {
+	public void setLastModified(Date lastModified) {
 		this.lastModified = lastModified;
 	}
 }

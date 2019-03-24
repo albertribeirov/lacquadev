@@ -32,7 +32,7 @@ public class Cliente implements Serializable {
 	@Column(name = "NOME_REFERENCIA", nullable = false, length = 50)
 	private String nomeReferencia;
 	
-	@Column(name = "CPF", nullable = true, length = 11)
+	@Column(name = "CPF", nullable = true, length = 11, unique = true)
 	private String cpf;
 
 	@Column(name = "TELEFONE", nullable = true, length = 11)
@@ -51,7 +51,7 @@ public class Cliente implements Serializable {
 	private Boolean ativo;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_MODIFIED", columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP")
+	@Column(name = "LAST_MODIFIED", columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
 	private Date lastModified;
 
 	/*

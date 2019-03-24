@@ -8,6 +8,7 @@ import javax.inject.Named;
 
 import br.com.lacqua.model.Cliente;
 import br.com.lacqua.service.ClienteService;
+import br.com.lacqua.util.Constantes;
 
 @SuppressWarnings("serial")
 @Named("clienteBean")
@@ -39,6 +40,15 @@ public class ClienteBean extends AbstractBean {
 		return null;
 
 	}
+	
+	/*
+	 * Altera um cliente
+	 */
+	public String cancelar() {
+		cliente = null;
+		clientes = clienteService.listarClientes();
+		return null;
+	}
 
 	/*
 	 * Exclui um cliente
@@ -51,7 +61,7 @@ public class ClienteBean extends AbstractBean {
 		}
 		
 		this.cliente = null;
-		return null;
+		return redirect(Constantes.CLIENTE_CADASTRAR);
 	}
 
 	/*
@@ -66,7 +76,7 @@ public class ClienteBean extends AbstractBean {
 			}
 
 			cliente = null;
-			return redirect("cadastrarCliente");
+			return redirect(Constantes.CLIENTE_CADASTRAR);
 
 		} catch (Exception e) {
 			addMessageToRequest(e.getMessage());

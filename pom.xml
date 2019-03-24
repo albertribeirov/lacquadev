@@ -85,10 +85,9 @@
 
 		<dependency>
 			<groupId>org.primefaces.themes</groupId>
-			<artifactId>cruze</artifactId>
+			<artifactId>all-themes</artifactId>
 			<version>1.0.10</version>
 		</dependency>
-
 
 		<!-- MYSQLCONNECTOR -->
 		<dependency>
@@ -126,6 +125,12 @@
 			<version>6.6.0</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+		</dependency>
 
 	</dependencies>
 
