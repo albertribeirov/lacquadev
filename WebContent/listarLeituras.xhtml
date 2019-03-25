@@ -6,7 +6,7 @@
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-	<title>Consumos</title>
+	<title>Leituras</title>
 </h:head>
 <h:body>
 	<ui:decorate template="decorator.xhtml" />
@@ -20,7 +20,7 @@
 		<p:fieldset legend="Dados">
 			<h:panelGrid columns="2">
 				<p:outputLabel for="condominio" value="Condomínio" />
-				<p:selectOneMenu id="condominio" value="#{leituraBean.consumo.condominio}" valueChangeListener="#{torreBean.carregarTorresPorCondominio}" converter="#{converterCondominio}" immediate="true"
+				<p:selectOneMenu id="condominio" value="#{leituraBean.leitura.condominio}" valueChangeListener="#{torreBean.carregarTorresPorCondominio}" converter="#{converterCondominio}" immediate="true"
 					style="width:300px" required="true">
 					<f:ajax event="valueChange" execute="@this" render="torre" />
 					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
@@ -28,23 +28,18 @@
 				</p:selectOneMenu>
 
 				<p:outputLabel for="torre" value="Torre" />
-				<p:selectOneMenu id="torre" value="#{leituraBean.consumo.torre}" converter="#{converterTorre}" style="width:300px">
+				<p:selectOneMenu id="torre" value="#{leituraBean.leitura.torre}" converter="#{converterTorre}" style="width:300px">
 					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 					<f:selectItems value="#{torreBean.torres}" var="t" itemValue="#{t}" itemLabel="#{t.id} - #{t.nome}" />
 				</p:selectOneMenu>
-				<p:outputLabel id="dataLeitura" value="Data da leitura  " />
-				<p:calendar locale="pt" required="true" pattern="dd/MM/yyyy" value="#{leituraBean.consumo.dataRealizacaoLeitura}" />
-				<p:outputLabel id="mesLeitura" value="Mês de referência  " />
-				<p:selectOneMenu label="Mês de referência" value="#{leituraBean.consumo.mesReferenciaLeitura}" required="true">
-					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
-					<f:selectItems value="#{leituraBean.meses}" var="m" itemValue="#{m.id}" itemLabel="#{m.nome}" />
-				</p:selectOneMenu>
+				<p:outputLabel id="dataLeitura" value="Mês da leitura " />
+				<p:calendar locale="pt" required="true" pattern="MM/yyyy" value="#{leituraBean.leitura.dataRealizacaoLeitura}" mask="true" />
 			</h:panelGrid>
 		</p:fieldset>
 
-		<p:commandButton icon="ui-icon-disk" id="formTorre" value="Listar Apartamentos" action="#{leituraBean.carregarApartamentos}" style="margin: 10px" update="fconsumo" />
+		<p:commandButton icon="ui-icon-disk" id="formTorre" value="Listar Leituras" action="#{leituraBean.listarLeituras}" style="margin: 10px" update="fconsumo" />
 
-		<p:commandButton icon="ui-icon-disk" id="salvarConsumos" value="Salvar Consumos" action="#{leituraBean.salvarConsumos}" style="margin: 10px" update="fconsumo" />
+		<p:commandButton icon="ui-icon-disk" id="salvarConsumos" value="Salvar" action="#{leituraBean.salvar}" style="margin: 10px" update="fconsumo" />
 
 	</h:form>
 
@@ -52,35 +47,40 @@
 	<br />
 	<h:panelGroup>
 		<h:form id="fconsumo" prependId="false">
-			<p:dataTable value="#{leituraBean.apartamentos}" var="ap" rendered="#{leituraBean.apartamentos.size() > 0}">
-				<f:facet name="header">Cadastro de Consumos</f:facet>
+			<p:dataTable value="#{leituraBean.listaLeituras}" var="l" rendered="#{leituraBean.listaLeituras.size() > 0}">
+				<f:facet name="header">Lista de Leituras</f:facet>
 
 				<p:column width="2%">
 					<f:facet name="header">ID</f:facet>
-					<h:outputText id="apartamento" value="#{ap.id}" />
+					<h:outputText id="apartamento" value="#{l.id}" />
 				</p:column>
 
 				<p:column width="6%">
 					<f:facet name="header">Condomínio</f:facet>
-					<h:outputText value="#{ap.condominio.nome}" />
+					<h:outputText value="#{l.condominio.nome}" />
 				</p:column>
 
 				<p:column width="6%">
 					<f:facet name="header">Torre</f:facet>
-					<h:outputText value="#{ap.torre.nome}" />
+					<h:outputText value="#{l.torre.nome}" />
 				</p:column>
 
-				<p:column width="2%">
+				<p:column width="3%">
 					<f:facet name="header">Número</f:facet>
-					<h:outputText value="#{ap.numero}" />
+					<h:outputText value="#{l.apartamento.numero}" />
 				</p:column>
 
-				<p:column width="6%">
-					<f:facet name="header">Consumo</f:facet>
-					<p:inputNumber value="#{ap.leitura}" decimalPlaces="0" id="consumo" onblur="desabilitarCampoLeitura(this)" ondblclick="habilitarCampoLeitura(this)">
-					</p:inputNumber>
+				<p:column width="3%">
+					<f:facet name="header">Leitura</f:facet>
+					<h:outputText value="#{l.leitura}" />
 				</p:column>
-
+				
+				<p:column width="2%">
+					<f:facet name="header">Ações</f:facet>
+					<h:commandLink action="#{leituraBean.alterar(l.id)}">Alterar</h:commandLink>
+					|
+					<h:commandLink action="#{leituraBean.excluir(l.id)}" onclick="return excluir();">Excluir</h:commandLink>
+				</p:column>
 			</p:dataTable>
 		</h:form>
 	</h:panelGroup>

@@ -48,10 +48,10 @@
 				</p:inputNumber>
 
 				<p:outputLabel for="telefone1" value="Telefone 1" />
-				<p:inputMask id="telefone1" value="#{condominioBean.condominio.telefone1}" mask="(99)9-9999-9999" required="true" converter="converterTelefone" requiredMessage="O telefone 1 deve ser preenchido." />
+				<p:inputMask id="telefone1" value="#{condominioBean.condominio.telefone1}" mask="(99)9-9999-9999" required="false" converter="converterTelefone" requiredMessage="O telefone 1 deve ser preenchido." />
 
 				<p:outputLabel for="telefone2" value="Telefone 2" />
-				<p:inputMask id="telefone2" value="#{condominioBean.condominio.telefone2}" mask="(99)9-9999-9999" required="true" converter="converterTelefone" requiredMessage="O telefone 2 deve ser preenchido." />
+				<p:inputMask id="telefone2" value="#{condominioBean.condominio.telefone2}" mask="(99)9-9999-9999" required="false" converter="converterTelefone" requiredMessage="O telefone 2 deve ser preenchido." />
 
 				<p:outputLabel for="ativo" value="Ativo  " />
 				<p:inputSwitch id="ativo" required="true" offLabel="Não" onLabel="Sim" value="#{condominioBean.condominio.ativo}" />

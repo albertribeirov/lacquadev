@@ -55,7 +55,7 @@ public class ConsumoDAO extends DAO {
 			anoReferencia = " AND c.ano = " + pAnoReferencia;
 			query = query + anoReferencia;
 		}
-
+		
 		q = criarQuery(query);
 
 		return q.getResultList();

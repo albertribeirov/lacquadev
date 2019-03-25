@@ -2,7 +2,6 @@ package br.com.lacqua.bean;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -61,7 +60,7 @@ public class LeituraBean extends AbstractBean {
 	private Cliente cliente;
 	private Leitura leitura;
 	private BigDecimal leituraValor;
-	private List<String> listaLeituras;
+	private List<Leitura> listaLeituras;
 	private Consumo consumo;
 
 	private List<Apartamento> apartamentos;
@@ -74,7 +73,10 @@ public class LeituraBean extends AbstractBean {
 		return null;
 	}
 
-	public String gerarDemonstrativosCondominio() {
+	public String gerarDemonstrativosCondominioTorreMes() {
+		Torre tower = null;
+		Condominio condo = null;
+		Consumo cons = new Consumo();
 		FacesContext fc = FacesContext.getCurrentInstance();
 		List<Consumo> consumoMesAnterior3 = new ArrayList<>();
 		List<Consumo> consumoMesAnterior2 = new ArrayList<>();
@@ -83,34 +85,37 @@ public class LeituraBean extends AbstractBean {
 		List<Leitura> leituraMesAnterior = new ArrayList<>();
 		List<Leitura> leituraMesSelecionado = new ArrayList<>();
 		Date dataConsumo = leitura.getDataRealizacaoLeitura();
+		condo = leitura.getCondominio();
+		
+		if (leitura.getTorre() != null) {
+			tower = leitura.getTorre();
+			cons.setTorre(tower);
+		}
 		Integer ano = BibliotecaFuncoes.getAnoFromDate(dataConsumo);
 		Integer mes = BibliotecaFuncoes.getMesFromDate(dataConsumo);
 		leitura.setMesReferenciaLeitura(mes);
 		leitura.setAno(ano);
-		Consumo cons = new Consumo();
 		cons.setAno(ano);
 		cons.setMes(mes);
-		cons.setCondominio(leitura.getCondominio());
+		cons.setCondominio(condo);
 		consumoMesSelecionado = consumoService.listarConsumosPorCondominioTorreMes(cons);
 
-		consumoMesAnterior1 = consultarConsumoMesesAnteriores(ano, mes - 1, leitura.getCondominio(), leitura.getTorre());
-		consumoMesAnterior2 = consultarConsumoMesesAnteriores(ano, mes - 2, leitura.getCondominio(), leitura.getTorre());
-		consumoMesAnterior3 = consultarConsumoMesesAnteriores(ano, mes - 3, leitura.getCondominio(), leitura.getTorre());
-		
+		consumoMesAnterior1 = consultarConsumoMesesAnteriores(ano, mes - 1, condo, tower);
+		consumoMesAnterior2 = consultarConsumoMesesAnteriores(ano, mes - 2, condo, tower);
+		consumoMesAnterior3 = consultarConsumoMesesAnteriores(ano, mes - 3, condo, tower);
+
 		leituraMesSelecionado = leituraService.listarLeiturasPorCondominioTorreMes(leitura, ano, mes);
 		leituraMesAnterior = leituraService.listarLeiturasPorCondominioTorreMes(leitura, ano, mes - 1);
-		
-		String point = "";
 
 		try {
-			controlador.gerarDemonstrativosCondominioTorre(leitura, leituraMesSelecionado, leituraMesAnterior, consumoMesSelecionado, consumoMesAnterior1, consumoMesAnterior2, consumoMesAnterior3);
+			controlador.gerarDemonstrativosCondominioTorre(leitura, leituraMesSelecionado, leituraMesAnterior, consumoMesSelecionado, consumoMesAnterior1, consumoMesAnterior2,
+					consumoMesAnterior3);
 			fc.addMessage("message", new FacesMessage("Sucesso", "Demonstrativos exportados!"));
 		} catch (Exception e) {
-			// TODO: handle exception
 			fc.addMessage("message", new FacesMessage("Erro", "Falha na geração dos demonstrativos!"));
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 
@@ -121,9 +126,9 @@ public class LeituraBean extends AbstractBean {
 		c.setMes(pMes);
 		c.setCondominio(pCond);
 		if (pTorre != null) {
-			c.setTorre(pTorre);			
+			c.setTorre(pTorre);
 		}
-		
+
 		listaConsumo = consumoService.listarConsumosPorCondominioTorreMes(c);
 
 		return listaConsumo;
@@ -169,9 +174,9 @@ public class LeituraBean extends AbstractBean {
 				leituraClone.setDataRealizacaoLeitura(dataConsumo);
 
 				leituraMesAnterior = leituraService.listarLeiturasPorCondominioTorreMes(leituraClone, anoAnterior, mesAnterior);
-				
+
 				if (!leituraMesSelecionado.isEmpty() && !leituraMesAnterior.isEmpty()) {
-					controlador.gravarConsumosPorCondominioTorreMes(leitura, leituraMesSelecionado, leituraMesAnterior);					
+					controlador.gravarConsumosPorCondominioTorreMes(leitura, leituraMesSelecionado, leituraMesAnterior);
 					fc.addMessage("message", new FacesMessage("Sucesso", "Consumo calculado!"));
 				} else {
 					fc.addMessage("message", new FacesMessage("Erro", "Não há consumo para " + mes + "/" + ano + " ou para " + mesAnterior + "/" + anoAnterior + "."));
@@ -192,12 +197,12 @@ public class LeituraBean extends AbstractBean {
 		try {
 			if (leituraValor != null) {
 				controlador.inserirConsumoMensalApartamento(idApartamento, leituraValor);
-				fc.addMessage("message", new FacesMessage("Sucesso", "A leituraValor do apartamento " + apartamento.getNumero() + " foi gravada!"));
+				fc.addMessage("message", new FacesMessage("Sucesso", "A leitura do apartamento " + apartamento.getNumero() + " foi gravada!"));
 			}
 
 			leituraValor = null;
 		} catch (Exception e) {
-			fc.addMessage("message", new FacesMessage("Erro", "A leituraValor não pôde ser gravada"));
+			fc.addMessage("message", new FacesMessage("Erro", "A leitura não pôde ser gravada"));
 		}
 		return null;
 	}
@@ -220,12 +225,12 @@ public class LeituraBean extends AbstractBean {
 		try {
 			if (leituraValor != null) {
 				// controlador.inserirConsumoMensalApartamentos(apartamentos, consumos);
-				fc.addMessage("message", new FacesMessage("Sucesso", "As leituraValors dos apartamentos foram gravadas!"));
+				fc.addMessage("message", new FacesMessage("Sucesso", "As leituras dos apartamentos foram gravadas!"));
 			}
 
 			leituraValor = null;
 		} catch (Exception e) {
-			fc.addMessage("message", new FacesMessage("Erro", "As leituraValors não puderam ser gravadas!"));
+			fc.addMessage("message", new FacesMessage("Erro", "As leituras não puderam ser gravadas!"));
 		}
 		return null;
 	}
@@ -235,14 +240,26 @@ public class LeituraBean extends AbstractBean {
 		try {
 			if (apartamentos != null && consumos != null) {
 				controlador.inserirConsumoMensalApartamentos(apartamentos, consumos, leitura);
-				fc.addMessage("message", new FacesMessage("Sucesso", "As leituraValors dos apartamentos foram gravadas!"));
+				fc.addMessage("message", new FacesMessage("Sucesso", "As leituras dos apartamentos foram gravadas!"));
 			}
 
 			leituraValor = null;
 		} catch (Exception e) {
-			fc.addMessage("message", new FacesMessage("Erro", "As leituraValors não puderam ser gravadas!"));
+			fc.addMessage("message", new FacesMessage("Erro", "As leituras não puderam ser gravadas!"));
 		}
 		return redirect("consumo");
+	}
+
+	public String salvarLeitura() {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		try {
+			leituraService.inserir(leitura);
+			fc.addMessage("message", new FacesMessage("Sucesso", "A leitura do apartamento foi gravada!"));
+			leitura = null;
+		} catch (Exception e) {
+			fc.addMessage("message", new FacesMessage("Erro", "A leitura do apartamento não foi gravada!"));
+		}
+		return null;
 	}
 
 	public String carregarApartamentos() {
@@ -261,6 +278,41 @@ public class LeituraBean extends AbstractBean {
 
 		return null;
 	}
+
+	public List<Leitura> listarLeituras() {
+		Integer ano = BibliotecaFuncoes.getAnoFromDate(leitura.getDataRealizacaoLeitura());
+		Integer mes = BibliotecaFuncoes.getMesFromDate(leitura.getDataRealizacaoLeitura());
+		listaLeituras = leituraService.listarLeiturasPorCondominioTorreMes(leitura, ano, mes);
+		return listaLeituras;
+	}
+
+	public String carregar(Integer id) {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		try {
+			leitura = leituraService.carregar(id);
+			fc.addMessage("message", new FacesMessage("Sucesso!", "Leitura carregada!"));
+		} catch (Exception e) {
+			fc.addMessage("message", new FacesMessage("Erro!", "Leitura não carregada!"));
+			handleException(e);
+		}
+		return null;
+	}
+
+	public String alterar(Integer id) {
+
+		return null;
+	}
+
+	public String excluir(Integer id) {
+
+		return null;
+	}
+
+	/*
+	 * 
+	 * Getters/Setters
+	 * 
+	 */
 
 	public List<Apartamento> getApartamentos() {
 		if (apartamentos == null) {
@@ -326,7 +378,7 @@ public class LeituraBean extends AbstractBean {
 		this.cliente = cliente;
 	}
 
-	public Leitura getConsumo() {
+	public Leitura getLeitura() {
 		if (leitura == null) {
 			leitura = new Leitura();
 		}
@@ -345,11 +397,11 @@ public class LeituraBean extends AbstractBean {
 		this.consumos = consumos;
 	}
 
-	public BigDecimal getLeitura() {
+	public BigDecimal getLeituraValor() {
 		return leituraValor;
 	}
 
-	public void setLeitura(BigDecimal leituraValor) {
+	public void setLeituraValor(BigDecimal leituraValor) {
 		this.leituraValor = leituraValor;
 	}
 
@@ -357,11 +409,22 @@ public class LeituraBean extends AbstractBean {
 		return Mes.MESES;
 	}
 
-	public List<String> getListaLeituras() {
+	public List<Leitura> getListaLeituras() {
 		return listaLeituras;
 	}
 
-	public void setListaLeituras(List<String> listaLeituras) {
+	public void setListaLeituras(List<Leitura> listaLeituras) {
 		this.listaLeituras = listaLeituras;
+	}
+
+	public Consumo getConsumo() {
+		if (consumo == null) {
+			consumo = new Consumo();
+		}
+		return consumo;
+	}
+
+	public void setConsumo(Consumo consumo) {
+		this.consumo = consumo;
 	}
 }

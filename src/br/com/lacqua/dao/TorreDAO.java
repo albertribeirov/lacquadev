@@ -11,7 +11,7 @@ public class TorreDAO extends DAO {
 
 	@SuppressWarnings("unchecked")
 	public List<Torre> listarTorres() {
-		Query q = criarQuery("SELECT t FROM Torre t");
+		Query q = criarQuery("SELECT t FROM Torre t ORDER BY t.condominio.nome, t.nome");
 		return q.getResultList();
 	}
 

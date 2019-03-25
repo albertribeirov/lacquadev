@@ -19,7 +19,7 @@
 		<br />
 			<h:panelGrid columns="2">
 				<p:outputLabel for="condominio" value="Condomínio" />
-				<p:selectOneMenu id="condominio" value="#{leituraBean.consumo.condominio}" valueChangeListener="#{torreBean.carregarTorresPorCondominio}" converter="#{converterCondominio}" immediate="true"
+				<p:selectOneMenu id="condominio" value="#{leituraBean.leitura.condominio}" valueChangeListener="#{torreBean.carregarTorresPorCondominio}" converter="#{converterCondominio}" immediate="true"
 					style="width:300px" required="true">
 					<f:ajax event="valueChange" execute="@this" render="torre" />
 					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
@@ -27,18 +27,18 @@
 				</p:selectOneMenu>
 
 				<p:outputLabel for="torre" value="Torre" />
-				<p:selectOneMenu id="torre" value="#{leituraBean.consumo.torre}" converter="#{converterTorre}" style="width:300px">
+				<p:selectOneMenu id="torre" value="#{leituraBean.leitura.torre}" converter="#{converterTorre}" style="width:300px">
 					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 					<f:selectItems value="#{torreBean.torres}" var="t" itemValue="#{t}" itemLabel="#{t.id} - #{t.nome}" />
 				</p:selectOneMenu>
 				
 				<p:outputLabel id="dataLeitura" value="Data da leitura  " />
-				<p:calendar locale="pt" required="true" pattern="MM/yyyy" value="#{leituraBean.consumo.dataRealizacaoLeitura}" mask="true" />
+				<p:calendar locale="pt" required="true" pattern="MM/yyyy" value="#{leituraBean.leitura.dataRealizacaoLeitura}" mask="true" />
 			</h:panelGrid>
 	</h:form>
 
 	<p:commandButton icon="ui-icon-disk" id="formGerarConta" value="Gerar Consumos" action="#{leituraBean.gravarConsumosPorCondominioTorreMes}" style="margin: 10px" update="form_gerarConta"/>
-	<p:commandButton icon="ui-icon-disk" id="demonstrativosCondominio" value="Gerar Demonstrativos" action="#{leituraBean.gerarDemonstrativosCondominio}" style="margin: 10px" update="form_gerarConta"/>
+	<p:commandButton icon="ui-icon-disk" id="demonstrativosCondominio" value="Gerar Demonstrativos" action="#{leituraBean.gerarDemonstrativosCondominioTorreMes}" style="margin: 10px" update="form_gerarConta"/>
 
 </h:body>
 </h:html>

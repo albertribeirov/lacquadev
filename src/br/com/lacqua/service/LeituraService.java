@@ -18,7 +18,7 @@ import br.com.lacqua.model.Log.TipoMensagem;
 public class LeituraService extends Service {
 
 	@Inject
-	private LeituraDAO consumoDAO;
+	private LeituraDAO leituraDAO;
 
 	@Inject
 	private LogService logService;
@@ -30,7 +30,7 @@ public class LeituraService extends Service {
 	 * @throws ServiceException
 	 */
 	public Leitura carregar(Integer id) {
-		return consumoDAO.carregar(Leitura.class, id);
+		return leituraDAO.carregar(Leitura.class, id);
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class LeituraService extends Service {
 			beginTransaction();
 
 			consumo.setLastModified(Calendar.getInstance().getTime());
-			consumoDAO.salvar(consumo);
+			leituraDAO.salvar(consumo);
 			logService.log("Leitura inserido: " + consumo.getId(), TipoMensagem.INFO);
 
 			commitTransaction();
@@ -66,7 +66,7 @@ public class LeituraService extends Service {
 			beginTransaction();
 
 			consumo.setLastModified(Calendar.getInstance().getTime());
-			consumoDAO.alterar(consumo);
+			leituraDAO.alterar(consumo);
 			logService.log("Leitura alterado: " + consumo.getId(), TipoMensagem.INFO);
 
 			commitTransaction();
@@ -87,8 +87,8 @@ public class LeituraService extends Service {
 		try {
 			beginTransaction();
 
-			Leitura consumo = consumoDAO.carregar(Leitura.class, id);
-			consumoDAO.excluir(consumo);
+			Leitura consumo = leituraDAO.carregar(Leitura.class, id);
+			leituraDAO.excluir(consumo);
 			logService.log("Leitura excluído: " + id, TipoMensagem.INFO);
 
 			commitTransaction();
@@ -106,11 +106,11 @@ public class LeituraService extends Service {
 	 * @throws ServiceException
 	 */
 	public List<Leitura> listarLeituras() {
-		return consumoDAO.listarLeituras();
+		return leituraDAO.listarLeituras();
 	}
 
 	public List<Leitura> listarConsumosPorCondominioTorre(Integer idCondominio, Integer idTorre) {
-		return consumoDAO.listarConsumosPorCondominioTorre(idCondominio, idTorre);
+		return leituraDAO.listarConsumosPorCondominioTorre(idCondominio, idTorre);
 	}
 
 	public List<Leitura> listarLeiturasPorCondominioTorreMes(Leitura pLeitura, Integer pAno, Integer pMes) {
@@ -121,6 +121,6 @@ public class LeituraService extends Service {
 		Integer idCondominio = pLeitura.getCondominio().getId();
 		Integer mesReferencia = pMes;
 		Integer anoReferencia = pAno;
-		return consumoDAO.listarLeiturasPorCondominioTorreMes(idCondominio, idTorre, mesReferencia, anoReferencia);
+		return leituraDAO.listarLeiturasPorCondominioTorreMes(idCondominio, idTorre, mesReferencia, anoReferencia);
 	}
 }

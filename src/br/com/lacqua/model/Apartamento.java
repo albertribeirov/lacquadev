@@ -29,7 +29,7 @@ public class Apartamento implements Serializable {
 	private Integer id;
 
 	@Column(name = "NUMERO", nullable = false)
-	private String numero;
+	private Integer numero;
 	
 	@Column(name = "OBSERVACAO", nullable = true, length = 1000)
 	private String observacao;
@@ -87,11 +87,11 @@ public class Apartamento implements Serializable {
 		this.consumosGas = consumosGas;
 	}
 
-	public void setNumero(String numero) {
+	public void setNumero(Integer numero) {
 		this.numero = numero;
 	}
 
-	public String getNumero() {
+	public Integer getNumero() {
 		return numero;
 	}
 	

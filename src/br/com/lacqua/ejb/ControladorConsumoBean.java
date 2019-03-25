@@ -59,7 +59,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 		while (primeiro <= fim) {
 			Apartamento apartamento = new Apartamento();
 			apartamento.setCondominio(ap.getCondominio());
-			apartamento.setNumero(primeiro.toString());
+			apartamento.setNumero(primeiro);
 			if (ap.getTorre() != null) {
 				apartamento.setTorre(ap.getTorre());
 			}
@@ -206,14 +206,14 @@ public class ControladorConsumoBean implements ControladorConsumo {
 		Iterator<Leitura> itMesAtual = pMesAtual.iterator();
 		while (itMesAtual.hasNext()) {
 			Leitura voConsumoAtual = itMesAtual.next();
-			Integer apartamento = Integer.parseInt(voConsumoAtual.getApartamento().getNumero());
+			Integer apartamento = voConsumoAtual.getApartamento().getNumero();
 			hashApartamentoMesAtual.put(apartamento, voConsumoAtual);
 		}
 
 		Iterator<Leitura> itMesAnterior = pMesAnterior.iterator();
 		while (itMesAnterior.hasNext()) {
 			Leitura voConsumoMesAnterior = itMesAnterior.next();
-			Integer apartamento = Integer.parseInt(voConsumoMesAnterior.getApartamento().getNumero());
+			Integer apartamento = voConsumoMesAnterior.getApartamento().getNumero();
 			hashApartamentoMesAnterior.put(apartamento, voConsumoMesAnterior);
 		}
 
@@ -276,7 +276,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 			Iterator<Leitura> itLeituraMesSelecionado = pLeituraMesSelecionado.iterator();
 			while (itLeituraMesSelecionado.hasNext()) {
 				Leitura leituraAtual = itLeituraMesSelecionado.next();
-				Integer apartamento = Integer.parseInt(leituraAtual.getApartamento().getNumero());
+				Integer apartamento = leituraAtual.getApartamento().getNumero();
 				hashLeituraMesSelecionado.put(apartamento, leituraAtual);
 			}
 		}
@@ -285,7 +285,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 			Iterator<Leitura> itLeituraMesAnterior = pLeituraMesAnterior.iterator();
 			while (itLeituraMesAnterior.hasNext()) {
 				Leitura leituraAnterior = itLeituraMesAnterior.next();
-				Integer apartamento = Integer.parseInt(leituraAnterior.getApartamento().getNumero());
+				Integer apartamento = leituraAnterior.getApartamento().getNumero();
 				hashLeituraMesAnterior.put(apartamento, leituraAnterior);
 			}
 		}
@@ -300,7 +300,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 				// Faz somatório do valor a ser pago pelo condomínio
 				BigDecimal valor = consumoMesSelecionado.getValorConta();
 				valorTotalCondominio = valorTotalCondominio.add(valor);
-				Integer apartamento = Integer.parseInt(consumoMesSelecionado.getApartamento().getNumero());
+				Integer apartamento = consumoMesSelecionado.getApartamento().getNumero();
 				hashConsumoMesSelecionado.put(apartamento, consumoMesSelecionado);
 			}
 		}
@@ -309,7 +309,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 			Iterator<Consumo> itConsumoMesMenos1 = pConsumoMesMenos1.iterator();
 			while (itConsumoMesMenos1.hasNext()) {
 				Consumo consumoMesMenos1 = itConsumoMesMenos1.next();
-				Integer apartamento = Integer.parseInt(consumoMesMenos1.getApartamento().getNumero());
+				Integer apartamento = consumoMesMenos1.getApartamento().getNumero();
 				hashConsumoMesMenos1.put(apartamento, consumoMesMenos1);
 			}
 		}
@@ -318,7 +318,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 			Iterator<Consumo> itConsumoMesMenos2 = pConsumoMesMenos2.iterator();
 			while (itConsumoMesMenos2.hasNext()) {
 				Consumo consumoMesMenos2 = itConsumoMesMenos2.next();
-				Integer apartamento = Integer.parseInt(consumoMesMenos2.getApartamento().getNumero());
+				Integer apartamento = consumoMesMenos2.getApartamento().getNumero();
 				hashConsumoMesMenos2.put(apartamento, consumoMesMenos2);
 			}
 		}
@@ -327,7 +327,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 			Iterator<Consumo> itConsumoMesMenos3 = pConsumoMesMenos3.iterator();
 			while (itConsumoMesMenos3.hasNext()) {
 				Consumo consumoMesMenos3 = itConsumoMesMenos3.next();
-				Integer apartamento = Integer.parseInt(consumoMesMenos3.getApartamento().getNumero());
+				Integer apartamento = consumoMesMenos3.getApartamento().getNumero();
 				hashConsumoMesMenos3.put(apartamento, consumoMesMenos3);
 			}
 		}
@@ -356,7 +356,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 			Conta conta = new Conta();
 			conta.setAno(ano.toString());
 			conta.setMes(BibliotecaFuncoes.getMesPorExtenso(mes));
-			conta.setApartamento(l.getApartamento().getNumero());
+			conta.setApartamento(l.getApartamento().getNumero().toString());
 
 			if (l.getCliente() != null) {
 				conta.setCliente(l.getCliente().getNome());
