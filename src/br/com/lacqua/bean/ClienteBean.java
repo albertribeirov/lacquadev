@@ -3,6 +3,8 @@ package br.com.lacqua.bean;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -36,9 +38,16 @@ public class ClienteBean extends AbstractBean {
 	 * Altera um cliente
 	 */
 	public String alterar(Integer id) {
-		cliente = clienteService.carregar(id);
+		FacesContext fc = FacesContext.getCurrentInstance();
+		try {
+			cliente = clienteService.carregar(id);
+			fc.addMessage("message", new FacesMessage("Sucesso!", "Cliente carregado!"));			
+			
+		} catch (Exception e) {
+			handleException(e);
+			fc.addMessage("message", new FacesMessage("Erro!", "Cliente não carregado!"));
+		}
 		return null;
-
 	}
 	
 	/*
@@ -68,6 +77,7 @@ public class ClienteBean extends AbstractBean {
 	 * Salva um cliente
 	 */
 	public String salvar() {
+		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
 			if (cliente.getId() == null) {
 				clienteService.inserir(cliente);
@@ -80,6 +90,7 @@ public class ClienteBean extends AbstractBean {
 
 		} catch (Exception e) {
 			addMessageToRequest(e.getMessage());
+			fc.addMessage("message", new FacesMessage("Erro!", "Cliente não salvo!"));
 			return null;
 		}
 	}

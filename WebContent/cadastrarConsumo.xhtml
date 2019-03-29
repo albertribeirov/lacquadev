@@ -14,7 +14,9 @@
 	<h:outputScript library="scripts" name="functions.js" />
 	<h:outputStylesheet library="css" name="styles.css" />
 	<h:form id="form_consumo" prependId="false">
-		<p:growl for="message" id="message" sticky="true" showDetail="true" life="3000" />
+	<h:inputHidden value="#{leituraBean.consumo.id}" />
+		<h:inputHidden id="msg" />
+		<p:growl for="message" sticky="true" showDetail="true" life="3000" />
 		<br />
 
 		<p:fieldset legend="Dados">

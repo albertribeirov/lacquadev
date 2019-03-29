@@ -1,9 +1,9 @@
 package br.com.lacqua.service;
 
-import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
+
 import br.com.lacqua.dao.CondominioDAO;
 import br.com.lacqua.model.Condominio;
 import br.com.lacqua.model.Log.TipoMensagem;
@@ -40,7 +40,6 @@ public class CondominioService extends Service {
 		try {
 			beginTransaction();
 
-			condominio.setLastModified(Calendar.getInstance().getTime());
 			condominioDAO.salvar(condominio);
 			logService.log("Condominio inserido: " + condominio.getNome(), TipoMensagem.INFO);
 
@@ -62,7 +61,6 @@ public class CondominioService extends Service {
 		try {
 			beginTransaction();
 
-			condominio.setLastModified(Calendar.getInstance().getTime());
 			condominioDAO.alterar(condominio);
 			logService.log("Condominio alterado: " + condominio.getNome(), TipoMensagem.INFO);
 

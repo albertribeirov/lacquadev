@@ -1,6 +1,5 @@
 package br.com.lacqua.service;
 
-import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -40,7 +39,6 @@ public class SindicoService extends Service {
 		try {
 			beginTransaction();
 
-			sindico.setLastModified(Calendar.getInstance().getTime());
 			logService.log("Sindico inserido: " + sindico.getNomeReferencia(), TipoMensagem.INFO);
 			sindicoDAO.salvar(sindico);
 
@@ -62,7 +60,6 @@ public class SindicoService extends Service {
 		try {
 			beginTransaction();
 
-			sindico.setLastModified(Calendar.getInstance().getTime());
 			sindicoDAO.alterar(sindico);
 			logService.log("Sindico alterado: " + sindico.getNomeReferencia(), TipoMensagem.INFO);
 

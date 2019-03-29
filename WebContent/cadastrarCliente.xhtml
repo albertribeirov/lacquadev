@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
@@ -16,6 +17,8 @@
 	<h:outputScript library="scripts" name="functions.js" />
 	<h:outputStylesheet library="css" name="styles.css" />
 	<h:form id="form_cliente" prependId="false">
+		<h:inputHidden value="#{clienteBean.cliente.id}" />
+		<p:growl for="message" sticky="false" showDetail="true" life="4000" />
 
 		<br />
 		<p:fieldset legend="Dados">
@@ -37,7 +40,7 @@
 
 				<p:outputLabel for="telefone2" value="Telefone 2" />
 				<p:inputMask id="telefone2" value="#{clienteBean.cliente.telefone2}" mask="(99)9-9999-9999" converter="converterTelefone" />
-				
+
 				<p:outputLabel for="cpf" value="CPF" style="size:50px" />
 				<p:inputMask id="cpf" value="#{clienteBean.cliente.cpf}" size="20" mask="999.999.999-99" required="true" converter="converterCPF" requiredMessage="O CPF deve ser preenchido.">
 					<p:tooltip id="tipCPF" for="cpf" value="O CPF deve ter 11 dígitos" position="top" />
@@ -53,7 +56,8 @@
 
 		<p:fieldset legend="Observações">
 			<h:panelGrid>
-				<p:inputTextarea id="clienteObservacao" rows="6" cols="120" maxlength="1000" counter="display" counterTemplate="{0} caracteres restantes." autoResize="true" value="#{clienteBean.cliente.observacao}" />
+				<p:inputTextarea id="clienteObservacao" rows="6" cols="120" maxlength="1000" counter="display" counterTemplate="{0} caracteres restantes." autoResize="true"
+					value="#{clienteBean.cliente.observacao}" />
 				<h:outputText id="display" />
 			</h:panelGrid>
 		</p:fieldset>
@@ -74,7 +78,7 @@
 					<h:outputText value="#{cliente.id}" />
 				</p:column>
 
-				<p:column width="2%" >
+				<p:column width="2%">
 					<f:facet name="header">Ativo</f:facet>
 					<h:outputText value="#{cliente.ativo}">
 						<f:converter converterId="converterBooleano" />
@@ -109,13 +113,15 @@
 
 				<p:column width="9%">
 					<f:facet name="header">E-mail</f:facet>
-					<h:outputText value="#{cliente.email}" />
+					<h:outputLink value="mailto:#{cliente.email}">
+						<h:outputText value="#{cliente.email}" />
+					</h:outputLink>
 				</p:column>
 
 
 				<p:column width="4%">
 					<f:facet name="header">Ações</f:facet>
-					<h:commandLink action="#{clienteBean.alterar(cliente.id)}">Alterar</h:commandLink>
+					<h:commandLink action="#{clienteBean.alterar(cliente.id)}" >Alterar</h:commandLink>
 					|
 					<h:commandLink action="#{clienteBean.excluir(cliente.id)}" onclick="return excluir();">Excluir</h:commandLink>
 				</p:column>

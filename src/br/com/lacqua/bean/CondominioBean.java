@@ -3,11 +3,14 @@ package br.com.lacqua.bean;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.lacqua.model.Condominio;
 import br.com.lacqua.service.CondominioService;
+import br.com.lacqua.util.Constantes;
 
 @SuppressWarnings("serial")
 @Named("condominioBean")
@@ -35,6 +38,7 @@ public class CondominioBean extends AbstractBean {
 	 * Salva um condomínio
 	 */
 	public String salvar() {
+		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
 			if (condominio.getId() == null) {
 				condominioService.inserir(condominio);
@@ -44,10 +48,11 @@ public class CondominioBean extends AbstractBean {
 			}
 
 			condominio = null;
-			return redirect("cadastrarCondominio");
+			return redirect(Constantes.CONDOMINIO_CADASTRAR);
 			
 		} catch (Exception e) {
 			addMessageToRequest(e.getMessage());
+			fc.addMessage("message", new FacesMessage("Erro!", "Condomínio não salvo!!"));
 			return null;
 		}
 
@@ -68,15 +73,16 @@ public class CondominioBean extends AbstractBean {
 	public String excluir(Integer id) {
 		condominioService.excluir(id);
 		condominios = null;
-		return redirect("cadastrarCondominio");
+		return redirect(Constantes.CONDOMINIO_CADASTRAR);
 
 	}
 
 	/*
 	 * Cadastrar um novo condomínio
 	 */
-	public String novo() {
-		return "cadastrarCondominio";
+	public String cancelar() {
+		condominio = null;
+		return null;
 	}
 
 	/*

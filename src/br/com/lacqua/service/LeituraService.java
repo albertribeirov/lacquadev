@@ -1,6 +1,5 @@
 package br.com.lacqua.service;
 
-import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -43,7 +42,6 @@ public class LeituraService extends Service {
 		try {
 			beginTransaction();
 
-			consumo.setLastModified(Calendar.getInstance().getTime());
 			leituraDAO.salvar(consumo);
 			logService.log("Leitura inserido: " + consumo.getId(), TipoMensagem.INFO);
 
@@ -65,7 +63,6 @@ public class LeituraService extends Service {
 		try {
 			beginTransaction();
 
-			consumo.setLastModified(Calendar.getInstance().getTime());
 			leituraDAO.alterar(consumo);
 			logService.log("Leitura alterado: " + consumo.getId(), TipoMensagem.INFO);
 

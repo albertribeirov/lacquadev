@@ -1,7 +1,7 @@
 package br.com.lacqua.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,8 +13,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "TB_CLIENTE")
@@ -28,16 +29,16 @@ public class Cliente implements Serializable {
 
 	@Column(name = "NOME", nullable = false, length = 150)
 	private String nome;
-	
+
 	@Column(name = "NOME_REFERENCIA", nullable = false, length = 50)
 	private String nomeReferencia;
-	
+
 	@Column(name = "CPF", nullable = true, length = 11, unique = true)
 	private String cpf;
 
 	@Column(name = "TELEFONE", nullable = true, length = 11)
 	private String telefone1;
-	
+
 	@Column(name = "TELEFONE2", nullable = true, length = 11)
 	private String telefone2;
 
@@ -49,21 +50,25 @@ public class Cliente implements Serializable {
 
 	@Column(name = "ATIVO")
 	private Boolean ativo;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_MODIFIED", columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
-	private Date lastModified;
+
+	@Column(name = "CREATETIME", nullable = false, updatable = false)
+	@CreationTimestamp
+	private LocalDateTime createDateTime;
+
+	@Column(name = "UPDATETIME", nullable = false, updatable = true)
+	@UpdateTimestamp
+	private LocalDateTime updateDateTime;
 
 	/*
 	 * 
 	 * Relacionamentos
 	 * 
 	 */
-	
-	@OneToMany(mappedBy = "cliente", targetEntity = Apartamento.class, fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+
+	@OneToMany(mappedBy = "cliente", targetEntity = Apartamento.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Apartamento> apartamentos;
-	
-	@OneToMany(mappedBy = "cliente", targetEntity = Leitura.class, fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+
+	@OneToMany(mappedBy = "cliente", targetEntity = Leitura.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Leitura> consumosAgua;
 
 	/*
@@ -71,7 +76,7 @@ public class Cliente implements Serializable {
 	 * Getters/Setters
 	 * 
 	 */
-	
+
 	public Boolean getAtivo() {
 		return ativo;
 	}
@@ -95,7 +100,7 @@ public class Cliente implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
 	public String getCpf() {
 		return cpf;
 	}
@@ -119,7 +124,7 @@ public class Cliente implements Serializable {
 	public void setTelefone1(String telefone1) {
 		this.telefone1 = telefone1;
 	}
-	
+
 	public String getTelefone2() {
 		return telefone2;
 	}
@@ -144,17 +149,42 @@ public class Cliente implements Serializable {
 		this.observacao = observacao;
 	}
 
-	public Date getLastModified() {
-		return lastModified;
+	public LocalDateTime getCreateDateTime() {
+		return createDateTime;
 	}
 
-	public void setLastModified(Date lastModified) {
-		this.lastModified = lastModified;
+	public void setCreateDateTime(LocalDateTime createDateTime) {
+		this.createDateTime = createDateTime;
 	}
-	
+
+	public LocalDateTime getUpdateDateTime() {
+		return updateDateTime;
+	}
+
+	public void setUpdateDateTime(LocalDateTime updateDateTime) {
+		this.updateDateTime = updateDateTime;
+	}
+
+	public List<Apartamento> getApartamentos() {
+		return apartamentos;
+	}
+
+	public void setApartamentos(List<Apartamento> apartamentos) {
+		this.apartamentos = apartamentos;
+	}
+
+	public List<Leitura> getConsumosAgua() {
+		return consumosAgua;
+	}
+
+	public void setConsumosAgua(List<Leitura> consumosAgua) {
+		this.consumosAgua = consumosAgua;
+	}
+
 	/*
 	 * 
 	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 
@@ -194,5 +224,4 @@ public class Cliente implements Serializable {
 			return false;
 		return true;
 	}
-	
 }

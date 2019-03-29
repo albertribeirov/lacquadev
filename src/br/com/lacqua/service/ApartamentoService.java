@@ -1,6 +1,5 @@
 package br.com.lacqua.service;
 
-import java.util.Calendar;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -38,7 +37,6 @@ public class ApartamentoService extends Service {
 	public void inserir(Apartamento apartamento) {
 		try {
 			beginTransaction();
-			apartamento.setLastModified(Calendar.getInstance().getTime());
 			apartamentoDAO.salvar(apartamento);
 			logService.log("Apartamento inserido: " + apartamento.getId(), TipoMensagem.INFO);
 

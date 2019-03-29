@@ -1,6 +1,6 @@
 package br.com.lacqua.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +9,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 public class Log {
@@ -30,9 +30,9 @@ public class Log {
 	/**
 	 * Data da mensagem
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "DATA", columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP")
-	private Date data;
+	@Column(name = "DATA", nullable = false, updatable = false)
+	@CreationTimestamp
+	private LocalDateTime data;
 	
 	/**
 	 * Tipo da mensagem de log 
@@ -55,11 +55,11 @@ public class Log {
 		this.id = id;
 	}
 
-	public Date getData() {
+	public LocalDateTime getData() {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(LocalDateTime data) {
 		this.data = data;
 	}
 

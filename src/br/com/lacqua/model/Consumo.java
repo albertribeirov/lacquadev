@@ -2,7 +2,7 @@ package br.com.lacqua.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,8 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "TB_CONSUMO")
@@ -38,9 +39,13 @@ public class Consumo implements Serializable {
 	@Column(name = "ANO", nullable = false)
 	private Integer ano;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_MODIFIED", columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP()")
-	private Date lastModified;
+	@Column(name = "CREATETIME", nullable = false, updatable = false)
+	@CreationTimestamp
+	private LocalDateTime createDateTime;
+
+	@Column(name = "UPDATETIME", nullable = false, updatable = true)
+	@UpdateTimestamp
+	private LocalDateTime updateDateTime;
 
 	/*
 	 * 
@@ -146,15 +151,27 @@ public class Consumo implements Serializable {
 		this.precoGas = precoGas;
 	}
 
-	public Date getLastModified() {
-		return lastModified;
-	}
-
 	public BigDecimal getConsumo() {
 		return consumo;
 	}
 
 	public void setConsumo(BigDecimal consumo) {
 		this.consumo = consumo;
-	}	
+	}
+
+	public LocalDateTime getCreateDateTime() {
+		return createDateTime;
+	}
+
+	public void setCreateDateTime(LocalDateTime createDateTime) {
+		this.createDateTime = createDateTime;
+	}
+
+	public LocalDateTime getUpdateDateTime() {
+		return updateDateTime;
+	}
+
+	public void setUpdateDateTime(LocalDateTime updateDateTime) {
+		this.updateDateTime = updateDateTime;
+	}
 }

@@ -2,6 +2,7 @@ package br.com.lacqua.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +18,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "TB_CONDOMINIO")
@@ -35,7 +39,7 @@ public class Condominio implements Serializable {
 	@Column(name = "NOME", nullable = false, length = 150)
 	private String nome;
 
-	@Column(name = "TAXA_LEITURA", precision = 10, scale = 3, nullable = false)
+	@Column(name = "TAXA_LEITURA", precision = 10, scale = 2, nullable = false)
 	private BigDecimal taxaLeitura;
 
 	@Column(name = "CNPJ", nullable = true, length = 18)
@@ -43,11 +47,9 @@ public class Condominio implements Serializable {
 	private String cnpj;
 
 	@Column(name = "TELEFONE1", nullable = true, length = 15)
-	// @Column(name = "TELEFONE1", nullable = false, length = 11)
 	private String telefone1;
 
 	@Column(name = "TELEFONE2", nullable = true, length = 15)
-	// @Column(name = "TELEFONE2", nullable = true, length = 11)
 	private String telefone2;
 
 	@Column(name = "INSCRICAO_MUNICIPAL", nullable = true, length = 20)
@@ -86,9 +88,13 @@ public class Condominio implements Serializable {
 	// @Column(name = "CEP", nullable = false, length = 8)
 	private String cep;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_MODIFIED", columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP")
-	private Date lastModified;
+	@Column(name = "CREATETIME", nullable = false, updatable = false)
+	@CreationTimestamp
+	private LocalDateTime createDateTime;
+
+	@Column(name = "UPDATETIME", nullable = false, updatable = true)
+	@UpdateTimestamp
+	private LocalDateTime updateDateTime;
 
 	@OneToMany(mappedBy = "condominio")
 	private List<Torre> torres = new ArrayList<>();
@@ -248,17 +254,25 @@ public class Condominio implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	
+	public LocalDateTime getCreateDateTime() {
+		return createDateTime;
+	}
+
+	public void setCreateDateTime(LocalDateTime createDateTime) {
+		this.createDateTime = createDateTime;
+	}
+
+	public LocalDateTime getUpdateDateTime() {
+		return updateDateTime;
+	}
+
+	public void setUpdateDateTime(LocalDateTime updateDateTime) {
+		this.updateDateTime = updateDateTime;
+	}
 
 	public Boolean getAtivo() {
 		return ativo;
-	}
-
-	public Date getLastModified() {
-		return lastModified;
-	}
-
-	public void setLastModified(Date lastModified) {
-		this.lastModified = lastModified;
 	}
 
 	public List<Torre> getTorres() {

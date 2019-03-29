@@ -1,7 +1,8 @@
 package br.com.lacqua.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "TB_SINDICO")
@@ -42,19 +44,21 @@ public class Sindico implements Serializable {
 	private String email2;
 
 	@Column(name = "DT_ENTRADA")
-	@Temporal(TemporalType.DATE)
-	private Date mandatoInicio;
+	private LocalDate mandatoInicio;
 
 	@Column(name = "DT_SAIDA")
-	@Temporal(TemporalType.DATE)
-	private Date mandatoFim;
+	private LocalDate mandatoFim;
 
 	@Column(name = "OBSERVACAO", nullable = true, length = 1000)
 	private String observacao;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_MODIFIED", columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP")
-	private Date lastModified;
+	@Column(name = "CREATETIME", nullable = false, updatable = false)
+	@CreationTimestamp
+	private LocalDateTime createDateTime;
+
+	@Column(name = "UPDATETIME", nullable = false, updatable = true)
+	@UpdateTimestamp
+	private LocalDateTime updateDateTime;
 
 	/*
 	 * Getters/Setters
@@ -116,19 +120,19 @@ public class Sindico implements Serializable {
 		this.email2 = email2;
 	}
 
-	public Date getMandatoInicio() {
+	public LocalDate getMandatoInicio() {
 		return mandatoInicio;
 	}
 
-	public void setMandatoInicio(Date mandatoInicio) {
+	public void setMandatoInicio(LocalDate mandatoInicio) {
 		this.mandatoInicio = mandatoInicio;
 	}
 
-	public Date getMandatoFim() {
+	public LocalDate getMandatoFim() {
 		return mandatoFim;
 	}
 
-	public void setMandatoFim(Date mandatoFim) {
+	public void setMandatoFim(LocalDate mandatoFim) {
 		this.mandatoFim = mandatoFim;
 	}
 
@@ -140,12 +144,20 @@ public class Sindico implements Serializable {
 		this.idSindico = idSindico;
 	}
 
-	public Date getLastModified() {
-		return lastModified;
+	public LocalDateTime getCreateDateTime() {
+		return createDateTime;
 	}
 
-	public void setLastModified(Date date) {
-		this.lastModified = date;
+	public void setCreateDateTime(LocalDateTime createDateTime) {
+		this.createDateTime = createDateTime;
+	}
+
+	public LocalDateTime getUpdateDateTime() {
+		return updateDateTime;
+	}
+
+	public void setUpdateDateTime(LocalDateTime updateDateTime) {
+		this.updateDateTime = updateDateTime;
 	}
 
 	public String getObservacao() {

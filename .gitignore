@@ -9,3 +9,6 @@ ap.txt
 /enderecos.txt
 .classpath
 atlantico.txt
+.metadata/*
+*.prefs
+.settings/*

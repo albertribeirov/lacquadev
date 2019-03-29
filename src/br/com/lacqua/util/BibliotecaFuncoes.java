@@ -4,9 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -73,32 +72,23 @@ public class BibliotecaFuncoes {
 		return pValor.setScale(2, RoundingMode.HALF_EVEN);
 	}
 
-	public static Integer getMesFromDate(Date date) {
-		Integer mes = null;
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		mes = cal.get(Calendar.MONTH) + 1;
-		return mes;
+	public static Integer getMesFromLocalDate(LocalDate date) {
+		return date.getMonthValue();
 	}
 
-	public static Integer getAnoFromDate(Date date) {
-		Integer ano = null;
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		ano = cal.get(Calendar.YEAR);
-		return ano;
+	public static Integer getAnoFromLocalDate(LocalDate date) {
+		return date.getYear();
 	}
 	
-	public static String getDataComoString(Date date) {
+	public static String getDataComoString(LocalDate date) {
 		String resposta = "";
 		Integer dia = null;
 		Integer ano = null;
 		Integer mes = null;
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		dia = cal.get(Calendar.DAY_OF_MONTH);
-		mes = cal.get(Calendar.MONTH);
-		ano = cal.get(Calendar.YEAR);
+		
+		dia = date.getDayOfMonth();
+		mes = date.getMonthValue();
+		ano = date.getYear();
 		
 		String diaString = dia.toString();
 		String mesString = mes.toString();

@@ -1,5 +1,5 @@
 package br.com.lacqua.service;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.inject.Inject;
 
@@ -29,7 +29,7 @@ public class LogService extends Service {
 			beginTransaction();
 
 			Log log = new Log();
-			log.setData(new Date());
+			log.setData(LocalDateTime.now());
 			log.setTipo(tipo);
 			log.setMensagem(mensagem);
 			logDAO.salvar(log);

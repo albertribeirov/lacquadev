@@ -1,8 +1,8 @@
 package br.com.lacqua.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -14,8 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "TB_TORRE")
@@ -40,9 +41,13 @@ public class Torre implements Serializable {
 	@Column(name = "OBSERVACAO", nullable = true, length = 1000)
 	private String observacao;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_MODIFIED", columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP")
-	private Date lastModified;
+	@Column(name = "CREATETIME", nullable = false, updatable = false)
+	@CreationTimestamp
+	private LocalDateTime createDateTime;
+
+	@Column(name = "UPDATETIME", nullable = false, updatable = true)
+	@UpdateTimestamp
+	private LocalDateTime updateDateTime;
 
 	/*
 	 * 
@@ -114,12 +119,20 @@ public class Torre implements Serializable {
 		this.consumoDoCondominio = consumoDoCondominio;
 	}
 
-	public Date getLastModified() {
-		return lastModified;
+	public LocalDateTime getCreateDateTime() {
+		return createDateTime;
 	}
 
-	public void setLastModified(Date lastModified) {
-		this.lastModified = lastModified;
+	public void setCreateDateTime(LocalDateTime createDateTime) {
+		this.createDateTime = createDateTime;
+	}
+
+	public LocalDateTime getUpdateDateTime() {
+		return updateDateTime;
+	}
+
+	public void setUpdateDateTime(LocalDateTime updateDateTime) {
+		this.updateDateTime = updateDateTime;
 	}
 
 	public String getObservacao() {

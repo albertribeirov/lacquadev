@@ -6,9 +6,8 @@ import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -129,12 +128,11 @@ public class ControladorConsumoBean implements ControladorConsumo {
 
 	@Override
 	public void cargaConsumoDocumentoTexto(Leitura pLeitura) {
-		Date dataRealizacaoLeitura = pLeitura.getDataRealizacaoLeitura();
+		LocalDate dataRealizacaoLeitura = pLeitura.getDataRealizacaoLeitura();
 		Integer mesReferencia = pLeitura.getMesReferenciaLeitura();
 		Condominio cond = new Condominio();
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(dataRealizacaoLeitura);
-		Integer ano = cal.get(Calendar.YEAR);
+		// TODO Verificar se usa biblioteca de ano ou nao
+		Integer ano = dataRealizacaoLeitura.getYear();
 
 		List<String> texto = BibliotecaFuncoes.lerArquivo("D:/arquivo.txt");
 		Iterator<String> it = texto.iterator();
@@ -160,7 +158,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 			while (iter.hasNext()) {
 				Apartamento apart = iter.next();
 
-				if (numeroApartamento.equals(apart.getNumero())) {
+				if (numeroApartamento.equals(apart.getNumero().toString())) {
 					consumoGas.setApartamento(apart);
 					consumoGas.setCondominio(apart.getCondominio());
 
@@ -339,10 +337,10 @@ public class ControladorConsumoBean implements ControladorConsumo {
 		Condominio cond = pLeitura.getCondominio();
 		BigDecimal coeficiente = preco.getValor();
 		BigDecimal taxaLeitura = cond.getTaxaLeitura();
-		Date dataLeitura = pLeitura.getDataRealizacaoLeitura();
+		LocalDate dataLeitura = pLeitura.getDataRealizacaoLeitura();
 		String dataString = BibliotecaFuncoes.getDataComoString(dataLeitura);
-		Integer ano = BibliotecaFuncoes.getAnoFromDate(dataLeitura);
-		Integer mes = BibliotecaFuncoes.getMesFromDate(dataLeitura);
+		Integer ano = BibliotecaFuncoes.getAnoFromLocalDate(dataLeitura);
+		Integer mes = BibliotecaFuncoes.getMesFromLocalDate(dataLeitura);
 
 		BigDecimal valorConsumo = BigDecimal.ZERO;
 

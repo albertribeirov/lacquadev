@@ -20,6 +20,7 @@ public class Constantes {
 	/*
 	 *  Constantes de Condomínio
 	 */	
+	public static final String CONDOMINIO_CADASTRAR = "cadastrarCondominio";
 	public static final String CONDOMINIO_NOVO = "publico/CondominioCadastrar";
 	public static final String CONDOMINIO_ALTERAR = "publico/CondominioAlterar";
 	public static final String CONDOMINIO_SALVAR = "publico/CondominioSalvar";

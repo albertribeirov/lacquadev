@@ -1,8 +1,8 @@
 package br.com.lacqua.bean;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -84,15 +84,15 @@ public class LeituraBean extends AbstractBean {
 		List<Consumo> consumoMesSelecionado = new ArrayList<>();
 		List<Leitura> leituraMesAnterior = new ArrayList<>();
 		List<Leitura> leituraMesSelecionado = new ArrayList<>();
-		Date dataConsumo = leitura.getDataRealizacaoLeitura();
+		LocalDate dataConsumo = leitura.getDataRealizacaoLeitura();
 		condo = leitura.getCondominio();
 		
 		if (leitura.getTorre() != null) {
 			tower = leitura.getTorre();
 			cons.setTorre(tower);
 		}
-		Integer ano = BibliotecaFuncoes.getAnoFromDate(dataConsumo);
-		Integer mes = BibliotecaFuncoes.getMesFromDate(dataConsumo);
+		Integer ano = BibliotecaFuncoes.getAnoFromLocalDate(dataConsumo);
+		Integer mes = BibliotecaFuncoes.getMesFromLocalDate(dataConsumo);
 		leitura.setMesReferenciaLeitura(mes);
 		leitura.setAno(ano);
 		cons.setAno(ano);
@@ -140,9 +140,9 @@ public class LeituraBean extends AbstractBean {
 		List<Leitura> leituraMesAnterior = new ArrayList<Leitura>();
 		List<Leitura> leituraMesSelecionado = new ArrayList<Leitura>();
 		List<Consumo> consumosMesSelecionado = new ArrayList<Consumo>();
-		Date dataConsumo = leitura.getDataRealizacaoLeitura();
-		Integer ano = BibliotecaFuncoes.getAnoFromDate(dataConsumo);
-		Integer mes = BibliotecaFuncoes.getMesFromDate(dataConsumo);
+		LocalDate dataConsumo = leitura.getDataRealizacaoLeitura();
+		Integer ano = BibliotecaFuncoes.getAnoFromLocalDate(dataConsumo);
+		Integer mes = BibliotecaFuncoes.getMesFromLocalDate(dataConsumo);
 		Integer mesAnterior = null;
 		Integer anoAnterior = null;
 		leitura.setMesReferenciaLeitura(mes);
@@ -280,8 +280,8 @@ public class LeituraBean extends AbstractBean {
 	}
 
 	public List<Leitura> listarLeituras() {
-		Integer ano = BibliotecaFuncoes.getAnoFromDate(leitura.getDataRealizacaoLeitura());
-		Integer mes = BibliotecaFuncoes.getMesFromDate(leitura.getDataRealizacaoLeitura());
+		Integer ano = BibliotecaFuncoes.getAnoFromLocalDate(leitura.getDataRealizacaoLeitura());
+		Integer mes = BibliotecaFuncoes.getMesFromLocalDate(leitura.getDataRealizacaoLeitura());
 		listaLeituras = leituraService.listarLeiturasPorCondominioTorreMes(leitura, ano, mes);
 		return listaLeituras;
 	}

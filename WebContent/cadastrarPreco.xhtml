@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
@@ -17,15 +17,17 @@
 	<h:outputScript library="scripts" name="functions.js" />
 	<h:outputStylesheet library="css" name="styles.css" />
 	<h:form id="form_preco" prependId="false">
-	<p:growl for="message" id="message" sticky="false" showDetail="true" life="3000" />
+		<h:inputHidden value="#{precoBean.precoGas.id}" />
+		<h:inputHidden id="msg" />
+		<p:growl for="message" id="message" sticky="false" showDetail="true" life="3000" />
 
 		<br />
 		<p:fieldset legend="Dados">
 			<h:panelGrid columns="2">
 
 				<p:outputLabel for="gasValor" value="Valor m³" />
-				<p:inputNumber id="gasValor" value="#{precoBean.precoGas.valor}" decimalPlaces="2" decimalSeparator="," thousandSeparator="."
-					required="true" requiredMessage="A valor do m³ do gás deve ser informado" />
+				<p:inputNumber id="gasValor" value="#{precoBean.precoGas.valor}" decimalPlaces="2" decimalSeparator="," thousandSeparator="." required="true"
+					requiredMessage="A valor do m³ do gás deve ser informado" />
 
 				<p:outputLabel for="inicioVigencia" value="Início da Vigência" />
 				<p:calendar mask="true" id="inicioVigencia" locale="pt" pattern="dd/MM/yyyy" value="#{precoBean.precoGas.vigenciaInicio}" required="true">

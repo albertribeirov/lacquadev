@@ -2,7 +2,8 @@ package br.com.lacqua.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,19 +13,20 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "TB_LEITURA")
 public class Leitura implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public Leitura() {
-		
+
 	}
-	
+
 	public Leitura(Condominio condominio, Torre torre, Integer ano, Integer mes) {
 		this.condominio = condominio;
 		if (torre != null) {
@@ -42,19 +44,22 @@ public class Leitura implements Serializable {
 	@Column(name = "LEITURA", nullable = false, precision = 10, scale = 3)
 	private BigDecimal leitura;
 
-	@Column(name = "MES_DE_REFERENCIA", nullable = false)
+	@Column(name = "MES", nullable = false)
 	private Integer mesReferenciaLeitura;
 
 	@Column(name = "ANO", nullable = false)
 	private Integer ano;
 
 	@Column(name = "DATA_REALIZACAO_LEITURA", nullable = true)
-	@Temporal(TemporalType.DATE)
-	private Date dataRealizacaoLeitura;
+	private LocalDate dataRealizacaoLeitura;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_MODIFIED", columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP")
-	private Date lastModified;
+	@Column(name = "CREATETIME", nullable = false, updatable = false)
+	@CreationTimestamp
+	private LocalDateTime createDateTime;
+
+	@Column(name = "UPDATETIME", nullable = false, updatable = true)
+	@UpdateTimestamp
+	private LocalDateTime updateDateTime;
 
 	/*
 	 * 
@@ -140,20 +145,28 @@ public class Leitura implements Serializable {
 		this.mesReferenciaLeitura = mesReferenciaLeitura;
 	}
 
-	public Date getDataRealizacaoLeitura() {
+	public LocalDate getDataRealizacaoLeitura() {
 		return dataRealizacaoLeitura;
 	}
 
-	public void setDataRealizacaoLeitura(Date dataRealizacaoLeitura) {
+	public void setDataRealizacaoLeitura(LocalDate dataRealizacaoLeitura) {
 		this.dataRealizacaoLeitura = dataRealizacaoLeitura;
 	}
 
-	public Date getLastModified() {
-		return lastModified;
+	public LocalDateTime getCreateDateTime() {
+		return createDateTime;
 	}
 
-	public void setLastModified(Date lastModified) {
-		this.lastModified = lastModified;
+	public void setCreateDateTime(LocalDateTime createDateTime) {
+		this.createDateTime = createDateTime;
+	}
+
+	public LocalDateTime getUpdateDateTime() {
+		return updateDateTime;
+	}
+
+	public void setUpdateDateTime(LocalDateTime updateDateTime) {
+		this.updateDateTime = updateDateTime;
 	}
 
 	public Integer getAno() {

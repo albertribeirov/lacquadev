@@ -2,7 +2,7 @@ package br.com.lacqua.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -14,9 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "TB_APARTAMENTO")
@@ -30,20 +31,28 @@ public class Apartamento implements Serializable {
 
 	@Column(name = "NUMERO", nullable = false)
 	private Integer numero;
-	
+
 	@Column(name = "OBSERVACAO", nullable = true, length = 1000)
 	private String observacao;
-	
+
+	@Column(name = "CREATETIME", nullable = false, updatable = false)
+	@CreationTimestamp
+	private LocalDateTime createDateTime;
+
+	@Column(name = "UPDATETIME", nullable = false, updatable = true)
+	@UpdateTimestamp
+	private LocalDateTime updateDateTime;
+
 	/*
 	 * 
-	 * Relacionamentos  
+	 * Relacionamentos
 	 * 
 	 */
-	
+
 	@ManyToOne
 	@JoinColumn(unique = false, name = "ID_CLIENTE", nullable = true, referencedColumnName = "ID_CLIENTE")
 	private Cliente cliente;
-	
+
 	@ManyToOne
 	@JoinColumn(unique = false, name = "ID_TORRE", nullable = true, referencedColumnName = "ID_TORRE")
 	private Torre torre;
@@ -51,14 +60,10 @@ public class Apartamento implements Serializable {
 	@ManyToOne
 	@JoinColumn(unique = false, name = "ID_CONDOMINIO", nullable = false, referencedColumnName = "ID_CONDOMINIO")
 	private Condominio condominio;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_MODIFIED", columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP")
-	private Date lastModified;
-	
+
 	@OneToMany(mappedBy = "apartamento")
 	private List<Leitura> consumosGas;
-	
+
 	/*
 	 * Utilizada apenas para receber a leitura, não é persistida no banco.
 	 */
@@ -78,7 +83,7 @@ public class Apartamento implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 	public List<Leitura> getConsumosGas() {
 		return consumosGas;
 	}
@@ -94,7 +99,7 @@ public class Apartamento implements Serializable {
 	public Integer getNumero() {
 		return numero;
 	}
-	
+
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
 	}
@@ -127,19 +132,27 @@ public class Apartamento implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public Date getLastModified() {
-		return lastModified;
-	}
-
-	public void setLastModified(Date lastModified) {
-		this.lastModified = lastModified;
-	}
-
 	public BigDecimal getLeitura() {
 		return leitura;
 	}
 
 	public void setLeitura(BigDecimal leitura) {
 		this.leitura = leitura;
+	}
+
+	public LocalDateTime getCreateDateTime() {
+		return createDateTime;
+	}
+
+	public void setCreateDateTime(LocalDateTime createDateTime) {
+		this.createDateTime = createDateTime;
+	}
+
+	public LocalDateTime getUpdateDateTime() {
+		return updateDateTime;
+	}
+
+	public void setUpdateDateTime(LocalDateTime updateDateTime) {
+		this.updateDateTime = updateDateTime;
 	}
 }

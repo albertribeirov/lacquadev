@@ -6,7 +6,7 @@
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-	<title>Lista de Condomínios</title>
+	<title>Cadastro de Condomínios</title>
 </h:head>
 
 <h:body>
@@ -16,6 +16,8 @@
 	<h:outputScript library="scripts" name="functions.js" />
 	<h:outputStylesheet library="css" name="styles.css" />
 	<h:form id="form_condominio" prependId="false">
+		<p:inputText value="#{condominioBean.condominio.id}" id="idHidden" type="hidden" />
+		<p:growl for="message" sticky="false" showDetail="true" life="4000" />
 
 		<br />
 		<p:fieldset legend="Dados">
@@ -107,9 +109,14 @@
 			<p:dataTable value="#{condominioBean.condominios}" var="c">
 				<f:facet name="header">Lista de Condomínios</f:facet>
 
+				<p:column width="2%">
+					<f:facet name="header">ID</f:facet>
+					<h:outputText value="#{c.id}" />
+				</p:column>
+
 				<p:column width="14%">
 					<f:facet name="header">Nome</f:facet>
-					<h:outputText  value="#{c.nome}" />
+					<h:outputText value="#{c.nome}" title="#{c.observacao}" />
 				</p:column>
 
 				<p:column width="5%">
@@ -159,7 +166,7 @@
 					<h:outputText value="#{c.ruaComNumero}" />
 				</p:column>
 
-				<p:column width="7%" >
+				<p:column width="7%">
 					<f:facet name="header">Ações</f:facet>
 					<h:commandLink action="#{condominioBean.alterar(c.id)}">Alterar</h:commandLink>
 					|

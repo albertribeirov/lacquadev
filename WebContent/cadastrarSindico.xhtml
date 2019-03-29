@@ -16,6 +16,9 @@
 	<h:outputScript library="scripts" name="functions.js" />
 	<h:outputStylesheet library="css" name="styles.css" />
 	<h:form id="form_sindico" prependId="false">
+		<h:inputHidden value="#{sindicoBean.sindico.id}" />
+		<h:inputHidden id="msg" />
+		<p:growl for="message" id="message" sticky="false" showDetail="true" life="3000" />
 
 		<br />
 		<p:fieldset legend="Dados">
