@@ -197,8 +197,8 @@ public class ControladorConsumoBean implements ControladorConsumo {
 		BigDecimal valor = BigDecimal.ZERO;
 		Integer mes = pLeitura.getMesReferenciaLeitura();
 		Integer ano = pLeitura.getAno();
-		Torre ap = pLeitura.getTorre();
-		Condominio cond = pLeitura.getCondominio();
+		//Torre ap = pLeitura.getTorre();
+		//Condominio cond = pLeitura.getCondominio();
 		PrintWriter pw = new PrintWriter(new File("D:\\saida.txt"));
 
 		Iterator<Leitura> itMesAtual = pMesAtual.iterator();

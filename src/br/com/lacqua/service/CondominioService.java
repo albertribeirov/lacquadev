@@ -5,8 +5,10 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.lacqua.dao.CondominioDAO;
+import br.com.lacqua.exception.ValidationException;
 import br.com.lacqua.model.Condominio;
 import br.com.lacqua.model.Log.TipoMensagem;
+import br.com.lacqua.util.Constantes;
 
 /**
  * Métodos de negócio relacionados à entidade Condominio
@@ -36,10 +38,18 @@ public class CondominioService extends Service {
 	 * @param Condominio Condominio a ser inserido
 	 * @throws ServiceException
 	 */
-	public void inserir(Condominio condominio) {
+	public void inserir(Condominio condominio) throws ValidationException {
 		try {
 			beginTransaction();
-
+			
+			if (condominioDAO.buscarCondominioPorNome(condominio.getNome(), null)) {
+				throw new ValidationException(Constantes.MSG_ERRO_EXISTE_CONDOMINIO_NOME);
+			}
+			
+			if (condominioDAO.buscarCondominioPorCNPJ(condominio.getCnpj(), null)) {
+				throw new ValidationException(Constantes.MSG_ERRO_EXISTE_CONDOMINIO_CNPJ);
+			}
+			
 			condominioDAO.salvar(condominio);
 			logService.log("Condominio inserido: " + condominio.getNome(), TipoMensagem.INFO);
 
@@ -55,11 +65,20 @@ public class CondominioService extends Service {
 	 * Altera um Condominio cadastrado no banco de dados.
 	 * 
 	 * @param Condominio
+	 * @throws ValidationException 
 	 * @throws ServiceException
 	 */
-	public void alterar(Condominio condominio) {
+	public void alterar(Condominio condominio) throws ValidationException {
 		try {
 			beginTransaction();
+			
+			if (condominioDAO.buscarCondominioPorNome(condominio.getNome(), condominio.getId())) {
+				throw new ValidationException(Constantes.MSG_ERRO_EXISTE_CONDOMINIO_NOME);
+			}
+			
+			if (condominioDAO.buscarCondominioPorCNPJ(condominio.getCnpj(), condominio.getId())) {
+				throw new ValidationException(Constantes.MSG_ERRO_EXISTE_CONDOMINIO_CNPJ);
+			}
 
 			condominioDAO.alterar(condominio);
 			logService.log("Condominio alterado: " + condominio.getNome(), TipoMensagem.INFO);

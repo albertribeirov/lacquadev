@@ -2,8 +2,8 @@ package br.com.lacqua.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,10 +30,10 @@ public class PrecoGas implements Serializable {
 	private BigDecimal valor;
 
 	@Column(name = "VIGENCIA_INICIO", nullable = false)
-	private LocalDate vigenciaInicio;
+	private Date vigenciaInicio;
 
 	@Column(name = "VIGENCIA_FINAL", nullable = true)
-	private LocalDate vigenciaFinal;
+	private Date vigenciaFinal;
 
 	@Column(name = "CREATETIME", nullable = false, updatable = false)
 	@CreationTimestamp
@@ -59,19 +59,19 @@ public class PrecoGas implements Serializable {
 		this.valor = valor;
 	}
 
-	public LocalDate getVigenciaInicio() {
+	public Date getVigenciaInicio() {
 		return vigenciaInicio;
 	}
 
-	public void setVigenciaInicio(LocalDate vigenciaInicio) {
+	public void setVigenciaInicio(Date vigenciaInicio) {
 		this.vigenciaInicio = vigenciaInicio;
 	}
 
-	public LocalDate getVigenciaFinal() {
+	public Date getVigenciaFinal() {
 		return vigenciaFinal;
 	}
 
-	public void setVigenciaFinal(LocalDate vigenciaFinal) {
+	public void setVigenciaFinal(Date vigenciaFinal) {
 		this.vigenciaFinal = vigenciaFinal;
 	}
 

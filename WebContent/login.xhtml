@@ -5,7 +5,7 @@
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-	<title>Título da Página</title>
+	<title>Login</title>
 </h:head>
 <h:body>
 	<ui:decorate template="decorator.xhtml" />
@@ -19,7 +19,7 @@
 
 				<h:panelGrid columns="1">
 
-					<p:outputLabel value="Nome:" />
+					<p:outputLabel value="Usuário" />
 					<p:inputText value="#{loginBean.name}" />
 
 					<p:outputLabel value="Senha:" />
@@ -32,8 +32,8 @@
 				</h:panelGrid>
 
 			</h:panelGrid>
-			<h:commandButton id="button" value="login" action="#{loginBean.doLogin}" />
-			<h:commandButton id="cadastrar" value="Cadastrar" action="#{loginBean.cadastrar}" />
+			
+			<p:commandButton icon="" type="button" id="logar" value="Entrar" action="#{loginBean.doLogin}" style="margin: 10px" update="form" />
 		</p:panel>
 
 

@@ -30,25 +30,19 @@ public class Cliente implements Serializable {
 	@Column(name = "NOME", nullable = false, length = 150)
 	private String nome;
 
-	@Column(name = "NOME_REFERENCIA", nullable = false, length = 50)
-	private String nomeReferencia;
-
-	@Column(name = "CPF", nullable = true, length = 11, unique = true)
-	private String cpf;
-
 	@Column(name = "TELEFONE", nullable = true, length = 11)
 	private String telefone1;
 
 	@Column(name = "TELEFONE2", nullable = true, length = 11)
 	private String telefone2;
 
-	@Column(name = "EMAIL")
+	@Column(name = "EMAIL", nullable = true)
 	private String email;
 
-	@Column(name = "OBSERVACAO")
+	@Column(name = "OBSERVACAO", nullable = true)
 	private String observacao;
 
-	@Column(name = "ATIVO")
+	@Column(name = "ATIVO", nullable = false)
 	private Boolean ativo;
 
 	@Column(name = "CREATETIME", nullable = false, updatable = false)
@@ -69,7 +63,7 @@ public class Cliente implements Serializable {
 	private List<Apartamento> apartamentos;
 
 	@OneToMany(mappedBy = "cliente", targetEntity = Leitura.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Leitura> consumosAgua;
+	private List<Leitura> leituras;
 
 	/*
 	 * 
@@ -99,22 +93,6 @@ public class Cliente implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public String getNomeReferencia() {
-		return nomeReferencia;
-	}
-
-	public void setNomeReferencia(String nomeReferencia) {
-		this.nomeReferencia = nomeReferencia;
 	}
 
 	public String getTelefone1() {
@@ -174,11 +152,11 @@ public class Cliente implements Serializable {
 	}
 
 	public List<Leitura> getConsumosAgua() {
-		return consumosAgua;
+		return leituras;
 	}
 
 	public void setConsumosAgua(List<Leitura> consumosAgua) {
-		this.consumosAgua = consumosAgua;
+		this.leituras = consumosAgua;
 	}
 
 	/*
@@ -192,7 +170,6 @@ public class Cliente implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
@@ -207,16 +184,6 @@ public class Cliente implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Cliente other = (Cliente) obj;
-		if (cpf == null) {
-			if (other.cpf != null)
-				return false;
-		} else if (!cpf.equals(other.cpf))
-			return false;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;

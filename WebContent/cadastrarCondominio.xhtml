@@ -16,8 +16,8 @@
 	<h:outputScript library="scripts" name="functions.js" />
 	<h:outputStylesheet library="css" name="styles.css" />
 	<h:form id="form_condominio" prependId="false">
-		<p:inputText value="#{condominioBean.condominio.id}" id="idHidden" type="hidden" />
-		<p:growl for="message" sticky="false" showDetail="true" life="4000" />
+		<p:inputText value="#{condominioBean.condominio.id}" id="idCondominioHidden" type="hidden" />
+		<p:growl for="message" sticky="true" showDetail="true" life="4000" />
 
 		<br />
 		<p:fieldset legend="Dados">

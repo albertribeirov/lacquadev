@@ -3,7 +3,20 @@ package br.com.lacqua.util;
 public class Constantes {
 	
 	public static final String SUCESSO = "success";
+	
+	/*
+	 * Mensagens Condomínio
+	 */
+	public static final String MSG_ERRO_EXISTE_CONDOMINIO_NOME = "Já existe um condomínio com este nome.";
+	public static final String MSG_ERRO_EXISTE_CONDOMINIO_CNPJ = "Já existe um condomínio com este CNPJ.";
 
+	/*
+	 * Mensagens Cliente
+	 */
+	
+	public static final String MSG_ERRO_EXISTE_CLIENTE_NOME = "Já existe um condomínio com este nome.";
+	public static final String MSG_ERRO_EXISTE_CLIENTE_EMAIL = "Já existe um condomínio com este email.";
+	
 	/*
 	 *  Constantes de Apartamento
 	 */

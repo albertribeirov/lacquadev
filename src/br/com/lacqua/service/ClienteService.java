@@ -4,8 +4,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 import br.com.lacqua.dao.ClienteDAO;
+import br.com.lacqua.exception.ValidationException;
 import br.com.lacqua.model.Cliente;
 import br.com.lacqua.model.Log.TipoMensagem;
+import br.com.lacqua.util.Constantes;
 
 /**
  * Métodos de negócio relacionados à entidade Cliente
@@ -35,12 +37,20 @@ public class ClienteService extends Service {
 	 * @param Cliente Cliente a ser inserido
 	 * @throws ServiceException
 	 */
-	public void inserir(Cliente cliente) throws Exception {
+	public void inserir(Cliente cliente) throws ValidationException {
 		try {
 			beginTransaction();
 
+			if(clienteDAO.buscarClientePorNome(cliente.getNome(), null)) {
+				throw new ValidationException(Constantes.MSG_ERRO_EXISTE_CLIENTE_NOME);
+			}
+			
+			if(clienteDAO.buscarClientePorNome(cliente.getEmail(), null)) {
+				throw new ValidationException(Constantes.MSG_ERRO_EXISTE_CLIENTE_EMAIL);
+			}
+			
 			clienteDAO.salvar(cliente);
-			logService.log("Cliente inserido: " + cliente.getNomeReferencia(), TipoMensagem.INFO);
+			logService.log("Cliente inserido: " + cliente.getNome(), TipoMensagem.INFO);
 
 			commitTransaction();
 
@@ -56,9 +66,17 @@ public class ClienteService extends Service {
 	 * @param Cliente
 	 * @throws ServiceException
 	 */
-	public void atualizar(Cliente cliente) throws Exception {
+	public void atualizar(Cliente cliente) throws ValidationException {
 		try {
 			beginTransaction();
+			
+			if(clienteDAO.buscarClientePorNome(cliente.getNome(), cliente.getId())) {
+				throw new ValidationException(Constantes.MSG_ERRO_EXISTE_CLIENTE_NOME);
+			}
+			
+			if(clienteDAO.buscarClientePorNome(cliente.getEmail(), cliente.getId())) {
+				throw new ValidationException(Constantes.MSG_ERRO_EXISTE_CLIENTE_EMAIL);
+			}
 
 			clienteDAO.alterar(cliente);
 			logService.log("Cliente alterado: " + cliente.getId(), TipoMensagem.INFO);

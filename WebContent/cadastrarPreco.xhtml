@@ -30,15 +30,9 @@
 					requiredMessage="A valor do m³ do gás deve ser informado" />
 
 				<p:outputLabel for="inicioVigencia" value="Início da Vigência" />
-				<p:calendar mask="true" id="inicioVigencia" locale="pt" pattern="dd/MM/yyyy" value="#{precoBean.precoGas.vigenciaInicio}" required="true">
-					<f:convertDateTime pattern="dd/MM/yyyy" />
-				</p:calendar>
-
+				<p:calendar mask="true" id="inicioVigencia" locale="pt" pattern="dd/MM/yyyy"  value="#{precoBean.precoGas.vigenciaInicio}" required="true" />
 				<p:outputLabel for="finalVigencia" value="Final da Vigência" />
-				<p:calendar mask="true" id="finalVigencia" locale="pt" pattern="dd/MM/yyyy" value="#{precoBean.precoGas.vigenciaFinal}">
-					<f:convertDateTime pattern="dd/MM/yyyy" />
-				</p:calendar>
-
+				<p:calendar mask="true" id="finalVigencia" locale="pt" pattern="dd/MM/yyyy" value="#{precoBean.precoGas.vigenciaFinal}" />
 			</h:panelGrid>
 		</p:fieldset>
 	</h:form>

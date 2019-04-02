@@ -36,14 +36,13 @@ public class Condominio implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "NOME", nullable = false, length = 150)
+	@Column(name = "NOME", nullable = false, length = 150, unique = true)
 	private String nome;
 
 	@Column(name = "TAXA_LEITURA", precision = 10, scale = 2, nullable = false)
 	private BigDecimal taxaLeitura;
 
-	@Column(name = "CNPJ", nullable = true, length = 18)
-	// @Column(name = "CNPJ", nullable = true, length = 14)
+	@Column(name = "CNPJ", nullable = true, length = 18, unique = true)
 	private String cnpj;
 
 	@Column(name = "TELEFONE1", nullable = true, length = 15)
