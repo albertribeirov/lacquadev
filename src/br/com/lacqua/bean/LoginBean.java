@@ -16,12 +16,12 @@ public class LoginBean implements Serializable {
 	private String name;
 	private String password;
 
-	public String doLogin() {
+	public String login() {
 		if("albert".equals(name) && "senha".equals(password)) {
 			return "cadastrarCondominio";
 			
 		} else {
-			FacesContext.getCurrentInstance().addMessage("form:button", new FacesMessage("Login inválido!"));
+			FacesContext.getCurrentInstance().addMessage("msg", new FacesMessage("Login inválido!"));
 			return null;
 		}
 	}

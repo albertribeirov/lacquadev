@@ -14,7 +14,7 @@
 	<h:outputScript library="scripts" name="functions.js" />
 	<h:outputStylesheet library="css" name="styles.css" />
 	<h:form id="form_consumo" prependId="false">
-		<p:growl for="message" id="message" sticky="true" showDetail="true" life="3000" />
+		<p:growl for="message" sticky="false" showDetail="true" life="4000" />
 		<br />
 
 		<p:fieldset legend="Dados">
@@ -37,9 +37,7 @@
 			</h:panelGrid>
 		</p:fieldset>
 
-		<p:commandButton icon="ui-icon-disk" id="formTorre" value="Listar Leituras" action="#{leituraBean.listarLeituras}" style="margin: 10px" update="fconsumo" />
-
-		<p:commandButton icon="ui-icon-disk" id="salvarConsumos" value="Salvar" action="#{leituraBean.salvar}" style="margin: 10px" update="fconsumo" />
+		<p:commandButton icon="ui-icon-disk" id="formTorre" value="Listar Leituras" action="#{leituraBean.listarLeituras}" style="margin: 10px" update="form_consumo" />
 
 	</h:form>
 

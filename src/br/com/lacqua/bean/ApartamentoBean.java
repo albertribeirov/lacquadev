@@ -60,6 +60,11 @@ public class ApartamentoBean extends AbstractBean {
 			return null;
 		}
 	}
+	
+	public String cancelar() {
+		apartamento = null;
+		return null;
+	}
 
 	public Apartamento getApartamento() {
 		if (apartamento == null) {

@@ -8,11 +8,11 @@
 	<title>Login</title>
 </h:head>
 <h:body>
-	<ui:decorate template="decorator.xhtml" />
 	<h:outputScript library="scripts" name="pt.js" />
 	<h:outputScript library="scripts" name="functions.js" />
 	<h:outputStylesheet library="css" name="styles.css" />
 	<h:form id="form">
+	<p:growl for="message" id="message" sticky="false" showDetail="true" life="4000" />
 
 		<p:panel>
 			<h:panelGrid columns="2">
@@ -33,11 +33,8 @@
 
 			</h:panelGrid>
 			
-			<p:commandButton icon="" type="button" id="logar" value="Entrar" action="#{loginBean.doLogin}" style="margin: 10px" update="form" />
+			<p:commandButton value="Entrar" id="logonButton" action="#{loginBean.login}" update="form" style="margin-right:20px;" icon="ui-icon ui-icon-suitcase" />
 		</p:panel>
-
-
-		<h:message style="color: red;" for="button" />
 	</h:form>
 </h:body>
 </html>

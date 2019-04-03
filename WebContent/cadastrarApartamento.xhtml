@@ -53,10 +53,9 @@
 			</h:panelGrid>
 		</p:fieldset>
 	</h:form>
-	<p:messages>
-	</p:messages>
 
-	<p:commandButton icon="ui-icon-disk" id="formTorre" value="salvar" action="#{apartamentoBean.salvar}" style="margin: 10px" update="form_apartamento" />
+	<p:commandButton icon="ui-icon-disk" id="salvarButton" value="Salvar" action="#{apartamentoBean.salvar}" style="margin: 10px" update="form_apartamento" />
+	<p:commandButton icon="ui-icon ui-icon-circle-close" id="cancelarButton" value="Cancelar" action="#{apartamentoBean.cancelar}" style="margin: 10px" update="form_apartamento" />
 
 
 	<h:panelGroup>

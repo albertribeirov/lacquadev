@@ -2,8 +2,8 @@ package br.com.lacqua.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -51,7 +51,7 @@ public class Leitura implements Serializable {
 	private Integer ano;
 
 	@Column(name = "DATA_REALIZACAO_LEITURA", nullable = true)
-	private LocalDate dataRealizacaoLeitura;
+	private Date dataRealizacaoLeitura;
 
 	@Column(name = "CREATETIME", nullable = false, updatable = false)
 	@CreationTimestamp
@@ -145,11 +145,11 @@ public class Leitura implements Serializable {
 		this.mesReferenciaLeitura = mesReferenciaLeitura;
 	}
 
-	public LocalDate getDataRealizacaoLeitura() {
+	public Date getDataRealizacaoLeitura() {
 		return dataRealizacaoLeitura;
 	}
 
-	public void setDataRealizacaoLeitura(LocalDate dataRealizacaoLeitura) {
+	public void setDataRealizacaoLeitura(Date dataRealizacaoLeitura) {
 		this.dataRealizacaoLeitura = dataRealizacaoLeitura;
 	}
 

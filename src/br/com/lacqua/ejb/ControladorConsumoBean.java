@@ -6,8 +6,8 @@ import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -128,11 +128,11 @@ public class ControladorConsumoBean implements ControladorConsumo {
 
 	@Override
 	public void cargaConsumoDocumentoTexto(Leitura pLeitura) {
-		LocalDate dataRealizacaoLeitura = pLeitura.getDataRealizacaoLeitura();
+		Date dataRealizacaoLeitura = pLeitura.getDataRealizacaoLeitura();
 		Integer mesReferencia = pLeitura.getMesReferenciaLeitura();
 		Condominio cond = new Condominio();
 		// TODO Verificar se usa biblioteca de ano ou nao
-		Integer ano = dataRealizacaoLeitura.getYear();
+		Integer ano = BibliotecaFuncoes.getAnoFromDate(dataRealizacaoLeitura);
 
 		List<String> texto = BibliotecaFuncoes.lerArquivo("D:/arquivo.txt");
 		Iterator<String> it = texto.iterator();
@@ -337,10 +337,10 @@ public class ControladorConsumoBean implements ControladorConsumo {
 		Condominio cond = pLeitura.getCondominio();
 		BigDecimal coeficiente = preco.getValor();
 		BigDecimal taxaLeitura = cond.getTaxaLeitura();
-		LocalDate dataLeitura = pLeitura.getDataRealizacaoLeitura();
-		String dataString = BibliotecaFuncoes.getDataComoString(dataLeitura);
-		Integer ano = BibliotecaFuncoes.getAnoFromLocalDate(dataLeitura);
-		Integer mes = BibliotecaFuncoes.getMesFromLocalDate(dataLeitura);
+		Date dataLeitura = pLeitura.getDataRealizacaoLeitura();
+		String dataString = BibliotecaFuncoes.getDateComoString(dataLeitura);
+		Integer ano = BibliotecaFuncoes.getAnoFromDate(dataLeitura);
+		Integer mes = BibliotecaFuncoes.getMesFromDate(dataLeitura);
 
 		BigDecimal valorConsumo = BigDecimal.ZERO;
 

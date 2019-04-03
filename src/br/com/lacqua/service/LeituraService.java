@@ -1,5 +1,6 @@
 package br.com.lacqua.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -7,6 +8,7 @@ import javax.inject.Inject;
 import org.hibernate.service.spi.ServiceException;
 
 import br.com.lacqua.dao.LeituraDAO;
+import br.com.lacqua.exception.ValidationException;
 import br.com.lacqua.model.Leitura;
 import br.com.lacqua.model.Log.TipoMensagem;
 
@@ -110,7 +112,9 @@ public class LeituraService extends Service {
 		return leituraDAO.listarConsumosPorCondominioTorre(idCondominio, idTorre);
 	}
 
-	public List<Leitura> listarLeiturasPorCondominioTorreMes(Leitura pLeitura, Integer pAno, Integer pMes) {
+	public List<Leitura> listarLeiturasPorCondominioTorreMes(Leitura pLeitura, Integer pAno, Integer pMes) throws ValidationException {
+
+		List<Leitura> leituras = new ArrayList<Leitura>();
 		Integer idTorre = null;
 		if (pLeitura.getTorre() != null) {
 			idTorre = pLeitura.getTorre().getId();
@@ -118,6 +122,12 @@ public class LeituraService extends Service {
 		Integer idCondominio = pLeitura.getCondominio().getId();
 		Integer mesReferencia = pMes;
 		Integer anoReferencia = pAno;
-		return leituraDAO.listarLeiturasPorCondominioTorreMes(idCondominio, idTorre, mesReferencia, anoReferencia);
+		leituras = leituraDAO.listarLeiturasPorCondominioTorreMes(idCondominio, idTorre, mesReferencia, anoReferencia);
+
+		if (leituras.isEmpty() || leituras == null) {
+			throw new ValidationException("Não há leituras para este condomínio/torre no mês informado.");
+		}
+
+		return leituras;
 	}
 }

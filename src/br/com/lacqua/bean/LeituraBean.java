@@ -1,8 +1,8 @@
 package br.com.lacqua.bean;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.lacqua.ejb.ControladorConsumo;
+import br.com.lacqua.exception.ValidationException;
 import br.com.lacqua.model.Apartamento;
 import br.com.lacqua.model.Cliente;
 import br.com.lacqua.model.Condominio;
@@ -73,7 +74,7 @@ public class LeituraBean extends AbstractBean {
 		return null;
 	}
 
-	public String gerarDemonstrativosCondominioTorreMes() {
+	public String gerarDemonstrativosCondominioTorreMes() throws ValidationException {
 		Torre tower = null;
 		Condominio condo = null;
 		Consumo cons = new Consumo();
@@ -84,15 +85,15 @@ public class LeituraBean extends AbstractBean {
 		List<Consumo> consumoMesSelecionado = new ArrayList<>();
 		List<Leitura> leituraMesAnterior = new ArrayList<>();
 		List<Leitura> leituraMesSelecionado = new ArrayList<>();
-		LocalDate dataConsumo = leitura.getDataRealizacaoLeitura();
+		Date dataConsumo = leitura.getDataRealizacaoLeitura();
 		condo = leitura.getCondominio();
-		
+
 		if (leitura.getTorre() != null) {
 			tower = leitura.getTorre();
 			cons.setTorre(tower);
 		}
-		Integer ano = BibliotecaFuncoes.getAnoFromLocalDate(dataConsumo);
-		Integer mes = BibliotecaFuncoes.getMesFromLocalDate(dataConsumo);
+		Integer ano = BibliotecaFuncoes.getAnoFromDate(dataConsumo);
+		Integer mes = BibliotecaFuncoes.getMesFromDate(dataConsumo);
 		leitura.setMesReferenciaLeitura(mes);
 		leitura.setAno(ano);
 		cons.setAno(ano);
@@ -140,9 +141,9 @@ public class LeituraBean extends AbstractBean {
 		List<Leitura> leituraMesAnterior = new ArrayList<Leitura>();
 		List<Leitura> leituraMesSelecionado = new ArrayList<Leitura>();
 		List<Consumo> consumosMesSelecionado = new ArrayList<Consumo>();
-		LocalDate dataConsumo = leitura.getDataRealizacaoLeitura();
-		Integer ano = BibliotecaFuncoes.getAnoFromLocalDate(dataConsumo);
-		Integer mes = BibliotecaFuncoes.getMesFromLocalDate(dataConsumo);
+		Date dataConsumo = leitura.getDataRealizacaoLeitura();
+		Integer ano = BibliotecaFuncoes.getAnoFromDate(dataConsumo);
+		Integer mes = BibliotecaFuncoes.getMesFromDate(dataConsumo);
 		Integer mesAnterior = null;
 		Integer anoAnterior = null;
 		leitura.setMesReferenciaLeitura(mes);
@@ -207,14 +208,20 @@ public class LeituraBean extends AbstractBean {
 		return null;
 	}
 
-	public String cargaConsumoDocumentoTexto() {
+	public String cargaLeituraFromTxt() {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
+			
+			Integer ano = BibliotecaFuncoes.getAnoFromDate(leitura.getDataRealizacaoLeitura());
+			Integer mes = BibliotecaFuncoes.getMesFromDate(leitura.getDataRealizacaoLeitura());
+			leitura.setAno(ano);
+			leitura.setMesReferenciaLeitura(mes);
 			controlador.cargaConsumoDocumentoTexto(leitura);
 			fc.addMessage("message", new FacesMessage("Sucesso", "Carga de dados realizada com sucesso!"));
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			fc.addMessage("message", new FacesMessage("Erro", e.getMessage()));
 		}
 
 		return null;
@@ -280,10 +287,17 @@ public class LeituraBean extends AbstractBean {
 	}
 
 	public List<Leitura> listarLeituras() {
-		Integer ano = BibliotecaFuncoes.getAnoFromLocalDate(leitura.getDataRealizacaoLeitura());
-		Integer mes = BibliotecaFuncoes.getMesFromLocalDate(leitura.getDataRealizacaoLeitura());
-		listaLeituras = leituraService.listarLeiturasPorCondominioTorreMes(leitura, ano, mes);
-		return listaLeituras;
+		FacesContext fc = FacesContext.getCurrentInstance();
+		try {
+			Integer ano = BibliotecaFuncoes.getAnoFromDate(leitura.getDataRealizacaoLeitura());
+			Integer mes = BibliotecaFuncoes.getMesFromDate(leitura.getDataRealizacaoLeitura());
+			listaLeituras = leituraService.listarLeiturasPorCondominioTorreMes(leitura, ano, mes);
+			return listaLeituras;
+		} catch (Exception e) {
+			fc.addMessage("message", new FacesMessage("Erro!", e.getMessage()));
+		}
+		
+		return null;
 	}
 
 	public String carregar(Integer id) {
@@ -292,8 +306,8 @@ public class LeituraBean extends AbstractBean {
 			leitura = leituraService.carregar(id);
 			fc.addMessage("message", new FacesMessage("Sucesso!", "Leitura carregada!"));
 		} catch (Exception e) {
-			fc.addMessage("message", new FacesMessage("Erro!", "Leitura não carregada!"));
 			handleException(e);
+			fc.addMessage("message", new FacesMessage("Erro!", "Leitura não carregada!"));
 		}
 		return null;
 	}

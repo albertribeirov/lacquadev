@@ -11,13 +11,13 @@ public class ApartamentoDAO extends DAO {
 
 	@SuppressWarnings("unchecked")
 	public List<Apartamento> listarApartamentos() {
-		Query q = criarQuery("SELECT a FROM Apartamento a ORDER BY a.condominio.nome, a.torre.nome, a.numero");
+		Query q = criarQuery("SELECT a FROM Apartamento a ORDER BY a.condominio.nome, a.numero");
 		return q.getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Apartamento> listarApartamentosPorCondominio(Integer idCondominio) {
-		Query q = criarQuery("SELECT a FROM Apartamento a WHERE a.condominio.id = " + idCondominio + " ORDER BY a.condominio.nome, a.torre.nome, a.numero");
+		Query q = criarQuery("SELECT a FROM Apartamento a WHERE a.condominio.id = " + idCondominio + " ORDER BY a.condominio.nome, a.numero");
 		return q.getResultList();
 	}
 	
