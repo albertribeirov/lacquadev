@@ -51,7 +51,7 @@ public class CondominioBean extends AbstractBean {
 			return redirect(Constantes.CONDOMINIO_CADASTRAR);
 
 		} catch (Exception e) {
-			fc.addMessage("message", new FacesMessage("Condomínio não salvo!", e.getMessage()));
+			fc.addMessage(MESSAGE, new FacesMessage(ERRO, e.getMessage()));
 			return null;
 		}
 	}

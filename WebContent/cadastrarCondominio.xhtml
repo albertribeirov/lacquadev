@@ -57,6 +57,9 @@
 
 				<p:outputLabel for="ativo" value="Ativo  " />
 				<p:inputSwitch id="ativo" required="true" offLabel="Não" onLabel="Sim" value="#{condominioBean.condominio.ativo}" />
+				
+				<p:outputLabel for="booleanBtn" value="Boolean Button" />
+            		<p:selectBooleanButton id="booleanBtn" onLabel="Sim" offLabel="Não" onIcon="pi pi-check" offIcon="pi pi-times"/>
 
 				<p:outputLabel for="inicio" value="Início do contrato" />
 				<p:calendar mask="true" id="inicio" locale="pt" pattern="dd/MM/yyyy" value="#{condominioBean.condominio.inicioContrato}">
@@ -100,7 +103,8 @@
 		</p:fieldset>
 	</h:form>
 
-	<p:commandButton icon="ui-icon-disk" id="formCondominio" value="salvar" action="#{condominioBean.salvar}" style="margin: 10px" update="form_condominio" />
+	<p:commandButton icon="ui-icon-disk" id="salvarButton" value="Salvar" action="#{condominioBean.salvar}" style="margin: 10px" update="form_condominio" />
+	<p:commandButton icon="ui-icon ui-icon-circle-close" id="cancelarButton" value="Cancelar" action="#{condominioBean.cancelar}" style="margin: 10px" update="form_condominio" />
 
 	<!-- Lista de condomínios exibida e atualizada após cadastro de um novo condomínio -->
 

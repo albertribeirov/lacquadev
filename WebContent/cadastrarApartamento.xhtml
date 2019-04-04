@@ -14,8 +14,7 @@
 	<h:outputScript library="scripts" name="functions.js" />
 	<h:outputStylesheet library="css" name="styles.css" />
 	<h:form id="form_apartamento" prependId="false">
-		<h:inputHidden value="#{apartamentoBean.apartamento.id}" />
-		<h:inputHidden id="msg" />
+		<h:inputHidden id="hiddenApartamentoId" value="#{apartamentoBean.apartamento.id}" />
 		<p:growl for="message" sticky="false" showDetail="true" life="4000" />
 
 		<br />
@@ -24,7 +23,7 @@
 			<h:panelGrid columns="2">
 
 				<p:outputLabel for="apartamento" value="Número: " />
-				<p:inputText id="apartamento" value="#{apartamentoBean.apartamento.numero}" required="true" placeholder="Ex: 103A" />
+				<p:inputText id="apartamento" value="#{apartamentoBean.apartamento.numero}" required="true" placeholder="Ex: 103" />
 
 				<p:outputLabel for="condominio" value="Condomínio" />
 				<p:selectOneMenu id="condominio" value="#{apartamentoBean.apartamento.condominio}" valueChangeListener="#{torreBean.carregarTorresPorCondominio}" converter="#{converterCondominio}"

@@ -10,15 +10,14 @@
 		<p:submenu label="Cadastros" icon="ui-icon-check" >
 			<p:column>
 				<p:submenu>
+					<p:menuitem value="Condomínio" url="cadastrarCondominio.jsf" />
+					<p:menuitem value="Torre" url="cadastrarTorre.jsf" />
 					<p:menuitem value="Apartamento" url="cadastrarApartamento.jsf" />
 					<p:menuitem value="Cliente" url="cadastrarCliente.jsf" />
-					<p:menuitem value="Condomínio" url="cadastrarCondominio.jsf" />
 					<p:menuitem value="Síndico" url="cadastrarSindico.jsf" />
-					<p:menuitem value="Torre" url="cadastrarTorre.jsf" />
-					<p:menuitem value="Tarifa Compesa" url="cadastrarTarifaCompesa.jsf" />
 					<p:menuitem value="Funcionário" url="cadastrarFuncionario.jsf" />
 					<p:menuitem value="Preço Gás" url="cadastrarPreco.jsf" />
-					<p:menuitem value="CadastrarConsumo" url="cadastrarConsumo.jsf" />
+					<p:menuitem value="Leitura" url="cadastrarLeitura.jsf" />
 				</p:submenu>
 			</p:column>
 		</p:submenu>
@@ -32,7 +31,7 @@
 			</p:column>
 		</p:submenu>
 		
-		<p:submenu label="Importar Dados" icon="ui-icon-document">
+		<p:submenu label="Importar Dados" icon="ui-icon-arrowstop-1-n">
 			<p:column>
 				<p:submenu>
 					<p:menuitem value="Importa Leituras" url="importarLeituras.jsf" />
@@ -48,7 +47,7 @@
 			</p:column>
 		</p:submenu>
 
-		<p:menuitem value="Quit" url="login.jsf" icon="ui-icon-close" />
+		<p:menuitem value="Quit" url="login.jsf" icon="ui-icon-power" />
 	</p:megaMenu>
 
 </ui:composition>

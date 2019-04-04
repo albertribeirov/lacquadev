@@ -10,6 +10,7 @@ import javax.inject.Named;
 
 import br.com.lacqua.ejb.QueryBean;
 
+@SuppressWarnings("serial")
 @Named
 @RequestScoped
 public class FormBean implements Serializable {

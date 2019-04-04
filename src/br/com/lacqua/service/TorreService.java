@@ -77,7 +77,7 @@ public class TorreService extends Service {
 	 * @param integer Id da torre a ser excluída
 	 * @throws ServiceException
 	 */
-	public void excluir(Integer id) throws Exception {
+	public void excluir(Integer id) {
 		try {
 			beginTransaction();
 

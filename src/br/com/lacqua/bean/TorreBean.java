@@ -3,6 +3,8 @@ package br.com.lacqua.bean;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -10,6 +12,7 @@ import javax.inject.Named;
 import br.com.lacqua.model.Condominio;
 import br.com.lacqua.model.Torre;
 import br.com.lacqua.service.TorreService;
+import br.com.lacqua.util.Constantes;
 
 @SuppressWarnings("serial")
 @Named("torreBean")
@@ -29,36 +32,51 @@ public class TorreBean extends AbstractBean {
 	 * Salva ou altera uma torre.
 	 */
 	public String salvar() {
+		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
 			if (torre.getId() == null) {
 				torreService.salvar(torre);
 			} else {
 				torreService.atualizar(torre);
 			}
-			torre = null; 
-			return redirect("cadastrarTorre");
-			
+			torre = null;
+			return redirect(Constantes.TORRE_CADASTRAR);
+
 		} catch (Exception e) {
-			addMessageToRequest(e.getMessage());
+			fc.addMessage(MESSAGE, new FacesMessage(ERRO, e.getMessage()));
 			return null;
 		}
 	}
-	
+
+	public String cancelar() {
+		torre = null;
+		return null;
+	}
+
+	/*
+	 * Carrega uma torre na tela para que ela seja alterada.
+	 */
 	public String alterar(Integer id) {
-		this.torre = torreService.carregar(id);
-		return null;
-	}
-	
-	public String excluir() {
+		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
-			torreService.excluir(torre.getId());
+			this.torre = torreService.carregar(id);
+			return null;
 		} catch (Exception e) {
+			fc.addMessage(MESSAGE, new FacesMessage(ERRO, e.getMessage()));
 			handleException(e);
+			return null;
 		}
-		this.torre = null;
-		return null;
 	}
-	
+
+	/*
+	 * Exclui uma torre.
+	 */
+	public String excluir(Integer id) {
+		torreService.excluir(id);
+		torres = null;
+		return redirect(Constantes.TORRE_CADASTRAR);
+	}
+
 	public void carregarTorresPorCondominio(ValueChangeEvent event) {
 		Condominio cond = (Condominio) event.getNewValue();
 		torres = torreService.listarTorresPorCondominio(cond.getId());
@@ -84,7 +102,6 @@ public class TorreBean extends AbstractBean {
 		}
 	}
 
-	
 	public Torre getTorre() {
 		if (torre == null) {
 			torre = new Torre();
@@ -120,14 +137,12 @@ public class TorreBean extends AbstractBean {
 		try {
 			if (condominio == null) {
 				condominio = new Condominio();
-
 			}
 			return condominio;
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			handleException(e);
 			return null;
 		}
 	}
-
 }

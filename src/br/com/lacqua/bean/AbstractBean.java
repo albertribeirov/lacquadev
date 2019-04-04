@@ -11,6 +11,10 @@ import br.com.lacqua.service.LogService;
 
 @SuppressWarnings("serial")
 public class AbstractBean implements Serializable {
+	
+	public static String ERRO = "Erro";
+	public static String MESSAGE = "message";
+	public static String SUCESSO = "Sucesso";
 
 	@Inject
 	private LogService logService;
@@ -36,7 +40,7 @@ public class AbstractBean implements Serializable {
 	protected void addMessageToRequest(String mensagem) {
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 				.getRequest();
-		request.setAttribute("msg", mensagem);
+		request.setAttribute(MESSAGE, mensagem);
 	}
 
 	/**

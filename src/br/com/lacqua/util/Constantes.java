@@ -85,4 +85,6 @@ public class Constantes {
 	public static final String SINDICO_EXCLUIR = "SindicoExcluir";
 	public static final String SINDICO_SUCESSO = "SindicoSucesso";
 
+	public static final String TORRE_CADASTRAR = "cadastrarTorre";
+
 }

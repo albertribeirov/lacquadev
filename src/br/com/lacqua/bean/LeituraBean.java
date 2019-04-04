@@ -61,14 +61,14 @@ public class LeituraBean extends AbstractBean {
 	private Cliente cliente;
 	private Leitura leitura;
 	private BigDecimal leituraValor;
-	private List<Leitura> listaLeituras;
 	private Consumo consumo;
 
+	private List<Consumo> consumos;
+	private List<Leitura> leituras;
 	private List<Apartamento> apartamentos;
 	private List<Torre> torres;
 	private List<Condominio> condominios;
 	private List<Cliente> clientes;
-	private List<Leitura> consumos = new ArrayList<Leitura>();
 
 	public String inserirConsumoMes() {
 		return null;
@@ -111,9 +111,9 @@ public class LeituraBean extends AbstractBean {
 		try {
 			controlador.gerarDemonstrativosCondominioTorre(leitura, leituraMesSelecionado, leituraMesAnterior, consumoMesSelecionado, consumoMesAnterior1, consumoMesAnterior2,
 					consumoMesAnterior3);
-			fc.addMessage("message", new FacesMessage("Sucesso", "Demonstrativos exportados!"));
+			fc.addMessage(MESSAGE, new FacesMessage(SUCESSO, "Demonstrativos exportados!"));
 		} catch (Exception e) {
-			fc.addMessage("message", new FacesMessage("Erro", "Falha na geração dos demonstrativos!"));
+			fc.addMessage(MESSAGE, new FacesMessage(ERRO, "Falha na geração dos demonstrativos!"));
 			e.printStackTrace();
 		}
 
@@ -178,16 +178,16 @@ public class LeituraBean extends AbstractBean {
 
 				if (!leituraMesSelecionado.isEmpty() && !leituraMesAnterior.isEmpty()) {
 					controlador.gravarConsumosPorCondominioTorreMes(leitura, leituraMesSelecionado, leituraMesAnterior);
-					fc.addMessage("message", new FacesMessage("Sucesso", "Consumo calculado!"));
+					fc.addMessage(MESSAGE, new FacesMessage(SUCESSO, "Consumo calculado!"));
 				} else {
-					fc.addMessage("message", new FacesMessage("Erro", "Não há consumo para " + mes + "/" + ano + " ou para " + mesAnterior + "/" + anoAnterior + "."));
+					fc.addMessage(MESSAGE, new FacesMessage(ERRO, "Não há consumo para " + mes + "/" + ano + " ou para " + mesAnterior + "/" + anoAnterior + "."));
 				}
 
 			} else {
-				fc.addMessage("message", new FacesMessage("Erro", "Já existe consumo registrado para este mês."));
+				fc.addMessage(MESSAGE, new FacesMessage(ERRO, "Já existe consumo registrado para este mês."));
 			}
 		} catch (Exception e) {
-			fc.addMessage("message", new FacesMessage("Erro", "O consumo mensal não pôde ser gerado."));
+			fc.addMessage(MESSAGE, new FacesMessage(ERRO, "O consumo mensal não pôde ser gerado."));
 			e.printStackTrace();
 		}
 		return null;
@@ -198,12 +198,12 @@ public class LeituraBean extends AbstractBean {
 		try {
 			if (leituraValor != null) {
 				controlador.inserirConsumoMensalApartamento(idApartamento, leituraValor);
-				fc.addMessage("message", new FacesMessage("Sucesso", "A leitura do apartamento " + apartamento.getNumero() + " foi gravada!"));
+				fc.addMessage(MESSAGE, new FacesMessage(SUCESSO, "A leitura do apartamento " + apartamento.getNumero() + " foi gravada!"));
 			}
 
 			leituraValor = null;
 		} catch (Exception e) {
-			fc.addMessage("message", new FacesMessage("Erro", "A leitura não pôde ser gravada"));
+			fc.addMessage(MESSAGE, new FacesMessage(ERRO, "A leitura não pôde ser gravada"));
 		}
 		return null;
 	}
@@ -217,11 +217,11 @@ public class LeituraBean extends AbstractBean {
 			leitura.setAno(ano);
 			leitura.setMesReferenciaLeitura(mes);
 			controlador.cargaConsumoDocumentoTexto(leitura);
-			fc.addMessage("message", new FacesMessage("Sucesso", "Carga de dados realizada com sucesso!"));
+			fc.addMessage(MESSAGE, new FacesMessage(SUCESSO, "Carga de dados realizada com sucesso!"));
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			fc.addMessage("message", new FacesMessage("Erro", e.getMessage()));
+			fc.addMessage(MESSAGE, new FacesMessage(ERRO, e.getMessage()));
 		}
 
 		return null;
@@ -232,12 +232,12 @@ public class LeituraBean extends AbstractBean {
 		try {
 			if (leituraValor != null) {
 				// controlador.inserirConsumoMensalApartamentos(apartamentos, consumos);
-				fc.addMessage("message", new FacesMessage("Sucesso", "As leituras dos apartamentos foram gravadas!"));
+				fc.addMessage(MESSAGE, new FacesMessage(SUCESSO, "As leituras dos apartamentos foram gravadas!"));
 			}
 
 			leituraValor = null;
 		} catch (Exception e) {
-			fc.addMessage("message", new FacesMessage("Erro", "As leituras não puderam ser gravadas!"));
+			fc.addMessage(MESSAGE, new FacesMessage(ERRO, "As leituras não puderam ser gravadas!"));
 		}
 		return null;
 	}
@@ -246,13 +246,13 @@ public class LeituraBean extends AbstractBean {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
 			if (apartamentos != null && consumos != null) {
-				controlador.inserirConsumoMensalApartamentos(apartamentos, consumos, leitura);
-				fc.addMessage("message", new FacesMessage("Sucesso", "As leituras dos apartamentos foram gravadas!"));
+				//controlador.inserirConsumoMensalApartamentos(apartamentos, consumos, leitura);
+				fc.addMessage(MESSAGE, new FacesMessage(SUCESSO, "As leituras dos apartamentos foram gravadas!"));
 			}
 
 			leituraValor = null;
 		} catch (Exception e) {
-			fc.addMessage("message", new FacesMessage("Erro", "As leituras não puderam ser gravadas!"));
+			fc.addMessage(MESSAGE, new FacesMessage(ERRO, "As leituras não puderam ser gravadas!"));
 		}
 		return redirect("consumo");
 	}
@@ -261,10 +261,10 @@ public class LeituraBean extends AbstractBean {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
 			leituraService.inserir(leitura);
-			fc.addMessage("message", new FacesMessage("Sucesso", "A leitura do apartamento foi gravada!"));
+			fc.addMessage(MESSAGE, new FacesMessage(SUCESSO, "A leitura do apartamento foi gravada!"));
 			leitura = null;
 		} catch (Exception e) {
-			fc.addMessage("message", new FacesMessage("Erro", "A leitura do apartamento não foi gravada!"));
+			fc.addMessage(MESSAGE, new FacesMessage(ERRO, "A leitura do apartamento não foi gravada!"));
 		}
 		return null;
 	}
@@ -286,15 +286,19 @@ public class LeituraBean extends AbstractBean {
 		return null;
 	}
 
+	/*
+	 * Lista leituras de um período de acordo com condomínio, torre, ano e mês.
+	 */
 	public List<Leitura> listarLeituras() {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
 			Integer ano = BibliotecaFuncoes.getAnoFromDate(leitura.getDataRealizacaoLeitura());
 			Integer mes = BibliotecaFuncoes.getMesFromDate(leitura.getDataRealizacaoLeitura());
-			listaLeituras = leituraService.listarLeiturasPorCondominioTorreMes(leitura, ano, mes);
-			return listaLeituras;
+			leituras = leituraService.listarLeiturasPorCondominioTorreMes(leitura, ano, mes);
+			return leituras;
 		} catch (Exception e) {
-			fc.addMessage("message", new FacesMessage("Erro!", e.getMessage()));
+			fc.addMessage(MESSAGE, new FacesMessage(ERRO, e.getMessage()));
+			handleException(e);
 		}
 		
 		return null;
@@ -304,10 +308,11 @@ public class LeituraBean extends AbstractBean {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
 			leitura = leituraService.carregar(id);
-			fc.addMessage("message", new FacesMessage("Sucesso!", "Leitura carregada!"));
+			fc.addMessage(MESSAGE, new FacesMessage(SUCESSO, "Leitura carregada!"));
 		} catch (Exception e) {
 			handleException(e);
-			fc.addMessage("message", new FacesMessage("Erro!", "Leitura não carregada!"));
+			fc.addMessage(MESSAGE, new FacesMessage(ERRO, "Leitura não carregada!"));
+			handleException(e);
 		}
 		return null;
 	}
@@ -403,11 +408,11 @@ public class LeituraBean extends AbstractBean {
 		this.leitura = consumo;
 	}
 
-	public List<Leitura> getConsumos() {
+	public List<Consumo> getConsumos() {
 		return consumos;
 	}
 
-	public void setConsumos(List<Leitura> consumos) {
+	public void setConsumos(List<Consumo> consumos) {
 		this.consumos = consumos;
 	}
 
@@ -424,11 +429,11 @@ public class LeituraBean extends AbstractBean {
 	}
 
 	public List<Leitura> getListaLeituras() {
-		return listaLeituras;
+		return leituras;
 	}
 
-	public void setListaLeituras(List<Leitura> listaLeituras) {
-		this.listaLeituras = listaLeituras;
+	public void setListaLeituras(List<Leitura> leituras) {
+		this.leituras = leituras;
 	}
 
 	public Consumo getConsumo() {

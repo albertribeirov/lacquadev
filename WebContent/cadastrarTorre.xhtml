@@ -16,7 +16,7 @@
 	<h:outputStylesheet library="css" name="styles.css" />
 	<h:form prependId="false">
 		<h:inputHidden value="#{torreBean.torre.id}" />
-		<p:growl id="msg" for="msg" showDetail="true" sticky="false" life="400" />
+		<p:growl for="message" sticky="false" showDetail="true" life="4000" />
 
 		<br />
 
@@ -50,12 +50,12 @@
 	<p:messages>
 	</p:messages>
 
-	<p:commandButton icon="ui-icon-disk" id="formTorre" value="salvar" action="#{torreBean.salvar}" style="margin: 10px" />
-
+	<p:commandButton icon="ui-icon-disk" id="salvarButton" value="Salvar" action="#{torreBean.salvar}"  style="margin: 10px" />
+	<p:commandButton icon=" ui-icon-circle-close" id="cancelarButton" value="Cancelar" action="#{torreBean.cancelar}"  style="margin: 10px" />
 
 	<h:panelGroup>
 		<h:form>
-			<p:dataTable value="#{torreBean.torres}" var="t" rendered="#{torreBean.torres.size() > 0}">
+			<p:dataTable value="#{torreBean.torres}" var="t">
 				<f:facet name="header">Lista de Torres</f:facet>
 
 				<p:column width="2%" visible="false">
@@ -70,7 +70,7 @@
 
 				<p:column width="6%">
 					<f:facet name="header">Nome</f:facet>
-					<h:outputText value="#{t.nome}" />
+					<h:outputText value="#{t.nome}" title="#{t.observacao}" />
 				</p:column>
 
 				<p:column width="6%">
@@ -80,9 +80,9 @@
 
 				<p:column width="2%">
 					<f:facet name="header">Ações</f:facet>
-					<p:commandLink action="#{torreBean.alterar(t.id)}">Editar</p:commandLink>
+					<h:commandLink action="#{torreBean.alterar(t.id)}">Editar</h:commandLink>
 					|
-					<p:commandLink action="#{torreBean.excluir(t.id)}" onclick="return excluir();">Excluir</p:commandLink>
+					<h:commandLink action="#{torreBean.excluir(t.id)}" onclick="return excluir();">Excluir</h:commandLink>
 				</p:column>
 
 			</p:dataTable>

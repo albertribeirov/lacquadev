@@ -29,14 +29,6 @@ public class PrecoBean extends AbstractBean {
 
 	private List<PrecoGas> listaPrecosGas = null;
 
-	public List<PrecoGas> getListaPrecosGas() {
-		if (listaPrecosGas == null) {
-			listaPrecosGas = precoGasService.listarPrecoGas();
-		}
-
-		return listaPrecosGas;
-	}
-	
 	/*
 	 * Cancela a alteração
 	 */
@@ -47,15 +39,15 @@ public class PrecoBean extends AbstractBean {
 	}
 
 	/*
-	 * Exclui um precoGas
+	 * Exclui um um objeto PrecoGas.
 	 */
 	public String excluir(Integer id) {
 		try {
-			precoGasService.excluir(id);			
+			precoGasService.excluir(id);
 		} catch (Exception e) {
 			handleException(e);
 		}
-		
+
 		this.precoGas = null;
 		return redirect(Constantes.PRECO_GAS_CADASTRAR);
 	}
@@ -64,6 +56,7 @@ public class PrecoBean extends AbstractBean {
 	 * Salva um precoGas
 	 */
 	public String salvar() {
+		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
 			if (precoGas.getId() == null) {
 				precoGasService.inserir(precoGas);
@@ -75,28 +68,25 @@ public class PrecoBean extends AbstractBean {
 			return redirect(Constantes.PRECO_GAS_CADASTRAR);
 
 		} catch (Exception e) {
-			addMessageToRequest(e.getMessage());
+			handleException(e);
+			fc.addMessage(MESSAGE, new FacesMessage(ERRO, e.getMessage()));
 			return null;
 		}
-	}
-
-	public void setListaPrecosGas(List<PrecoGas> listaPrecosGas) {
-		this.listaPrecosGas = listaPrecosGas;
 	}
 
 	public String alterar(Integer id) {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
 			precoGas = precoGasService.carregar(id);
-			fc.addMessage("message", new FacesMessage("Sucesso!", "Preço carregado!"));
-			
+			fc.addMessage(MESSAGE, new FacesMessage(SUCESSO, "Preço carregado!"));
+
 		} catch (Exception e) {
 			handleException(e);
-			fc.addMessage("message", new FacesMessage("Erro!", "Erro ao carregar preço!"));
+			fc.addMessage(MESSAGE, new FacesMessage(ERRO, e.getMessage()));
 		}
 		return null;
 	}
-	
+
 	/*
 	 * Obter cliente
 	 */
@@ -105,6 +95,17 @@ public class PrecoBean extends AbstractBean {
 			precoGas = new PrecoGas();
 		}
 		return precoGas;
+	}
+
+	public List<PrecoGas> getListaPrecosGas() {
+		if (listaPrecosGas == null) {
+			listaPrecosGas = precoGasService.listarPrecoGas();
+		}
+		return listaPrecosGas;
+	}
+
+	public void setListaPrecosGas(List<PrecoGas> listaPrecosGas) {
+		this.listaPrecosGas = listaPrecosGas;
 	}
 
 	/*

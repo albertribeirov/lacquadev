@@ -37,20 +37,20 @@
 			</h:panelGrid>
 		</p:fieldset>
 
-		<p:commandButton icon="ui-icon-disk" id="formTorre" value="Listar Leituras" action="#{leituraBean.listarLeituras}" style="margin: 10px" update="form_consumo" />
+		<p:commandButton icon="ui-icon-refresh" id="listarButton" value="Listar Leituras" action="#{leituraBean.listarLeituras}" style="margin: 10px" update="form_lista_consumo" />
 
 	</h:form>
 
 	<!-- FIM DOS BOTOES DA PAGINA  -->
 	<br />
 	<h:panelGroup>
-		<h:form id="fconsumo" prependId="false">
-			<p:dataTable value="#{leituraBean.listaLeituras}" var="l" rendered="#{leituraBean.listaLeituras.size() > 0}">
+		<h:form id="form_lista_consumo" prependId="false">
+			<p:dataTable value="#{leituraBean.listaLeituras}" var="l" >
 				<f:facet name="header">Lista de Leituras</f:facet>
 
 				<p:column width="2%">
 					<f:facet name="header">ID</f:facet>
-					<h:outputText id="apartamento" value="#{l.id}" />
+					<h:outputText value="#{l.id}" />
 				</p:column>
 
 				<p:column width="6%">
