@@ -5,10 +5,10 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ejb.Local;
+import javax.persistence.EntityManager;
 
 import br.com.lacqua.model.Apartamento;
 import br.com.lacqua.model.Condominio;
-import br.com.lacqua.model.Consumo;
 import br.com.lacqua.model.Leitura;
 import br.com.lacqua.model.PrecoGas;
 import br.com.lacqua.model.Torre;
@@ -35,6 +35,6 @@ public interface ControladorConsumo {
 
 	//public void gerarDemonstrativosCondominio(Integer mes, Integer ano, Integer condominio, Integer torre) throws JRException, FileNotFoundException;
 
-	public void gerarDemonstrativosCondominioTorre(Leitura pLeitura, List<Leitura> pLeituraMesSelecionado, List<Leitura> pLeituraMesAnterior, List<Consumo> pConsumoMesSelecionado,
-			List<Consumo> pConsumoMesMenos1, List<Consumo> pConsumoMesMenos2, List<Consumo> pConsumoMesMenos3) throws JRException, FileNotFoundException;
+	public void gerarDemonstrativosCondominioTorre(Leitura pLeitura, List<Leitura> pLeituraMesProximo, List<Leitura> pLeituraMesSelecionado, List<Leitura> pConsumoMesMenos1,
+			List<Leitura> pConsumoMesMenos2, List<Leitura> pConsumoMesMenos3) throws JRException, FileNotFoundException, Exception;
 }

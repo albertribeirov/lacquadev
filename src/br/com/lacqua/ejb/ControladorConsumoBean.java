@@ -1,5 +1,8 @@
 package br.com.lacqua.ejb;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -22,6 +25,22 @@ import javax.mail.Session;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.labels.ItemLabelAnchor;
+import org.jfree.chart.labels.ItemLabelPosition;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.renderer.category.StandardBarPainter;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.ui.TextAnchor;
+
 import br.com.lacqua.model.Apartamento;
 import br.com.lacqua.model.Condominio;
 import br.com.lacqua.model.Consumo;
@@ -29,6 +48,7 @@ import br.com.lacqua.model.Leitura;
 import br.com.lacqua.model.PrecoGas;
 import br.com.lacqua.model.Torre;
 import br.com.lacqua.util.BibliotecaFuncoes;
+import br.com.lacqua.util.Constantes;
 import br.com.lacqua.util.Conta;
 import br.com.lacqua.util.MailSender;
 import net.sf.jasperreports.engine.JRDataSource;
@@ -197,8 +217,8 @@ public class ControladorConsumoBean implements ControladorConsumo {
 		BigDecimal valor = BigDecimal.ZERO;
 		Integer mes = pLeitura.getMesReferenciaLeitura();
 		Integer ano = pLeitura.getAno();
-		//Torre ap = pLeitura.getTorre();
-		//Condominio cond = pLeitura.getCondominio();
+		// Torre ap = pLeitura.getTorre();
+		// Condominio cond = pLeitura.getCondominio();
 		PrintWriter pw = new PrintWriter(new File("D:\\saida.txt"));
 
 		Iterator<Leitura> itMesAtual = pMesAtual.iterator();
@@ -254,22 +274,32 @@ public class ControladorConsumoBean implements ControladorConsumo {
 	}
 
 	@Override
-	public void gerarDemonstrativosCondominioTorre(Leitura pLeitura, List<Leitura> pLeituraMesSelecionado, List<Leitura> pLeituraMesAnterior, List<Consumo> pConsumoMesSelecionado,
-			List<Consumo> pConsumoMesMenos1, List<Consumo> pConsumoMesMenos2, List<Consumo> pConsumoMesMenos3) throws JRException, FileNotFoundException {
+	public void gerarDemonstrativosCondominioTorre(Leitura pLeitura, List<Leitura> pLeituraMesProximo, List<Leitura> pLeituraMesSelecionado, List<Leitura> pLeituraMesAnterior1,
+			List<Leitura> pLeituraMesAnterior2, List<Leitura> pLeituraMesAnterior3) throws JRException, FileNotFoundException, Exception {
+
 		JasperCompileManager.compileReportToFile("D:\\Demonstrativo.jrxml");
 
+		TreeMap<Integer, Leitura> hashLeituraMesProximo = new TreeMap<>();
 		TreeMap<Integer, Leitura> hashLeituraMesSelecionado = new TreeMap<>();
-		TreeMap<Integer, Leitura> hashLeituraMesAnterior = new TreeMap<>();
-		TreeMap<Integer, Consumo> hashConsumoMesSelecionado = new TreeMap<>();
-		TreeMap<Integer, Consumo> hashConsumoMesMenos1 = new TreeMap<>();
-		TreeMap<Integer, Consumo> hashConsumoMesMenos2 = new TreeMap<>();
-		TreeMap<Integer, Consumo> hashConsumoMesMenos3 = new TreeMap<>();
+		TreeMap<Integer, Leitura> hashLeituraMesAnterior1 = new TreeMap<>();
+		TreeMap<Integer, Leitura> hashLeituraMesAnterior2 = new TreeMap<>();
+		TreeMap<Integer, Leitura> hashLeituraMesAnterior3 = new TreeMap<>();
 
 		BigDecimal valorTotalCondominio = BigDecimal.ZERO;
 		BigDecimal consumoTotalCondominio = BigDecimal.ZERO;
+
 		/*
 		 * Montagem dos hashs de leituras
 		 */
+		if (pLeituraMesProximo != null) {
+			Iterator<Leitura> itLeituraMesProximo = pLeituraMesProximo.iterator();
+			while (itLeituraMesProximo.hasNext()) {
+				Leitura leituraMesProximo = itLeituraMesProximo.next();
+				Integer apartamento = leituraMesProximo.getApartamento().getNumero();
+				hashLeituraMesProximo.put(apartamento, leituraMesProximo);
+			}
+		}
+
 		if (pLeituraMesSelecionado != null) {
 			Iterator<Leitura> itLeituraMesSelecionado = pLeituraMesSelecionado.iterator();
 			while (itLeituraMesSelecionado.hasNext()) {
@@ -279,57 +309,33 @@ public class ControladorConsumoBean implements ControladorConsumo {
 			}
 		}
 
-		if (pLeituraMesAnterior != null) {
-			Iterator<Leitura> itLeituraMesAnterior = pLeituraMesAnterior.iterator();
-			while (itLeituraMesAnterior.hasNext()) {
-				Leitura leituraAnterior = itLeituraMesAnterior.next();
-				Integer apartamento = leituraAnterior.getApartamento().getNumero();
-				hashLeituraMesAnterior.put(apartamento, leituraAnterior);
+		if (pLeituraMesAnterior1 != null) {
+			Iterator<Leitura> itLeituraMesAnterior1 = pLeituraMesAnterior1.iterator();
+			while (itLeituraMesAnterior1.hasNext()) {
+				Leitura leituraAnterior1 = itLeituraMesAnterior1.next();
+				Integer apartamento = leituraAnterior1.getApartamento().getNumero();
+				hashLeituraMesAnterior1.put(apartamento, leituraAnterior1);
 			}
 		}
 
-		if (pConsumoMesSelecionado != null) {
-			Iterator<Consumo> itConsumoMesSelecionado = pConsumoMesSelecionado.iterator();
-			while (itConsumoMesSelecionado.hasNext()) {
-				Consumo consumoMesSelecionado = itConsumoMesSelecionado.next();
-				// Faz somatório do consumo total do condomínio
-				BigDecimal consumo = consumoMesSelecionado.getConsumo();
-				consumoTotalCondominio = consumoTotalCondominio.add(consumo);
-				// Faz somatório do valor a ser pago pelo condomínio
-				BigDecimal valor = consumoMesSelecionado.getValorConta();
-				valorTotalCondominio = valorTotalCondominio.add(valor);
-				Integer apartamento = consumoMesSelecionado.getApartamento().getNumero();
-				hashConsumoMesSelecionado.put(apartamento, consumoMesSelecionado);
+		if (pLeituraMesAnterior2 != null) {
+			Iterator<Leitura> itLeituraMesAnterior2 = pLeituraMesAnterior2.iterator();
+			while (itLeituraMesAnterior2.hasNext()) {
+				Leitura leituraMesAnterior2 = itLeituraMesAnterior2.next();
+				Integer apartamento = leituraMesAnterior2.getApartamento().getNumero();
+				hashLeituraMesAnterior2.put(apartamento, leituraMesAnterior2);
 			}
 		}
 
-		if (pConsumoMesMenos1 != null) {
-			Iterator<Consumo> itConsumoMesMenos1 = pConsumoMesMenos1.iterator();
-			while (itConsumoMesMenos1.hasNext()) {
-				Consumo consumoMesMenos1 = itConsumoMesMenos1.next();
-				Integer apartamento = consumoMesMenos1.getApartamento().getNumero();
-				hashConsumoMesMenos1.put(apartamento, consumoMesMenos1);
+		if (pLeituraMesAnterior3 != null) {
+			Iterator<Leitura> itLeituraMesAnterior3 = pLeituraMesAnterior3.iterator();
+			while (itLeituraMesAnterior3.hasNext()) {
+				Leitura leituraMesAnterior3 = itLeituraMesAnterior3.next();
+				Integer apartamento = leituraMesAnterior3.getApartamento().getNumero();
+				hashLeituraMesAnterior3.put(apartamento, leituraMesAnterior3);
 			}
 		}
 
-		if (pConsumoMesMenos2 != null) {
-			Iterator<Consumo> itConsumoMesMenos2 = pConsumoMesMenos2.iterator();
-			while (itConsumoMesMenos2.hasNext()) {
-				Consumo consumoMesMenos2 = itConsumoMesMenos2.next();
-				Integer apartamento = consumoMesMenos2.getApartamento().getNumero();
-				hashConsumoMesMenos2.put(apartamento, consumoMesMenos2);
-			}
-		}
-
-		if (pConsumoMesMenos3 != null) {
-			Iterator<Consumo> itConsumoMesMenos3 = pConsumoMesMenos3.iterator();
-			while (itConsumoMesMenos3.hasNext()) {
-				Consumo consumoMesMenos3 = itConsumoMesMenos3.next();
-				Integer apartamento = consumoMesMenos3.getApartamento().getNumero();
-				hashConsumoMesMenos3.put(apartamento, consumoMesMenos3);
-			}
-		}
-		
 		Session session = MailSender.getInstance().autenticar("albertribeirov@gmail.com", "senhaadm@10");
 
 		Map<String, Object> parametros = new HashMap<String, Object>();
@@ -348,27 +354,34 @@ public class ControladorConsumoBean implements ControladorConsumo {
 		Iterator<Integer> it = conj.iterator();
 		while (it.hasNext()) {
 			Integer indice = it.next();
-			Leitura l = hashLeituraMesSelecionado.get(indice);
-			Leitura leitAnt = hashLeituraMesAnterior.get(indice);
-			Consumo c = hashConsumoMesSelecionado.get(indice);
+			Leitura leituraMesProximo = hashLeituraMesProximo.get(indice);
+			Leitura leituraMesSelecionado = hashLeituraMesSelecionado.get(indice);
+			Leitura leituraMesAnterior1 = hashLeituraMesAnterior1.get(indice);
+			Leitura leituraMesAnterior2 = hashLeituraMesAnterior1.get(indice);
+			Leitura leituraMesAnterior3 = hashLeituraMesAnterior1.get(indice);
 			Conta conta = new Conta();
 			conta.setAno(ano.toString());
 			conta.setMes(BibliotecaFuncoes.getMesPorExtenso(mes));
-			conta.setApartamento(l.getApartamento().getNumero().toString());
+			conta.setApartamento(leituraMesSelecionado.getApartamento().getNumero().toString());
 
-			if (l.getCliente() != null) {
-				conta.setCliente(l.getCliente().getNome());
+			if (leituraMesSelecionado.getCliente() != null) {
+				conta.setCliente(leituraMesSelecionado.getCliente().getNome());
 			} else {
 				conta.setCliente("Cliente " + conta.getApartamento());
 			}
 
-			valorConsumo = coeficiente.multiply(c.getConsumo());
+			valorConsumo = coeficiente.multiply(leituraMesProximo.getLeitura().subtract(leituraMesSelecionado.getLeitura()));
 			conta.setCondominio(pLeitura.getCondominio().getNome());
-			conta.setTorre(pLeitura.getTorre().getNome());
-			conta.setLeituraAtual(l.getLeitura());
-			conta.setLeituraAnterior(leitAnt.getLeitura());
+			
+			if (pLeitura.getTorre() != null) {
+				conta.setTorre(pLeitura.getTorre().getNome());				
+			} else {
+				conta.setTorre("");
+			}
+			conta.setLeituraAtual(leituraMesProximo.getLeitura());
+			conta.setLeituraAnterior(leituraMesSelecionado.getLeitura());
 			conta.setCoeficiente(coeficiente);
-			conta.setConsumo(c.getConsumo());
+			conta.setConsumo(leituraMesProximo.getLeitura().subtract(leituraMesSelecionado.getLeitura()));
 			conta.setDataLeituraAtual(dataString);
 			conta.setDataLeituraAnterior(dataString);
 			conta.setDataProximaLeitura(dataString);
@@ -379,19 +392,73 @@ public class ControladorConsumoBean implements ControladorConsumo {
 			conta.setValorConsumoComTaxa(conta.getValorConsumo().add(taxaLeitura));
 			conta.setQtdApartamentos(pLeituraMesSelecionado.size());
 
-			conta.setAnt1(new BigDecimal("100.00"));
-			conta.setAnt2(new BigDecimal("150.00"));
-			conta.setAnt3(new BigDecimal("300.00"));
-			conta.setAnt4(new BigDecimal("600.00"));
+			BigDecimal consumoMesSelecionado = leituraMesProximo.getLeitura().subtract(leituraMesSelecionado.getLeitura());
+			BigDecimal consumoMesAnterior1 = leituraMesSelecionado.getLeitura().subtract(leituraMesAnterior1.getLeitura());
+			BigDecimal consumoMesAnterior2 = leituraMesAnterior1.getLeitura().subtract(leituraMesAnterior2.getLeitura());
+			BigDecimal consumoMesAnterior3 = leituraMesAnterior2.getLeitura().subtract(leituraMesAnterior3.getLeitura());
 
-			BigDecimal ant1 = new BigDecimal("100.00");
-			BigDecimal ant2 = new BigDecimal("150.00");
-			BigDecimal ant3 = new BigDecimal("300.00");
-			BigDecimal ant4 = new BigDecimal("600.00");
-			parametros.put("ant1", ant1);
-			parametros.put("ant2", ant2);
-			parametros.put("ant3", ant3);
-			parametros.put("ant4", ant4);
+			String mesSelecionado = BibliotecaFuncoes.getMesPorExtenso(leituraMesSelecionado.getMesReferenciaLeitura());
+			String mesAnterior1 = BibliotecaFuncoes.getMesPorExtenso(leituraMesAnterior1.getMesReferenciaLeitura());
+			String mesAnterior2 = BibliotecaFuncoes.getMesPorExtenso(leituraMesAnterior2.getMesReferenciaLeitura());
+			String mesAnterior3 = BibliotecaFuncoes.getMesPorExtenso(leituraMesAnterior3.getMesReferenciaLeitura());
+
+			/*
+			 * Gráfico starts
+			 */
+
+			// Cria o gráfico de barras
+			DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+			dataset.setValue(consumoMesSelecionado, Constantes.MES, mesSelecionado.substring(0, 2) + "/" + leituraMesSelecionado.getAno().toString());
+			dataset.setValue(consumoMesAnterior1, Constantes.MES, mesAnterior1.substring(0, 2) + "/" + leituraMesAnterior1.getAno().toString());
+			dataset.setValue(consumoMesAnterior2, Constantes.MES, mesAnterior2.substring(0, 2) + "/" + leituraMesAnterior1.getAno().toString());
+			dataset.setValue(consumoMesAnterior3, Constantes.MES, mesAnterior3.substring(0, 2) + "/" + leituraMesAnterior1.getAno().toString());
+
+			JFreeChart chart = ChartFactory.createBarChart("", "", "", dataset, PlotOrientation.HORIZONTAL, false, false, false);
+			CategoryPlot plot = chart.getCategoryPlot();
+			BarRenderer bar = (BarRenderer) plot.getRenderer();
+			CategoryItemRenderer item = ((CategoryPlot) chart.getPlot()).getRenderer();
+			ItemLabelPosition position = new ItemLabelPosition(ItemLabelAnchor.OUTSIDE3, TextAnchor.CENTER_LEFT);
+			Font font = new Font(Font.SANS_SERIF, Font.BOLD, 30);
+			Font font2 = new Font(Font.SANS_SERIF, Font.BOLD, 30);
+
+			NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+			rangeAxis.setVisible(false);
+
+			CategoryAxis axis = plot.getDomainAxis();
+			axis.setLowerMargin(0.0);
+			axis.setUpperMargin(0.0);
+			axis.setTickLabelFont(font);
+
+			ValueAxis range = plot.getRangeAxis();
+			range.setLowerMargin(-0.1);
+			range.setUpperMargin(0.08);
+
+			plot.setBackgroundPaint(Color.WHITE);
+			plot.setDomainGridlinePaint(Color.WHITE);
+			plot.setRangeGridlinePaint(Color.WHITE);
+			plot.setRangeMinorGridlinesVisible(false);
+			plot.setRangeMinorGridlinePaint(Color.WHITE);
+			plot.setOutlineVisible(false);
+
+			// Cria cor e aplica nas barras
+			Color cor = new Color(16, 100, 157);
+			bar.setBarPainter(new StandardBarPainter());
+			bar.setItemMargin(0.0);
+			bar.setSeriesPaint(0, cor);
+			bar.setSeriesPaint(1, cor);
+			bar.setSeriesPaint(2, cor);
+			bar.setSeriesPaint(3, cor);
+
+			// Seta propriedades do item
+			item.setBaseItemLabelFont(font2);
+			item.setBaseSeriesVisible(true);
+			item.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+			item.setBaseItemLabelsVisible(true);
+			item.setBasePositiveItemLabelPosition(position);
+
+			BufferedImage grafico = chart.createBufferedImage(1176, 320);
+
+			parametros.put("grafico", grafico);
 			List contas = new ArrayList<>();
 			contas.add(conta);
 
@@ -403,14 +470,6 @@ public class ControladorConsumoBean implements ControladorConsumo {
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, new FileOutputStream("D:\\Contas\\" + nomeArquivo));
 			exporter.exportReport();
-
-			MailSender.getInstance().enviarEmail(
-					"albertribeiro@live.com", //Destinatario
-					"Demonstrativo-" + mes + "-" + conta.getAno() + "-" + conta.getApartamento() + ".pdf", //Asssunto
-					"Demonstrativo referente a " + BibliotecaFuncoes.getMesPorExtenso(mes) + "/" + ano + ".", // Corpo email
-					"D:/Contas/" + nomeArquivo, // Caminho do arquivo
-					nomeArquivo, //Nome do arquivo
-					session); // Sessão já autenticada
 		}
 	}
 }

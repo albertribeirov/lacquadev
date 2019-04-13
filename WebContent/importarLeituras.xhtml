@@ -34,7 +34,9 @@
 					<f:selectItems value="#{torreBean.torres}" var="t" itemValue="#{t}" itemLabel="#{t.id} - #{t.nome}" />
 				</p:selectOneMenu>
 				<p:outputLabel id="dataLeitura" value="Data da leitura  " />
-				<p:calendar locale="pt" required="true" pattern="MM/yyyy" value="#{leituraBean.leitura.dataRealizacaoLeitura}" />
+				<p:calendar locale="pt" required="true" pattern="dd/MM/yyyy" value="#{leituraBean.leitura.dataRealizacaoLeitura}" />
+				<p:outputLabel id="dataReferencia" value="Mês/ano referência" />
+				<p:calendar locale="pt" required="true" pattern="MM/yyyy" value="#{leituraBean.mesAnoLeitura}" />
 			</h:panelGrid>
 		</p:fieldset>
 

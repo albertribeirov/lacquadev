@@ -62,6 +62,7 @@ public class LeituraBean extends AbstractBean {
 	private Leitura leitura;
 	private BigDecimal leituraValor;
 	private Consumo consumo;
+	private Date mesAnoLeitura;
 
 	private List<Consumo> consumos;
 	private List<Leitura> leituras;
@@ -77,60 +78,69 @@ public class LeituraBean extends AbstractBean {
 	public String gerarDemonstrativosCondominioTorreMes() throws ValidationException {
 		Torre tower = null;
 		Condominio condo = null;
-		Consumo cons = new Consumo();
+		Leitura leituraTemp = new Leitura();
 		FacesContext fc = FacesContext.getCurrentInstance();
-		List<Consumo> consumoMesAnterior3 = new ArrayList<>();
-		List<Consumo> consumoMesAnterior2 = new ArrayList<>();
-		List<Consumo> consumoMesAnterior1 = new ArrayList<>();
-		List<Consumo> consumoMesSelecionado = new ArrayList<>();
-		List<Leitura> leituraMesAnterior = new ArrayList<>();
+		List<Leitura> leituraMesProximo = new ArrayList<>();
 		List<Leitura> leituraMesSelecionado = new ArrayList<>();
+		List<Leitura> leituraMesAnterior3 = new ArrayList<>();
+		List<Leitura> leituraMesAnterior2 = new ArrayList<>();
+		List<Leitura> leituraMesAnterior1 = new ArrayList<>();
 		Date dataConsumo = leitura.getDataRealizacaoLeitura();
 		condo = leitura.getCondominio();
 
 		if (leitura.getTorre() != null) {
 			tower = leitura.getTorre();
-			cons.setTorre(tower);
+			leituraTemp.setTorre(tower);
 		}
 		Integer ano = BibliotecaFuncoes.getAnoFromDate(dataConsumo);
 		Integer mes = BibliotecaFuncoes.getMesFromDate(dataConsumo);
 		leitura.setMesReferenciaLeitura(mes);
 		leitura.setAno(ano);
-		cons.setAno(ano);
-		cons.setMes(mes);
-		cons.setCondominio(condo);
-		consumoMesSelecionado = consumoService.listarConsumosPorCondominioTorreMes(cons);
+		leituraTemp.setAno(ano);
+		leituraTemp.setMesReferenciaLeitura(mes);
+		leituraTemp.setCondominio(condo);
+		
+		List<Integer> periodoProximo = BibliotecaFuncoes.getPeriodoProximo(ano, mes);
 
-		consumoMesAnterior1 = consultarConsumoMesesAnteriores(ano, mes - 1, condo, tower);
-		consumoMesAnterior2 = consultarConsumoMesesAnteriores(ano, mes - 2, condo, tower);
-		consumoMesAnterior3 = consultarConsumoMesesAnteriores(ano, mes - 3, condo, tower);
-
+		leituraMesProximo = leituraService.listarLeiturasPorCondominioTorreMes(leitura, periodoProximo.get(1), periodoProximo.get(0));
 		leituraMesSelecionado = leituraService.listarLeiturasPorCondominioTorreMes(leitura, ano, mes);
-		leituraMesAnterior = leituraService.listarLeiturasPorCondominioTorreMes(leitura, ano, mes - 1);
+		leituraMesAnterior1 = consultarLeituraMesesAnteriores(ano, mes, condo, tower, 1);
+		leituraMesAnterior2 = consultarLeituraMesesAnteriores(ano, mes, condo, tower, 2);
+		leituraMesAnterior3 = consultarLeituraMesesAnteriores(ano, mes, condo, tower, 3);
 
 		try {
-			controlador.gerarDemonstrativosCondominioTorre(leitura, leituraMesSelecionado, leituraMesAnterior, consumoMesSelecionado, consumoMesAnterior1, consumoMesAnterior2,
-					consumoMesAnterior3);
+			controlador.gerarDemonstrativosCondominioTorre(leitura, leituraMesProximo, leituraMesSelecionado, leituraMesAnterior1, leituraMesAnterior2, leituraMesAnterior3);
 			fc.addMessage(MESSAGE, new FacesMessage(SUCESSO, "Demonstrativos exportados!"));
 		} catch (Exception e) {
-			fc.addMessage(MESSAGE, new FacesMessage(ERRO, "Falha na geração dos demonstrativos!"));
+			fc.addMessage(MESSAGE, new FacesMessage(ERRO, e.getMessage()));
 			e.printStackTrace();
 		}
 
 		return null;
 	}
 
-	private List<Consumo> consultarConsumoMesesAnteriores(Integer pAno, Integer pMes, Condominio pCond, Torre pTorre) {
-		List<Consumo> listaConsumo = new ArrayList<Consumo>();
-		Consumo c = new Consumo();
-		c.setAno(pAno);
-		c.setMes(pMes);
-		c.setCondominio(pCond);
-		if (pTorre != null) {
-			c.setTorre(pTorre);
+	private List<Leitura> consultarLeituraMesesAnteriores(Integer pAno, Integer pMes, Condominio pCond, Torre pTorre, Integer qtdMeses) throws ValidationException {
+		List<Leitura> listaConsumo = new ArrayList<Leitura>();
+		Leitura leitura = new Leitura();
+
+		Integer mes = pMes;
+		Integer ano = pAno;
+
+		Integer temp = mes - qtdMeses;
+		if (temp < 1) {
+			mes = 12;
+			mes = mes - qtdMeses;
+			ano = ano - 1;
 		}
 
-		listaConsumo = consumoService.listarConsumosPorCondominioTorreMes(c);
+		leitura.setAno(mes);
+		leitura.setMesReferenciaLeitura(ano);
+		leitura.setCondominio(pCond);
+		if (pTorre != null) {
+			leitura.setTorre(pTorre);
+		}
+
+		listaConsumo = leituraService.listarLeiturasPorCondominioTorreMes(leitura, ano, mes);
 
 		return listaConsumo;
 	}
@@ -211,9 +221,9 @@ public class LeituraBean extends AbstractBean {
 	public String cargaLeituraFromTxt() {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
-			
-			Integer ano = BibliotecaFuncoes.getAnoFromDate(leitura.getDataRealizacaoLeitura());
-			Integer mes = BibliotecaFuncoes.getMesFromDate(leitura.getDataRealizacaoLeitura());
+
+			Integer ano = BibliotecaFuncoes.getAnoFromDate(getMesAnoLeitura());
+			Integer mes = BibliotecaFuncoes.getMesFromDate(getMesAnoLeitura());
 			leitura.setAno(ano);
 			leitura.setMesReferenciaLeitura(mes);
 			controlador.cargaConsumoDocumentoTexto(leitura);
@@ -300,7 +310,7 @@ public class LeituraBean extends AbstractBean {
 			fc.addMessage(MESSAGE, new FacesMessage(ERRO, e.getMessage()));
 			handleException(e);
 		}
-		
+
 		return null;
 	}
 
@@ -328,9 +338,7 @@ public class LeituraBean extends AbstractBean {
 	}
 
 	/*
-	 * 
 	 * Getters/Setters
-	 * 
 	 */
 
 	public List<Apartamento> getApartamentos() {
@@ -445,5 +453,13 @@ public class LeituraBean extends AbstractBean {
 
 	public void setConsumo(Consumo consumo) {
 		this.consumo = consumo;
+	}
+
+	public Date getMesAnoLeitura() {
+		return mesAnoLeitura;
+	}
+
+	public void setMesAnoLeitura(Date mesAnoLeitura) {
+		this.mesAnoLeitura = mesAnoLeitura;
 	}
 }

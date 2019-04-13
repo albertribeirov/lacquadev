@@ -3,6 +3,7 @@ package br.com.lacqua.util;
 public class Constantes {
 	
 	public static final String SUCESSO = "success";
+	public static final String MES = "mes";
 	
 	/*
 	 * Mensagens Condomínio

@@ -1,5 +1,7 @@
 package br.com.lacqua.util;
 
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 
 public class Conta {
@@ -47,7 +49,12 @@ public class Conta {
 	private BigDecimal ant2 = BigDecimal.ZERO;
 	private BigDecimal ant3 = BigDecimal.ZERO;
 	private BigDecimal ant4 = BigDecimal.ZERO;
-
+	
+	/*
+	 * Gráfico
+	 */
+	private OutputStream grafico;
+	
 	public BigDecimal getConsumo() {
 		return consumo;
 	}
@@ -246,6 +253,14 @@ public class Conta {
 
 	public void setValorTotal(BigDecimal valorTotal) {
 		this.valorTotal = valorTotal;
+	}
+
+	public OutputStream getGrafico() {
+		return grafico;
+	}
+
+	public void setGrafico(OutputStream grafico) {
+		this.grafico = grafico;
 	}
 
 }
