@@ -53,13 +53,15 @@ import br.com.lacqua.util.Conta;
 import br.com.lacqua.util.MailSender;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.export.Exporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 
 /**
  * Session Bean implementation class ControladorConsumoBean
@@ -273,6 +275,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void gerarDemonstrativosCondominioTorre(Leitura pLeitura, List<Leitura> pLeituraMesProximo, List<Leitura> pLeituraMesSelecionado, List<Leitura> pLeituraMesAnterior1,
 			List<Leitura> pLeituraMesAnterior2, List<Leitura> pLeituraMesAnterior3) throws JRException, FileNotFoundException, Exception {
@@ -466,10 +469,24 @@ public class ControladorConsumoBean implements ControladorConsumo {
 			JasperPrint jasperPrint = JasperFillManager.fillReport("D:\\Demonstrativo.jasper", parametros, dataSource);
 			String nomeArquivo = "Demonstrativo-" + mes + "-" + conta.getAno() + "-" + conta.getApartamento() + ".pdf";
 
-			JRExporter exporter = new JRPdfExporter();
-			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, new FileOutputStream("D:\\Contas\\" + nomeArquivo));
-			exporter.exportReport();
+			Exporter ex = new JRPdfExporter();
+			SimplePdfExporterConfiguration config = new SimplePdfExporterConfiguration();
+			config .setMetadataAuthor("Lacqua");
+			ex.setConfiguration(config );
+			ex.setExporterInput(new SimpleExporterInput(jasperPrint));
+			ex.setExporterOutput(new SimpleOutputStreamExporterOutput(new FileOutputStream("D:\\Contas\\" + nomeArquivo)));
+			ex.exportReport();
+			
+			Thread.sleep(1000);
+			
+			
+			/*
+			 * JRExporter exporter = new JRPdfExporter();
+			 * exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+			 * exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, new FileOutputStream("D:\\Contas\\" +
+			 * nomeArquivo));
+			 * exporter.exportReport();
+			 */
 		}
 	}
 }

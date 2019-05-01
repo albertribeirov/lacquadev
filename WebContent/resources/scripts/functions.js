@@ -64,7 +64,8 @@ function formatarCampo(campoTexto) {
 	}
 }
 
-//<input type="text" onfocus="javascript: retirarFormatacao(this);" onblur="javascript: formatarCampo(this);" maxlength="14"/>
+// <input type="text" onfocus="javascript: retirarFormatacao(this);"
+// onblur="javascript: formatarCampo(this);" maxlength="14"/>
 
 function retirarFormatacao(campoTexto) {
 	campoTexto.value = campoTexto.value.replace(/(\.|\/|\-)/g, "");
@@ -75,5 +76,19 @@ function mascaraCpf(valor) {
 }
 
 function mascaraCnpj(valor) {
-	return valor.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "\$1.\$2.\$3\/\$4\-\$5");
+	return valor.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g,
+			"\$1.\$2.\$3\/\$4\-\$5");
+}
+
+// Verifica se o valor da leitura atual é menor que a leitura anterior e limpa o
+function compararLeituras(pInput) {
+	var tdLeitura = pInput;
+	var leitura = Number(tdLeitura.nextElementSibling.value);
+	var leituraAnterior = tdLeitura.parentElement.parentElement.previousSibling.firstElementChild.innerText;
+	leituraAnterior = Number(leituraAnterior.replace(/\./g,''));
+
+	if (leitura < leituraAnterior) {
+		alert("A leitura atual não pode ser menor que a leitura anterior.");
+		tdLeitura.value = "";
+	}
 }

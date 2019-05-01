@@ -6,23 +6,22 @@
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-	<title>Consumos</title>
+	<title>Leituras</title>
 </h:head>
 <h:body>
 	<ui:decorate template="decorator.xhtml" />
 	<h:outputScript library="scripts" name="pt.js" />
 	<h:outputScript library="scripts" name="functions.js" />
 	<h:outputStylesheet library="css" name="styles.css" />
-	<h:form id="form_consumo" prependId="false">
-	<h:inputHidden value="#{leituraBean.consumo.id}" />
-		<h:inputHidden id="msg" />
+	<h:form id="form_leitura" prependId="false">
+		<h:inputHidden value="#{leituraBean.leitura.id}" />
 		<p:growl for="message" sticky="true" showDetail="true" life="3000" />
 		<br />
 
 		<p:fieldset legend="Dados">
 			<h:panelGrid columns="2">
 				<p:outputLabel for="condominio" value="Condomínio" />
-				<p:selectOneMenu id="condominio" value="#{leituraBean.consumo.condominio}" valueChangeListener="#{torreBean.carregarTorresPorCondominio}" converter="#{converterCondominio}" immediate="true"
+				<p:selectOneMenu id="condominio" value="#{leituraBean.leitura.condominio}" valueChangeListener="#{torreBean.carregarTorresPorCondominio}" converter="#{converterCondominio}" immediate="true"
 					style="width:300px" required="true">
 					<f:ajax event="valueChange" execute="@this" render="torre" />
 					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
@@ -30,14 +29,14 @@
 				</p:selectOneMenu>
 
 				<p:outputLabel for="torre" value="Torre" />
-				<p:selectOneMenu id="torre" value="#{leituraBean.consumo.torre}" converter="#{converterTorre}" style="width:300px">
+				<p:selectOneMenu id="torre" value="#{leituraBean.leitura.torre}" converter="#{converterTorre}" style="width:300px">
 					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 					<f:selectItems value="#{torreBean.torres}" var="t" itemValue="#{t}" itemLabel="#{t.id} - #{t.nome}" />
 				</p:selectOneMenu>
 				<p:outputLabel id="dataLeitura" value="Data da leitura  " />
 				<p:calendar locale="pt" required="true" pattern="dd/MM/yyyy" value="#{leituraBean.leitura.dataRealizacaoLeitura}" />
 				<p:outputLabel id="mesLeitura" value="Mês de referência  " />
-				<p:selectOneMenu label="Mês de referência" value="#{leituraBean.consumo.mes}" required="true">
+				<p:selectOneMenu label="Mês de referência" value="#{leituraBean.leitura.mesReferenciaLeitura}" required="true">
 					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 					<f:selectItems value="#{leituraBean.meses}" var="m" itemValue="#{m.id}" itemLabel="#{m.nome}" />
 				</p:selectOneMenu>
@@ -46,7 +45,7 @@
 
 		<p:commandButton icon="ui-icon-disk" id="formTorre" value="Listar Apartamentos" action="#{leituraBean.carregarApartamentos}" style="margin: 10px" update="fconsumo" />
 
-		<p:commandButton icon="ui-icon-disk" id="salvarConsumos" value="Salvar Consumos" action="#{leituraBean.salvarConsumos}" style="margin: 10px" update="fconsumo" />
+		<p:commandButton icon="ui-icon-disk" id="salvarConsumos" value="Salvar Consumos" action="#{leituraBean.salvarConsumos}" style="margin: 10px" update="form_leitura" />
 
 	</h:form>
 
@@ -54,8 +53,8 @@
 	<br />
 	<h:panelGroup>
 		<h:form id="fconsumo" prependId="false">
-			<p:dataTable value="#{leituraBean.apartamentos}" var="ap" rendered="#{leituraBean.apartamentos.size() > 0}">
-				<f:facet name="header">Cadastro de Consumos</f:facet>
+			<p:dataTable value="#{leituraBean.apartamentos}" var="ap" >
+				<f:facet name="header">Cadastro de Leituras</f:facet>
 
 				<p:column width="2%">
 					<f:facet name="header">ID</f:facet>
@@ -78,9 +77,15 @@
 				</p:column>
 
 				<p:column width="6%">
-					<f:facet name="header">Consumo</f:facet>
-					<p:inputNumber value="#{ap.leitura}" decimalPlaces="0" id="consumo" onblur="desabilitarCampoLeitura(this)" ondblclick="habilitarCampoLeitura(this)">
-					</p:inputNumber>
+					<f:facet name="header">Leitura Anterior</f:facet>
+					<h:outputText value="#{ap.leituraAnterior}" decimalPlaces="0" id="leituraAnterior"/>
+				</p:column>
+
+				<p:column width="6%">
+					<f:facet name="header">Leitura Atual</f:facet>
+					<p:inputNumber value="#{ap.leitura}" decimalPlaces="0" id="leituraAtual" onchange="compararLeituras(this)"
+					onblur="desabilitarCampoLeitura(this)" 
+					ondblclick="habilitarCampoLeitura(this)" />
 				</p:column>
 
 			</p:dataTable>

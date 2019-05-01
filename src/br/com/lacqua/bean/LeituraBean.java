@@ -3,7 +3,9 @@ package br.com.lacqua.bean;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.TreeMap;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -99,7 +101,7 @@ public class LeituraBean extends AbstractBean {
 		leituraTemp.setAno(ano);
 		leituraTemp.setMesReferenciaLeitura(mes);
 		leituraTemp.setCondominio(condo);
-		
+
 		List<Integer> periodoProximo = BibliotecaFuncoes.getPeriodoProximo(ano, mes);
 
 		leituraMesProximo = leituraService.listarLeiturasPorCondominioTorreMes(leitura, periodoProximo.get(1), periodoProximo.get(0));
@@ -279,24 +281,56 @@ public class LeituraBean extends AbstractBean {
 		return null;
 	}
 
-	public String carregarApartamentos() {
+	/**
+	 * 
+	 */
+	public List<Apartamento> carregarApartamentos() {
+		FacesContext fc = FacesContext.getCurrentInstance();
 		Integer idCondominio = null;
 		Integer idTorre = null;
+		Date dataRealizLeitura = leitura.getDataRealizacaoLeitura();
+		Integer ano = BibliotecaFuncoes.getAnoFromDate(dataRealizLeitura);
+		Integer mes = BibliotecaFuncoes.getMesFromDate(dataRealizLeitura);
 
-		if (leitura.getCondominio() != null && leitura.getTorre() != null) {
-			idCondominio = leitura.getCondominio().getId();
-			idTorre = leitura.getTorre().getId();
-			apartamentos = apartamentoService.listarApartamentosPorCondominioTorre(idCondominio, idTorre);
+		try {
+			if (leitura.getCondominio() != null && leitura.getTorre() != null) {
+				idCondominio = leitura.getCondominio().getId();
+				idTorre = leitura.getTorre().getId();
+				apartamentos = apartamentoService.listarApartamentosPorCondominioTorre(idCondominio, idTorre);
 
-		} else if (leitura.getCondominio() != null) {
-			idCondominio = leitura.getCondominio().getId();
-			apartamentos = apartamentoService.listarApartamentosPorCondominio(idCondominio);
+			} else if (leitura.getCondominio() != null) {
+				idCondominio = leitura.getCondominio().getId();
+				apartamentos = apartamentoService.listarApartamentosPorCondominio(idCondominio);
+			}
+
+			List<Integer> periodo = BibliotecaFuncoes.getPeriodoAnterior(ano, mes);
+			mes = periodo.get(0);
+			ano = periodo.get(1);
+			leituras = leituraService.listarLeiturasPorCondominioTorreMes(leitura, ano, mes);
+			
+			TreeMap<Integer, BigDecimal> mapLeitura = new TreeMap<Integer, BigDecimal>();
+			Iterator<Leitura> itLeitura = leituras.iterator();
+			while(itLeitura.hasNext()) {
+				Leitura leit = itLeitura.next();
+				Integer numeroApartamento = leit.getApartamento().getNumero();
+				mapLeitura.put(numeroApartamento, leit.getLeitura());
+			}
+			
+			Iterator<Apartamento> it = apartamentos.iterator();
+			while(it.hasNext()) {
+				Apartamento ap = it.next();
+				Integer numeroAp = ap.getNumero();
+				ap.setLeituraAnterior(mapLeitura.get(numeroAp));
+			}
+			
+		} catch (Exception e) {
+			handleException(e);
+			fc.addMessage(MESSAGE, new FacesMessage(ERRO, e.getMessage()));
 		}
-
-		return null;
+		return apartamentos;
 	}
 
-	/*
+	/**
 	 * Lista leituras de um período de acordo com condomínio, torre, ano e mês.
 	 */
 	public List<Leitura> listarLeituras() {

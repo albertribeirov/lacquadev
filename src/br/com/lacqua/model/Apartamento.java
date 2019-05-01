@@ -64,11 +64,17 @@ public class Apartamento implements Serializable {
 	@OneToMany(mappedBy = "apartamento")
 	private List<Leitura> consumosGas;
 
-	/*
+	/**
 	 * Utilizada apenas para receber a leitura, não é persistida no banco.
 	 */
 	@Transient
 	private BigDecimal leitura;
+	
+	/**
+	 * Utilizada apenas para exibir a leitura anterior na tela de cadastro de leitura, não é persistida no banco.
+	 */
+	@Transient
+	private BigDecimal leituraAnterior;
 
 	/*
 	 * 
@@ -132,6 +138,14 @@ public class Apartamento implements Serializable {
 		this.cliente = cliente;
 	}
 
+	public BigDecimal getLeituraAnterior() {
+		return leituraAnterior;
+	}
+
+	public void setLeituraAnterior(BigDecimal leituraAnterior) {
+		this.leituraAnterior = leituraAnterior;
+	}
+	
 	public BigDecimal getLeitura() {
 		return leitura;
 	}
