@@ -60,7 +60,7 @@ public class Condominio implements Serializable {
 	@Column(name = "ATIVO", nullable = false)
 	private Boolean ativo;
 
-	@Column(name = "INICIO_CONTRATO", nullable = false)
+	@Column(name = "INICIO_CONTRATO", nullable = true)
 	@Temporal(TemporalType.DATE)
 	private Date inicioContrato;
 
@@ -71,20 +71,19 @@ public class Condominio implements Serializable {
 	@Column(name = "OBSERVACAO", nullable = true, length = 1000)
 	private String observacao;
 
-	@Column(name = "EMAIL", nullable = false, length = 150)
+	@Column(name = "EMAIL", nullable = true, length = 150)
 	private String email;
 
-	@Column(name = "RUA_NUMERO", nullable = false, length = 100)
+	@Column(name = "RUA_NUMERO", nullable = true, length = 100)
 	private String ruaComNumero;
 
-	@Column(name = "BAIRRO", nullable = false, length = 50)
+	@Column(name = "BAIRRO", nullable = true, length = 50)
 	private String bairro;
 
-	@Column(name = "CIDADE", nullable = false, length = 50)
+	@Column(name = "CIDADE", nullable = true, length = 50)
 	private String cidade;
 
-	@Column(name = "CEP", nullable = false, length = 10)
-	// @Column(name = "CEP", nullable = false, length = 8)
+	@Column(name = "CEP", nullable = true, length = 10)
 	private String cep;
 
 	@Column(name = "CREATETIME", nullable = false, updatable = false)

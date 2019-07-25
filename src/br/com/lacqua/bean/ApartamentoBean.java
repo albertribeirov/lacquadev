@@ -39,7 +39,8 @@ public class ApartamentoBean extends AbstractBean {
 			apartamentos = apartamentoService.listarApartamentos();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			handleException(e);
+			addMessageToRequest(e.getMessage());
 		}
 		return apartamentos;
 	}

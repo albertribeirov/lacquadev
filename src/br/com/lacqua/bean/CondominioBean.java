@@ -62,7 +62,6 @@ public class CondominioBean extends AbstractBean {
 	public String alterar(Integer id) {
 		this.condominio = condominioService.carregar(id);
 		return null;
-
 	}
 
 	/*
@@ -72,7 +71,6 @@ public class CondominioBean extends AbstractBean {
 		condominioService.excluir(id);
 		condominios = null;
 		return redirect(Constantes.CONDOMINIO_CADASTRAR);
-
 	}
 
 	/*

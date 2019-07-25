@@ -28,20 +28,20 @@
 					requiredMessage="O nome deve ser preenchido." />
 
 				<p:outputLabel for="cnpj" value="CNPJ" style="size:50px" />
-				<p:inputMask id="cnpj" value="#{condominioBean.condominio.cnpj}" size="20" mask="99.999.999/9999-99" required="true" converter="converterCNPJ" requiredMessage="O CNPJ deve ser preenchido.">
+				<p:inputMask id="cnpj" value="#{condominioBean.condominio.cnpj}" size="20" mask="99.999.999/9999-99" required="false" converter="converterCNPJ">
 					<p:tooltip id="tipCNPJ" for="cnpj" value="O CNPJ deve ter 14 dígitos" position="top" />
 				</p:inputMask>
 
 				<p:outputLabel for="email" value="E-mail" />
-				<p:inputText id="email" value="#{condominioBean.condominio.email}" size="45" />
+				<p:inputText id="email" value="#{condominioBean.condominio.email}" size="45" required="false" />
 
 				<p:outputLabel for="inscricaoEstadual" value="Inscrição Estadual" />
-				<p:inputMask id="inscricaoEstadual" mask="9999999-99" converter="converterInscricao" value="#{condominioBean.condominio.inscricaoEstadual}">
+				<p:inputMask id="inscricaoEstadual" mask="9999999-99" converter="converterInscricao" value="#{condominioBean.condominio.inscricaoEstadual}" required="false">
 					<p:tooltip id="tipInscricao" for="inscricaoEstadual" value="As incricões estaduais e municipais devem ter 09 dígitos" position="top" />
 				</p:inputMask>
 
 				<p:outputLabel for="inscricaoMunicipal" value="Inscrição Municipal" />
-				<p:inputMask id="inscricaoMunicipal" mask="9999999-99" converter="converterInscricao" value="#{condominioBean.condominio.inscricaoMunicipal}" />
+				<p:inputMask id="inscricaoMunicipal" mask="9999999-99" converter="converterInscricao" value="#{condominioBean.condominio.inscricaoMunicipal}" required="false" />
 
 				<p:outputLabel for="taxaLeitura" value="Taxa de leitura" />
 				<p:inputNumber id="taxaLeitura" value="#{condominioBean.condominio.taxaLeitura}" decimalPlaces="2" decimalSeparator="," thousandSeparator="." required="true"
@@ -57,17 +57,15 @@
 
 				<p:outputLabel for="ativo" value="Ativo  " />
 				<p:inputSwitch id="ativo" required="true" offLabel="Não" onLabel="Sim" value="#{condominioBean.condominio.ativo}" />
-				
-				<p:outputLabel for="booleanBtn" value="Boolean Button" />
-            		<p:selectBooleanButton id="booleanBtn" onLabel="Sim" offLabel="Não" onIcon="pi pi-check" offIcon="pi pi-times"/>
 
 				<p:outputLabel for="inicio" value="Início do contrato" />
-				<p:calendar mask="true" id="inicio" locale="pt" pattern="dd/MM/yyyy" value="#{condominioBean.condominio.inicioContrato}">
+				<p:calendar mask="true" id="inicio" locale="pt" pattern="dd/MM/yyyy" value="#{condominioBean.condominio.inicioContrato}" required="false">
 					<f:convertDateTime pattern="dd/MM/yyyy" />
 				</p:calendar>
 
 				<p:outputLabel for="final" value="Final do contrato" />
-				<p:calendar mask="true" id="final" locale="pt" pattern="dd/MM/yyyy" value="#{condominioBean.condominio.fimContrato}">
+				<p:calendar mask="true" id="final" locale="pt" pattern="dd/MM/yyyy" value="#{condominioBean.condominio.fimContrato}" required="false">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
 				</p:calendar>
 
 			</h:panelGrid>
@@ -78,16 +76,16 @@
 		<p:fieldset legend="Endereço">
 			<h:panelGrid columns="8">
 				<p:outputLabel for="ruaComNumero" value="Rua" />
-				<p:inputText placeholder="Ex: Rua Doutor Pierre Collier, 666" id="ruaComNumero" value="#{condominioBean.condominio.ruaComNumero}" style="width:350px" />
+				<p:inputText placeholder="Ex: Rua Doutor Pierre Collier, 666" id="ruaComNumero" value="#{condominioBean.condominio.ruaComNumero}" style="width:350px" required="false"/>
 
 				<p:outputLabel for="bairro" value="Bairro" />
-				<p:inputText placeholder="Ex: Vila da Fábrica" id="bairro" value="#{condominioBean.condominio.bairro}" size="30" />
+				<p:inputText placeholder="Ex: Vila da Fábrica" id="bairro" value="#{condominioBean.condominio.bairro}" size="30" required="false"/>
 
 				<p:outputLabel for="cidade" value="Cidade" />
-				<p:inputText placeholder="Ex: Camaragibe" id="cidade" value="#{condominioBean.condominio.cidade}" size="30" />
+				<p:inputText placeholder="Ex: Camaragibe" id="cidade" value="#{condominioBean.condominio.cidade}" size="30" required="false"/>
 
 				<p:outputLabel for="cep" value="CEP" />
-				<p:inputMask mask="99.999-999" id="cep" converter="converterCEP" value="#{condominioBean.condominio.cep}" style="width:80px" />
+				<p:inputMask mask="99.999-999" id="cep" converter="converterCEP" value="#{condominioBean.condominio.cep}" style="width:80px" required="false"/>
 
 			</h:panelGrid>
 		</p:fieldset>
@@ -97,7 +95,7 @@
 		<p:fieldset legend="Observações">
 			<h:panelGrid>
 				<p:inputTextarea id="condominioObservacao" rows="6" cols="120" maxlength="1000" counter="display" counterTemplate="{0} caracteres restantes." autoResize="true"
-					value="#{condominioBean.condominio.observacao}" />
+					value="#{condominioBean.condominio.observacao}" required="false"/>
 				<h:outputText id="display" />
 			</h:panelGrid>
 		</p:fieldset>

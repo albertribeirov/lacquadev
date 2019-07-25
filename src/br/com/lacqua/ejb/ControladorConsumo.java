@@ -5,8 +5,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ejb.Local;
-import javax.persistence.EntityManager;
-
 import br.com.lacqua.model.Apartamento;
 import br.com.lacqua.model.Condominio;
 import br.com.lacqua.model.Leitura;
@@ -21,7 +19,7 @@ public interface ControladorConsumo {
 
 	public void cadastrarIntervalo(Integer inicio, Integer fim, Apartamento ap);
 
-	public void inserirConsumoMensalApartamento(Integer idApartamento, BigDecimal leitura);
+	public void inserirConsumoMensalApartamento(BigDecimal pLeitura);
 
 	public void inserirConsumoMensalApartamentos(List<Apartamento> pApartamentos, List<Leitura> pConsumos, Leitura consumoGas);
 
@@ -35,6 +33,11 @@ public interface ControladorConsumo {
 
 	//public void gerarDemonstrativosCondominio(Integer mes, Integer ano, Integer condominio, Integer torre) throws JRException, FileNotFoundException;
 
-	public void gerarDemonstrativosCondominioTorre(Leitura pLeitura, List<Leitura> pLeituraMesProximo, List<Leitura> pLeituraMesSelecionado, List<Leitura> pConsumoMesMenos1,
+	public void gerarDemonstrativosApartamentos(Leitura pLeitura, List<Leitura> pLeituraMesProximo, List<Leitura> pLeituraMesSelecionado, List<Leitura> pConsumoMesMenos1,
 			List<Leitura> pConsumoMesMenos2, List<Leitura> pConsumoMesMenos3) throws JRException, FileNotFoundException, Exception;
+
+	public void gerarDemonstrativoTorre(Leitura pLeitura, List<Leitura> pLeituraMesProximo, List<Leitura> pLeituraMesSelecionado, List<Leitura> pLeituraMesAnterior1,
+			List<Leitura> pLeituraMesAnterior2, List<Leitura> pLeituraMesAnterior3);
+
+	public void inserirLeituraApartamento(Leitura pLeitura);
 }

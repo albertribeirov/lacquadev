@@ -87,5 +87,6 @@ public class Constantes {
 	public static final String SINDICO_SUCESSO = "SindicoSucesso";
 
 	public static final String TORRE_CADASTRAR = "cadastrarTorre";
+	public static final String LISTAR_LEITURAS = "listarLeituras";
 
 }

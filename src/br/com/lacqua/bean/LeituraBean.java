@@ -29,6 +29,7 @@ import br.com.lacqua.service.ConsumoService;
 import br.com.lacqua.service.LeituraService;
 import br.com.lacqua.service.TorreService;
 import br.com.lacqua.util.BibliotecaFuncoes;
+import br.com.lacqua.util.Constantes;
 import br.com.lacqua.util.Mes;
 
 @SuppressWarnings("serial")
@@ -77,7 +78,55 @@ public class LeituraBean extends AbstractBean {
 		return null;
 	}
 
-	public String gerarDemonstrativosCondominioTorreMes() throws ValidationException {
+	/**
+	 * Gera relatório geral da torre/condomínio selecionados.
+	 */
+	public String gerarDemonstrativoTorre() throws ValidationException {
+		// TODO Criar método que gera relatorio da torre/condominio.
+		Torre tower = null;
+		Condominio condo = null;
+		Leitura leituraTemp = new Leitura();
+		FacesContext fc = FacesContext.getCurrentInstance();
+		List<Leitura> leituraMesProximo = new ArrayList<>();
+		List<Leitura> leituraMesSelecionado = new ArrayList<>();
+		List<Leitura> leituraMesAnterior3 = new ArrayList<>();
+		List<Leitura> leituraMesAnterior2 = new ArrayList<>();
+		List<Leitura> leituraMesAnterior1 = new ArrayList<>();
+		Date dataConsumo = leitura.getDataRealizacaoLeitura();
+		condo = leitura.getCondominio();
+
+		if (leitura.getTorre() != null) {
+			tower = leitura.getTorre();
+			leituraTemp.setTorre(tower);
+		}
+
+		Integer ano = BibliotecaFuncoes.getAnoFromDate(dataConsumo);
+		Integer mes = BibliotecaFuncoes.getMesFromDate(dataConsumo);
+		leitura.setMesReferenciaLeitura(mes);
+		leitura.setAno(ano);
+		leituraTemp.setAno(ano);
+		leituraTemp.setMesReferenciaLeitura(mes);
+		leituraTemp.setCondominio(condo);
+
+		List<Integer> periodoProximo = BibliotecaFuncoes.getPeriodoProximo(ano, mes);
+
+		leituraMesProximo = leituraService.listarLeiturasPorCondominioTorreMes(leitura, periodoProximo.get(1), periodoProximo.get(0));
+		leituraMesSelecionado = leituraService.listarLeiturasPorCondominioTorreMes(leitura, ano, mes);
+		leituraMesAnterior1 = consultarLeituraMesesAnteriores(ano, mes, condo, tower, 1);
+		leituraMesAnterior2 = consultarLeituraMesesAnteriores(ano, mes, condo, tower, 2);
+		leituraMesAnterior3 = consultarLeituraMesesAnteriores(ano, mes, condo, tower, 3);
+
+		try {
+			controlador.gerarDemonstrativoTorre(leitura, leituraMesProximo, leituraMesSelecionado, leituraMesAnterior1, leituraMesAnterior2, leituraMesAnterior3);
+			fc.addMessage(MESSAGE, new FacesMessage(SUCESSO, "Relatório geral exportado!"));
+		} catch (Exception e) {
+			fc.addMessage(MESSAGE, new FacesMessage(ERRO, e.getMessage()));
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public String gerarDemonstrativosApartamentos() throws ValidationException {
 		Torre tower = null;
 		Condominio condo = null;
 		Leitura leituraTemp = new Leitura();
@@ -111,7 +160,7 @@ public class LeituraBean extends AbstractBean {
 		leituraMesAnterior3 = consultarLeituraMesesAnteriores(ano, mes, condo, tower, 3);
 
 		try {
-			controlador.gerarDemonstrativosCondominioTorre(leitura, leituraMesProximo, leituraMesSelecionado, leituraMesAnterior1, leituraMesAnterior2, leituraMesAnterior3);
+			controlador.gerarDemonstrativosApartamentos(leitura, leituraMesProximo, leituraMesSelecionado, leituraMesAnterior1, leituraMesAnterior2, leituraMesAnterior3);
 			fc.addMessage(MESSAGE, new FacesMessage(SUCESSO, "Demonstrativos exportados!"));
 		} catch (Exception e) {
 			fc.addMessage(MESSAGE, new FacesMessage(ERRO, e.getMessage()));
@@ -205,30 +254,77 @@ public class LeituraBean extends AbstractBean {
 		return null;
 	}
 
-	public String inserirConsumoApartamento(Integer idApartamento) {
-		FacesContext fc = FacesContext.getCurrentInstance();
-		try {
-			if (leituraValor != null) {
-				controlador.inserirConsumoMensalApartamento(idApartamento, leituraValor);
-				fc.addMessage(MESSAGE, new FacesMessage(SUCESSO, "A leitura do apartamento " + apartamento.getNumero() + " foi gravada!"));
-			}
-
-			leituraValor = null;
-		} catch (Exception e) {
-			fc.addMessage(MESSAGE, new FacesMessage(ERRO, "A leitura não pôde ser gravada"));
-		}
-		return null;
-	}
+	/*
+	 * public String inserirConsumoApartamento(Integer idApartamento) {
+	 * FacesContext fc = FacesContext.getCurrentInstance();
+	 * try {
+	 * if (leituraValor != null) {
+	 * //apartamentoService.carregarApartamentoPorNumeroTorreCondominio
+	 * controlador.inserirConsumoMensalApartamento(idApartamento, leituraValor, condominio, torre);
+	 * fc.addMessage(MESSAGE, new FacesMessage(SUCESSO, "A leitura do apartamento " +
+	 * apartamento.getNumero() + " foi gravada!"));
+	 * }
+	 * leituraValor = null;
+	 * } catch (Exception e) {
+	 * fc.addMessage(MESSAGE, new FacesMessage(ERRO, "A leitura não pôde ser gravada"));
+	 * }
+	 * return null;
+	 * }
+	 */
 
 	public String cargaLeituraFromTxt() {
 		FacesContext fc = FacesContext.getCurrentInstance();
-		try {
 
-			Integer ano = BibliotecaFuncoes.getAnoFromDate(getMesAnoLeitura());
-			Integer mes = BibliotecaFuncoes.getMesFromDate(getMesAnoLeitura());
-			leitura.setAno(ano);
-			leitura.setMesReferenciaLeitura(mes);
-			controlador.cargaConsumoDocumentoTexto(leitura);
+		try {
+			List<String> texto = BibliotecaFuncoes.lerArquivo("D:/arquivo.txt");
+			Iterator<String> it = texto.iterator();
+
+			while (it.hasNext()) {
+				Leitura leituraGas = new Leitura();
+				BigDecimal leituraValor = BigDecimal.ZERO;
+				String linhaConcatenada = "";
+				String numeroApartamento = "";
+				List<String> line = new ArrayList<String>();
+				List<Apartamento> listaApartamentos = new ArrayList<Apartamento>();
+
+				linhaConcatenada = it.next();
+				line = BibliotecaFuncoes.split(linhaConcatenada, ";");
+				numeroApartamento = line.get(0);
+				leituraValor = new BigDecimal(line.get(1));
+				leituraValor = BibliotecaFuncoes.escalarConsumo(leituraValor);
+
+				listaApartamentos = apartamentoService.listarApartamentosPorCondominioTorre(leitura.getCondominio().getId(), leitura.getTorre().getId());
+				Integer ano = BibliotecaFuncoes.getAnoFromDate(leitura.getDataRealizacaoLeitura());
+				Integer mes = BibliotecaFuncoes.getMesFromDate(leitura.getDataRealizacaoLeitura());
+
+				Iterator<Apartamento> iter = listaApartamentos.iterator();
+				while (iter.hasNext()) {
+					Apartamento apart = iter.next();
+
+					if (numeroApartamento.equals(apart.getNumero().toString())) {
+						leituraGas.setApartamento(apart);
+						leituraGas.setCondominio(apart.getCondominio());
+
+						if (apart.getTorre() != null) {
+							leituraGas.setTorre(apart.getTorre());
+						}
+
+						if (apart.getCliente() != null) {
+							leituraGas.setCliente(apart.getCliente());
+						}
+
+						leituraGas.setLeitura(leituraValor);
+						leituraGas.setDataRealizacaoLeitura(leitura.getDataRealizacaoLeitura());
+						leituraGas.setMesReferenciaLeitura(mes);
+						leituraGas.setAno(ano);
+
+						if (leituraService.carregarLeituraDoApartamentoNoMesAno(mes, ano, apart)) {
+							controlador.inserirLeituraApartamento(leituraGas);
+						}
+					}
+				}
+			}
+
 			fc.addMessage(MESSAGE, new FacesMessage(SUCESSO, "Carga de dados realizada com sucesso!"));
 
 		} catch (Exception e) {
@@ -307,22 +403,22 @@ public class LeituraBean extends AbstractBean {
 			mes = periodo.get(0);
 			ano = periodo.get(1);
 			leituras = leituraService.listarLeiturasPorCondominioTorreMes(leitura, ano, mes);
-			
+
 			TreeMap<Integer, BigDecimal> mapLeitura = new TreeMap<Integer, BigDecimal>();
 			Iterator<Leitura> itLeitura = leituras.iterator();
-			while(itLeitura.hasNext()) {
+			while (itLeitura.hasNext()) {
 				Leitura leit = itLeitura.next();
 				Integer numeroApartamento = leit.getApartamento().getNumero();
 				mapLeitura.put(numeroApartamento, leit.getLeitura());
 			}
-			
+
 			Iterator<Apartamento> it = apartamentos.iterator();
-			while(it.hasNext()) {
+			while (it.hasNext()) {
 				Apartamento ap = it.next();
 				Integer numeroAp = ap.getNumero();
 				ap.setLeituraAnterior(mapLeitura.get(numeroAp));
 			}
-			
+
 		} catch (Exception e) {
 			handleException(e);
 			fc.addMessage(MESSAGE, new FacesMessage(ERRO, e.getMessage()));
@@ -367,8 +463,10 @@ public class LeituraBean extends AbstractBean {
 	}
 
 	public String excluir(Integer id) {
+		leituraService.excluir(id);
+		leituras = null;
 
-		return null;
+		return redirect(Constantes.LISTAR_LEITURAS);
 	}
 
 	/*
@@ -380,7 +478,15 @@ public class LeituraBean extends AbstractBean {
 			apartamentos = apartamentoService.listarApartamentos();
 		}
 
+		if (apartamentos.size() > 500) {
+			apartamentos = null;
+		}
+
 		return apartamentos;
+	}
+
+	public void setApartamentos(List<Apartamento> apartamentos) {
+		this.apartamentos = apartamentos;
 	}
 
 	public List<Torre> getTorres() {
@@ -470,11 +576,11 @@ public class LeituraBean extends AbstractBean {
 		return Mes.MESES;
 	}
 
-	public List<Leitura> getListaLeituras() {
+	public List<Leitura> getLeituras() {
 		return leituras;
 	}
 
-	public void setListaLeituras(List<Leitura> leituras) {
+	public void setLeituras(List<Leitura> leituras) {
 		this.leituras = leituras;
 	}
 

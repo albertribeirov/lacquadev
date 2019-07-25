@@ -38,7 +38,8 @@
 	</h:form>
 
 	<p:commandButton icon="ui-icon-disk" id="formGerarConta" value="Gerar Consumos" action="#{leituraBean.gravarConsumosPorCondominioTorreMes}" style="margin: 10px" update="form_gerarConta"/>
-	<p:commandButton icon="ui-icon-disk" id="demonstrativosCondominio" value="Gerar Demonstrativos" action="#{leituraBean.gerarDemonstrativosCondominioTorreMes}" style="margin: 10px" update="form_gerarConta"/>
+	<p:commandButton icon="ui-icon-disk" id="demonstrativosCondominio" value="Gerar Demonstrativos Individuais" action="#{leituraBean.gerarDemonstrativosApartamentos}" style="margin: 10px" update="form_gerarConta"/>
+	<p:commandButton icon="ui-icon-disk" id="demonstrativosCondominioGeral" value="Gerar Demonstrativo Torre" action="#{leituraBean.gerarDemonstrativoTorre}" style="margin: 10px" update="form_gerarConta"/>
 
 </h:body>
 </h:html>

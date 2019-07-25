@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import br.com.lacqua.model.Apartamento;
 import br.com.lacqua.model.Leitura;
 
 public class LeituraDAO extends DAO {
@@ -59,5 +60,18 @@ public class LeituraDAO extends DAO {
 		q = criarQuery(query);
 
 		return q.getResultList();
+	}
+
+	public boolean carregarLeituraDoApartamentoNoMesAno(Integer mes, Integer ano, Apartamento ap) {
+		String query = "";
+		
+		query = "SELECT l FROM Leitura l "
+				+ "WHERE l.apartamento.numero = '" + ap.getNumero().toString() + 
+				"' AND l.condominio.id = " + ap.getCondominio().getId() +
+				" AND l.torre.id = " + ap.getTorre().getId();
+		
+		Query q = criarQuery(query);
+		int count = q.getResultList().size();
+		return count > 0;
 	}
 }

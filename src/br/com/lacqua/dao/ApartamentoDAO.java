@@ -11,7 +11,7 @@ public class ApartamentoDAO extends DAO {
 
 	@SuppressWarnings("unchecked")
 	public List<Apartamento> listarApartamentos() {
-		Query q = criarQuery("SELECT a FROM Apartamento a ORDER BY a.condominio.nome, a.numero");
+		Query q = criarQuery("SELECT a FROM Apartamento a ORDER BY a.condominio.nome, a.torre asc NULLS FIRST, a.numero");
 		return q.getResultList();
 	}
 
@@ -37,15 +37,23 @@ public class ApartamentoDAO extends DAO {
 		return q.getResultList();
 	}
 	
-	public Apartamento carregarPorCondominioENumero(Integer idCondominio, String numero) {
+	public Apartamento carregarApartamentoPorNumeroTorreCondominio(Apartamento apartamento) {
 		Query q = null;
 		String consulta = "SELECT a FROM Apartamento";
 		
-		if (idCondominio != null && !numero.equals("")) {
-			consulta = consulta + " WHERE a.condominio.id = " + idCondominio + " AND a.apartamento.numero = " + numero;
-			q = criarQuery(consulta);
+		if (apartamento.getCondominio() != null) {
+			consulta += " WHERE a.condominio.id = " + apartamento.getCondominio().getId();
+		}
+		
+		if (apartamento.getTorre() != null) {
+			consulta += " AND a.torre.id = " + apartamento.getTorre().getId();
+		}
+		
+		if (!apartamento.getNumero().toString().equals("")) {
+			consulta += " AND a.apartamento.numero = " + apartamento.getNumero().toString();			
 		}
 
+		q = criarQuery(consulta);
 		return (Apartamento) q.getSingleResult();
 	}
 }

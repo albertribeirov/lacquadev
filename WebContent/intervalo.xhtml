@@ -15,7 +15,7 @@
 	<h:outputScript library="scripts" name="functions.js" />
 	<h:outputStylesheet library="css" name="styles.css" />
 	<h:form id="form_apartamento" prependId="false">
-		<p:growl id="message" for="message" sticky="false" showDetail="true" life="3000" />
+		<p:growl id="message" for="message" sticky="true" showDetail="true" life="3000" />
 
 		<br />
 
@@ -39,7 +39,7 @@
 
 				<p:outputLabel for="torre" value="Torre" />
 				<p:selectOneMenu id="torre" value="#{intervaloBean.apartamento.torre}" converter="#{converterTorre}" style="width:300px">
-					<f:selectItems value="#{torreBean.torres}" var="t" itemValue="#{t}" itemLabel="#{t.id} - #{t.nome}" />
+					<f:selectItems value="#{torreBean.torres}" var="t" itemValue="#{t}" itemLabel="#{t.numero} - #{t.nome}" />
 				</p:selectOneMenu>
 
 			</h:panelGrid>

@@ -49,14 +49,6 @@ public class ApartamentoService extends Service {
 	}
 
 	/**
-	 * Carrega um apartamento com base no seu ID, ID do condomínio e número do
-	 * apartamento
-	 */
-	public Apartamento carregarPorCondominioENumero(Integer id, String numero) {
-		return apartamentoDAO.carregarPorCondominioENumero(id, numero);
-	}
-
-	/**
 	 * Alter um Apartamento cadastrado no banco de dados.
 	 * 
 	 * @param Apartamento
@@ -115,5 +107,9 @@ public class ApartamentoService extends Service {
 
 	public List<Apartamento> listarApartamentosPorCondominio(Integer idCondominio) {
 		return apartamentoDAO.listarApartamentosPorCondominio(idCondominio);
+	}
+	
+	public Apartamento carregarApartamentoPorNumeroTorreCondominio(Apartamento apartamento) {
+		return apartamentoDAO.carregarApartamentoPorNumeroTorreCondominio(apartamento);
 	}
 }

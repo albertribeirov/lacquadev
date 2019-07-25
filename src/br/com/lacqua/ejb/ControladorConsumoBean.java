@@ -95,17 +95,8 @@ public class ControladorConsumoBean implements ControladorConsumo {
 	}
 
 	@Override
-	public void inserirConsumoMensalApartamento(Integer idApartamento, BigDecimal leitura) {
-		Apartamento ap = em.find(Apartamento.class, idApartamento);
-		Leitura consumo = new Leitura();
-
-		consumo.setApartamento(ap);
-		consumo.setLeitura(leitura);
-		consumo.setCliente(ap.getCliente());
-		consumo.setTorre(ap.getTorre());
-		consumo.setCondominio(ap.getCondominio());
-
-		em.persist(consumo);
+	public void inserirConsumoMensalApartamento(BigDecimal pLeitura) {
+		em.persist(pLeitura);
 	}
 
 	@Override
@@ -277,7 +268,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public void gerarDemonstrativosCondominioTorre(Leitura pLeitura, List<Leitura> pLeituraMesProximo, List<Leitura> pLeituraMesSelecionado, List<Leitura> pLeituraMesAnterior1,
+	public void gerarDemonstrativosApartamentos(Leitura pLeitura, List<Leitura> pLeituraMesProximo, List<Leitura> pLeituraMesSelecionado, List<Leitura> pLeituraMesAnterior1,
 			List<Leitura> pLeituraMesAnterior2, List<Leitura> pLeituraMesAnterior3) throws JRException, FileNotFoundException, Exception {
 
 		JasperCompileManager.compileReportToFile("D:\\Demonstrativo.jrxml");
@@ -488,5 +479,17 @@ public class ControladorConsumoBean implements ControladorConsumo {
 			 * exporter.exportReport();
 			 */
 		}
+	}
+
+	@Override
+	public void gerarDemonstrativoTorre(Leitura pLeitura, List<Leitura> pLeituraMesProximo, List<Leitura> pLeituraMesSelecionado, List<Leitura> pLeituraMesAnterior1,
+			List<Leitura> pLeituraMesAnterior2, List<Leitura> pLeituraMesAnterior3) {
+		// TODO criar método que gera o relatório geral
+		
+	}
+
+	@Override
+	public void inserirLeituraApartamento(Leitura pLeitura) {
+		em.persist(pLeitura);
 	}
 }
