@@ -7,7 +7,7 @@
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>Consumos</title>
-	
+
 </h:head>
 <h:body>
 	<ui:decorate template="decorator.xhtml" />
@@ -17,29 +17,31 @@
 	<h:form id="form_gerarConta" prependId="false">
 		<p:growl for="message" sticky="true" showDetail="true" life="3000" />
 		<br />
-			<h:panelGrid columns="2">
-				<p:outputLabel for="condominio" value="Condomínio" />
-				<p:selectOneMenu id="condominio" value="#{leituraBean.leitura.condominio}" valueChangeListener="#{torreBean.carregarTorresPorCondominio}" converter="#{converterCondominio}" immediate="true"
-					style="width:300px" required="true">
-					<f:ajax event="valueChange" execute="@this" render="torre" />
-					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
-					<f:selectItems value="#{condominioBean.condominios}" var="c" itemValue="#{c}" itemLabel="#{c.nome}" />
-				</p:selectOneMenu>
+		<h:panelGrid columns="2">
+			<p:outputLabel for="condominio" value="Condomínio" />
+			<p:selectOneMenu id="condominio" value="#{leituraBean.leitura.condominio}" valueChangeListener="#{torreBean.carregarTorresPorCondominio}" converter="#{converterCondominio}" immediate="true"
+				style="width:300px" required="true">
+				<f:ajax event="valueChange" execute="@this" render="torre" />
+				<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+				<f:selectItems value="#{condominioBean.condominios}" var="c" itemValue="#{c}" itemLabel="#{c.nome}" />
+			</p:selectOneMenu>
 
-				<p:outputLabel for="torre" value="Torre" />
-				<p:selectOneMenu id="torre" value="#{leituraBean.leitura.torre}" converter="#{converterTorre}" style="width:300px">
-					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
-					<f:selectItems value="#{torreBean.torres}" var="t" itemValue="#{t}" itemLabel="#{t.id} - #{t.nome}" />
-				</p:selectOneMenu>
-				
-				<p:outputLabel id="dataLeitura" value="Data da leitura  " />
-				<p:calendar locale="pt" required="true" pattern="MM/yyyy" value="#{leituraBean.leitura.dataRealizacaoLeitura}" mask="true" />
-			</h:panelGrid>
+			<p:outputLabel for="torre" value="Torre" />
+			<p:selectOneMenu id="torre" value="#{leituraBean.leitura.torre}" converter="#{converterTorre}" style="width:300px">
+				<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+				<f:selectItems value="#{torreBean.torres}" var="t" itemValue="#{t}" itemLabel="#{t.id} - #{t.nome}" />
+			</p:selectOneMenu>
+
+			<p:outputLabel id="dataLeitura" value="Data da leitura  " />
+			<p:calendar locale="pt" required="true" pattern="MM/yyyy" value="#{leituraBean.leitura.dataRealizacaoLeitura}" mask="true" />
+		</h:panelGrid>
 	</h:form>
 
-	<p:commandButton icon="ui-icon-disk" id="formGerarConta" value="Gerar Consumos" action="#{leituraBean.gravarConsumosPorCondominioTorreMes}" style="margin: 10px" update="form_gerarConta"/>
-	<p:commandButton icon="ui-icon-disk" id="demonstrativosCondominio" value="Gerar Demonstrativos Individuais" action="#{leituraBean.gerarDemonstrativosApartamentos}" style="margin: 10px" update="form_gerarConta"/>
-	<p:commandButton icon="ui-icon-disk" id="demonstrativosCondominioGeral" value="Gerar Demonstrativo Torre" action="#{leituraBean.gerarDemonstrativoTorre}" style="margin: 10px" update="form_gerarConta"/>
+	<h:panelGrid columns="1">
+		<p:commandButton icon="ui-icon-disk" id="demonstrativosPorApartamento" value="Gerar Demonstrativos Individuais em PDF" action="#{leituraBean.gerarDemonstrativosApartamentos}" style="margin: 10px" update="form_gerarConta" />
+		<p:commandButton icon="ui-icon-disk" id="demonstrativosPorTorreTXT" value="Gerar Demonstrativos por Torre TXT" action="#{leituraBean.gerarDemonstrativoTorre(1)}" style="margin: 10px" update="form_gerarConta" />
+		<p:commandButton icon="ui-icon-disk" id="demonstrativosPorTorrePDF" value="Gerar Demonstrativos por Torre PDF" action="#{leituraBean.gerarDemonstrativoTorre(2)}" style="margin: 10px" update="form_gerarConta" />
+	</h:panelGrid>
 
 </h:body>
 </h:html>

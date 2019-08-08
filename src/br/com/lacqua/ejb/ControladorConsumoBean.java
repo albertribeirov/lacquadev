@@ -6,15 +6,18 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -304,9 +307,9 @@ public class ControladorConsumoBean implements ControladorConsumo {
 		}
 
 		if (pLeituraMesAnterior1 != null) {
-			Iterator<Leitura> itLeituraMesAnterior1 = pLeituraMesAnterior1.iterator();
-			while (itLeituraMesAnterior1.hasNext()) {
-				Leitura leituraAnterior1 = itLeituraMesAnterior1.next();
+			Iterator<Leitura> itLeituraMesAnterior = pLeituraMesAnterior1.iterator();
+			while (itLeituraMesAnterior.hasNext()) {
+				Leitura leituraAnterior1 = itLeituraMesAnterior.next();
 				Integer apartamento = leituraAnterior1.getApartamento().getNumero();
 				hashLeituraMesAnterior1.put(apartamento, leituraAnterior1);
 			}
@@ -482,14 +485,74 @@ public class ControladorConsumoBean implements ControladorConsumo {
 	}
 
 	@Override
-	public void gerarDemonstrativoTorre(Leitura pLeitura, List<Leitura> pLeituraMesProximo, List<Leitura> pLeituraMesSelecionado, List<Leitura> pLeituraMesAnterior1,
-			List<Leitura> pLeituraMesAnterior2, List<Leitura> pLeituraMesAnterior3) {
-		// TODO criar método que gera o relatório geral
+	public void gerarDemonstrativoTorreTXT(Leitura pLeitura, List<Leitura> pLeituraMesSelecionado, List<Leitura> pLeituraMesAnterior) throws Exception {
+
+		TreeMap<Integer, Leitura> hashLeituraMesSelecionado = new TreeMap<>();
+		TreeMap<Integer, Leitura> hashLeituraMesAnterior = new TreeMap<>();
 		
+		String torreNome = "";
+		Integer torreNumero = 1;
+		String condominioNome = "";
+		
+		condominioNome = (pLeitura.getCondominio() != null) ? pLeitura.getCondominio().getNome() : "";
+		torreNome = (pLeitura.getTorre() != null) ? pLeitura.getTorre().getNome() : "";
+		torreNumero = (pLeitura.getTorre().getNumero() != null) ? pLeitura.getTorre().getNumero() : 1;
+		
+		FileWriter arquivo = new FileWriter("D:\\Gas " + condominioNome + " - " + torreNome + ".txt");
+	    PrintWriter pw = new PrintWriter(arquivo);
+	    
+	    pw.println("Apto	Anterior	Atual	Consumo	Valor	Data	Torre");
+
+		/*
+		 * Montagem dos hashs de leituras
+		 */
+
+		if (pLeituraMesSelecionado != null) {
+			Iterator<Leitura> itLeituraMesSelecionado = pLeituraMesSelecionado.iterator();
+			while (itLeituraMesSelecionado.hasNext()) {
+				Leitura leituraAtual = itLeituraMesSelecionado.next();
+				Integer apartamento = leituraAtual.getApartamento().getNumero();
+				hashLeituraMesSelecionado.put(apartamento, leituraAtual);
+			}
+		}
+
+		if (pLeituraMesAnterior != null) {
+			Iterator<Leitura> itLeituraMesAnterior = pLeituraMesAnterior.iterator();
+			while (itLeituraMesAnterior.hasNext()) {
+				Leitura leituraAnterior = itLeituraMesAnterior.next();
+				Integer numeroApartamentoAnterior = leituraAnterior.getApartamento().getNumero();
+				Leitura leituraMesSelecionado = hashLeituraMesSelecionado.get(numeroApartamentoAnterior);
+				
+				BigDecimal gasConsumido = BibliotecaFuncoes.escalarConsumo(leituraMesSelecionado.getLeitura().subtract(leituraAnterior.getLeitura()));
+				PrecoGas preco = em.find(PrecoGas.class, 1);
+				BigDecimal valor = BigDecimal.ZERO;
+				Date data = leituraMesSelecionado.getDataRealizacaoLeitura();
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				String dataTexto = sdf.format(data);
+				valor = BibliotecaFuncoes.escalarDinheiro(gasConsumido.multiply(preco.getValor()));
+				
+
+				
+				pw.print(numeroApartamentoAnterior + "\t" + leituraAnterior.getLeitura() + "\t" + leituraMesSelecionado.getLeitura() + "\t" + gasConsumido + "\t" + valor + "\t" + dataTexto + "\t" + torreNumero + "\n");
+			}
+		}
+		
+		Set<Entry<Integer,Leitura>> setLeitura = hashLeituraMesSelecionado.entrySet();
+		Iterator<Entry<Integer, Leitura>> it = setLeitura.iterator();
+		
+		System.out.println("|||| fim ||||");
+		arquivo.close();
 	}
 
 	@Override
 	public void inserirLeituraApartamento(Leitura pLeitura) {
 		em.persist(pLeitura);
+	}
+
+	@Override
+	public void gerarDemonstrativoTorrePDF(Leitura leitura, List<Leitura> leituraMesProximo, List<Leitura> leituraMesSelecionado, List<Leitura> leituraMesAnterior1,
+			List<Leitura> leituraMesAnterior2, List<Leitura> leituraMesAnterior3) {
+		// TODO Auto-generated method stub
+		
 	}
 }

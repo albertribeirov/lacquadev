@@ -4,6 +4,8 @@ public class Constantes {
 	
 	public static final String SUCESSO = "success";
 	public static final String MES = "mes";
+	public static final String TXT_1 = "1";
+	public static final String PDF_2 = "2";
 	
 	/*
 	 * Mensagens Condomínio
@@ -88,5 +90,4 @@ public class Constantes {
 
 	public static final String TORRE_CADASTRAR = "cadastrarTorre";
 	public static final String LISTAR_LEITURAS = "listarLeituras";
-
 }

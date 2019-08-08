@@ -24,15 +24,15 @@ public class ApartamentoDAO extends DAO {
 	@SuppressWarnings("unchecked")
 	public List<Apartamento> listarApartamentosPorCondominioTorre(Integer idCondominio, Integer idTorre) {
 		Query q;
-		String where;
 		String consulta = "SELECT a FROM Apartamento a WHERE a.condominio.id = " + idCondominio;
 		
 		if (idTorre != null) {
-			where = " AND a.torre.id = " + idTorre;			
-			consulta = consulta + where;
+			consulta += " AND a.torre.id = " + idTorre + " ORDER BY a.condominio.nome, a.torre.nome, a.numero";		
+		} else {
+			consulta += " ORDER BY a.condominio.nome, a.numero";		
 		}
-		 consulta = consulta + " ORDER BY a.condominio.nome, a.torre.nome, a.numero";
-		 q = criarQuery(consulta);
+		
+		q = criarQuery(consulta);
 		
 		return q.getResultList();
 	}

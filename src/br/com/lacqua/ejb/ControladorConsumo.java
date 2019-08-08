@@ -36,8 +36,10 @@ public interface ControladorConsumo {
 	public void gerarDemonstrativosApartamentos(Leitura pLeitura, List<Leitura> pLeituraMesProximo, List<Leitura> pLeituraMesSelecionado, List<Leitura> pConsumoMesMenos1,
 			List<Leitura> pConsumoMesMenos2, List<Leitura> pConsumoMesMenos3) throws JRException, FileNotFoundException, Exception;
 
-	public void gerarDemonstrativoTorre(Leitura pLeitura, List<Leitura> pLeituraMesProximo, List<Leitura> pLeituraMesSelecionado, List<Leitura> pLeituraMesAnterior1,
-			List<Leitura> pLeituraMesAnterior2, List<Leitura> pLeituraMesAnterior3);
+	public void gerarDemonstrativoTorreTXT(Leitura pLeitura, List<Leitura> pLeituraMesSelecionado, List<Leitura> pLeituraMesAnterior) throws Exception;
 
 	public void inserirLeituraApartamento(Leitura pLeitura);
+
+	public void gerarDemonstrativoTorrePDF(Leitura leitura, List<Leitura> leituraMesProximo, List<Leitura> leituraMesSelecionado, List<Leitura> leituraMesAnterior1,
+			List<Leitura> leituraMesAnterior2, List<Leitura> leituraMesAnterior3);
 }

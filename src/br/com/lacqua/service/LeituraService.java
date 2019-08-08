@@ -12,7 +12,6 @@ import br.com.lacqua.exception.ValidationException;
 import br.com.lacqua.model.Apartamento;
 import br.com.lacqua.model.Leitura;
 import br.com.lacqua.model.Log.TipoMensagem;
-import br.com.lacqua.util.Constantes;
 
 /**
  * Métodos de negócio relacionados à entidade Leitura
@@ -135,7 +134,7 @@ public class LeituraService extends Service {
 	
 	public boolean carregarLeituraDoApartamentoNoMesAno(Integer mes, Integer ano, Apartamento apartamento) throws ValidationException {
 		if (leituraDAO.carregarLeituraDoApartamentoNoMesAno(mes, ano, apartamento)) {
-			throw new ValidationException("Erro de teste!!!!");
+			throw new ValidationException("Existem leituras registradas neste período.");
 		} else {
 			return true;
 		}

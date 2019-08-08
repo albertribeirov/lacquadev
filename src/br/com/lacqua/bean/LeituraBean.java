@@ -79,10 +79,16 @@ public class LeituraBean extends AbstractBean {
 	}
 
 	/**
-	 * Gera relatório geral da torre/condomínio selecionados.
+	 * Gera relatório geral da torre/condomínio selecionados e pode gerar tanto o PDF quanto o TXT.
 	 */
-	public String gerarDemonstrativoTorre() throws ValidationException {
+	public String gerarDemonstrativoTorre(String tipo) throws ValidationException {
 		// TODO Criar método que gera relatorio da torre/condominio.
+		boolean txt = false;
+		boolean pdf = false;
+		
+		txt = (tipo.equals(Constantes.TXT_1)) ? true : false;
+		pdf = (tipo.equals(Constantes.PDF_2)) ? true : false;
+		
 		Torre tower = null;
 		Condominio condo = null;
 		Leitura leituraTemp = new Leitura();
@@ -110,15 +116,28 @@ public class LeituraBean extends AbstractBean {
 
 		List<Integer> periodoProximo = BibliotecaFuncoes.getPeriodoProximo(ano, mes);
 
-		leituraMesProximo = leituraService.listarLeiturasPorCondominioTorreMes(leitura, periodoProximo.get(1), periodoProximo.get(0));
-		leituraMesSelecionado = leituraService.listarLeiturasPorCondominioTorreMes(leitura, ano, mes);
-		leituraMesAnterior1 = consultarLeituraMesesAnteriores(ano, mes, condo, tower, 1);
-		leituraMesAnterior2 = consultarLeituraMesesAnteriores(ano, mes, condo, tower, 2);
-		leituraMesAnterior3 = consultarLeituraMesesAnteriores(ano, mes, condo, tower, 3);
+		if (txt || pdf) {
+			leituraMesSelecionado = leituraService.listarLeiturasPorCondominioTorreMes(leitura, ano, mes);
+			leituraMesAnterior1 = consultarLeituraMesesAnteriores(ano, mes, condo, tower, 1);			
+		}
+		
+		if (pdf) {
+			leituraMesProximo = leituraService.listarLeiturasPorCondominioTorreMes(leitura, periodoProximo.get(1), periodoProximo.get(0));
+			leituraMesAnterior2 = consultarLeituraMesesAnteriores(ano, mes, condo, tower, 2);
+			leituraMesAnterior3 = consultarLeituraMesesAnteriores(ano, mes, condo, tower, 3);			
+		}
 
 		try {
-			controlador.gerarDemonstrativoTorre(leitura, leituraMesProximo, leituraMesSelecionado, leituraMesAnterior1, leituraMesAnterior2, leituraMesAnterior3);
-			fc.addMessage(MESSAGE, new FacesMessage(SUCESSO, "Relatório geral exportado!"));
+			if (txt) {
+				controlador.gerarDemonstrativoTorreTXT(leitura, leituraMesSelecionado, leituraMesAnterior1);
+				fc.addMessage(MESSAGE, new FacesMessage(SUCESSO, "Relatório geral exportado em TXT!"));				
+			}
+			
+			if (pdf) {
+				controlador.gerarDemonstrativoTorrePDF(leitura, leituraMesProximo, leituraMesSelecionado, leituraMesAnterior1, leituraMesAnterior2, leituraMesAnterior3);
+				fc.addMessage(MESSAGE, new FacesMessage(SUCESSO, "Relatório geral exportado em PDF!"));
+			}
+
 		} catch (Exception e) {
 			fc.addMessage(MESSAGE, new FacesMessage(ERRO, e.getMessage()));
 			e.printStackTrace();
@@ -182,10 +201,12 @@ public class LeituraBean extends AbstractBean {
 			mes = 12;
 			mes = mes - qtdMeses;
 			ano = ano - 1;
+		} else {
+			mes = mes - 1;
 		}
 
-		leitura.setAno(mes);
-		leitura.setMesReferenciaLeitura(ano);
+		leitura.setAno(ano);
+		leitura.setMesReferenciaLeitura(mes);
 		leitura.setCondominio(pCond);
 		if (pTorre != null) {
 			leitura.setTorre(pTorre);
@@ -249,7 +270,7 @@ public class LeituraBean extends AbstractBean {
 			}
 		} catch (Exception e) {
 			fc.addMessage(MESSAGE, new FacesMessage(ERRO, "O consumo mensal não pôde ser gerado."));
-			e.printStackTrace();
+			handleException(e);
 		}
 		return null;
 	}
@@ -292,8 +313,13 @@ public class LeituraBean extends AbstractBean {
 				numeroApartamento = line.get(0);
 				leituraValor = new BigDecimal(line.get(1));
 				leituraValor = BibliotecaFuncoes.escalarConsumo(leituraValor);
+				
+				Integer torreId = null;
+				if (leitura.getTorre() != null) {
+					torreId = leitura.getTorre().getId();
+				}
 
-				listaApartamentos = apartamentoService.listarApartamentosPorCondominioTorre(leitura.getCondominio().getId(), leitura.getTorre().getId());
+				listaApartamentos = apartamentoService.listarApartamentosPorCondominioTorre(leitura.getCondominio().getId(), torreId);
 				Integer ano = BibliotecaFuncoes.getAnoFromDate(leitura.getDataRealizacaoLeitura());
 				Integer mes = BibliotecaFuncoes.getMesFromDate(leitura.getDataRealizacaoLeitura());
 
@@ -328,8 +354,8 @@ public class LeituraBean extends AbstractBean {
 			fc.addMessage(MESSAGE, new FacesMessage(SUCESSO, "Carga de dados realizada com sucesso!"));
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			fc.addMessage(MESSAGE, new FacesMessage(ERRO, e.getMessage()));
+			handleException(e);
 		}
 
 		return null;

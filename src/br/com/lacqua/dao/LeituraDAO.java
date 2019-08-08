@@ -67,8 +67,14 @@ public class LeituraDAO extends DAO {
 		
 		query = "SELECT l FROM Leitura l "
 				+ "WHERE l.apartamento.numero = '" + ap.getNumero().toString() + 
-				"' AND l.condominio.id = " + ap.getCondominio().getId() +
-				" AND l.torre.id = " + ap.getTorre().getId();
+				"' AND l.condominio.id = " + ap.getCondominio().getId();
+		
+		if (ap.getTorre() != null) {
+			query += " AND l.torre.id = " + ap.getTorre().getId();
+		}
+		
+		query += " AND l.mesReferenciaLeitura = " + mes +
+				" AND l.ano = " + ano;
 		
 		Query q = criarQuery(query);
 		int count = q.getResultList().size();
