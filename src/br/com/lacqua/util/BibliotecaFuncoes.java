@@ -49,6 +49,12 @@ public class BibliotecaFuncoes {
 
 		return lista;
 	}
+	
+	public static String converteBigDecimal(String pValor) {
+		String valor = pValor.replace(".", ",");
+		
+		return valor;
+	}
 
 	public static BigDecimal escalarConsumo(String pValor) {
 		BigDecimal resposta = BigDecimal.ZERO;

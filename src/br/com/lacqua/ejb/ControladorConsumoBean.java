@@ -488,7 +488,6 @@ public class ControladorConsumoBean implements ControladorConsumo {
 	public void gerarDemonstrativoTorreTXT(Leitura pLeitura, List<Leitura> pLeituraMesSelecionado, List<Leitura> pLeituraMesAnterior) throws Exception {
 
 		TreeMap<Integer, Leitura> hashLeituraMesSelecionado = new TreeMap<>();
-		TreeMap<Integer, Leitura> hashLeituraMesAnterior = new TreeMap<>();
 		
 		String torreNome = "";
 		Integer torreNumero = 1;
@@ -531,16 +530,17 @@ public class ControladorConsumoBean implements ControladorConsumo {
 				String dataTexto = sdf.format(data);
 				valor = BibliotecaFuncoes.escalarDinheiro(gasConsumido.multiply(preco.getValor()));
 				
-
-				
-				pw.print(numeroApartamentoAnterior + "\t" + leituraAnterior.getLeitura() + "\t" + leituraMesSelecionado.getLeitura() + "\t" + gasConsumido + "\t" + valor + "\t" + dataTexto + "\t" + torreNumero + "\n");
+				pw.print(numeroApartamentoAnterior + 
+						"\t" + BibliotecaFuncoes.converteBigDecimal(leituraAnterior.getLeitura().toString()) +
+						"\t" + BibliotecaFuncoes.converteBigDecimal(leituraMesSelecionado.getLeitura().toString()) + 
+						"\t" + BibliotecaFuncoes.converteBigDecimal(gasConsumido.toString()) + 
+						"\t" + BibliotecaFuncoes.converteBigDecimal(valor.toString()) + 
+						"\t" + dataTexto + 
+						"\t" + torreNumero + 
+						"\n");
 			}
 		}
 		
-		Set<Entry<Integer,Leitura>> setLeitura = hashLeituraMesSelecionado.entrySet();
-		Iterator<Entry<Integer, Leitura>> it = setLeitura.iterator();
-		
-		System.out.println("|||| fim ||||");
 		arquivo.close();
 	}
 
