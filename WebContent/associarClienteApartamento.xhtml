@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Cliente x Apartamento</title>
+</h:head>
+<h:body>
+	<ui:decorate template="decorator.xhtml" />
+	<h:outputScript library="scripts" name="pt.js" />
+	<h:outputScript library="scripts" name="functions.js" />
+	<h:outputStylesheet library="css" name="styles.css" />
+
+	<h:form id="form_cliente">
+		<p:growl for="message" sticky="true" showDetail="true" life="3000" />
+		<br />
+		<p:fieldset legend="Dados">
+			<h:panelGrid columns="2">
+				<p:outputLabel for="condominio" value="Condomínio" />
+				<p:selectOneMenu id="condominio" value="#{clienteBean.condominio}"
+					valueChangeListener="#{torreBean.carregarTorresPorCondominio}" converter="#{converterCondominio}" immediate="true"
+					style="width:300px" required="true">
+					<f:ajax event="valueChange" execute="@this" render="torre apartamento" />
+					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+					<f:selectItems value="#{condominioBean.condominios}" var="c" itemValue="#{c}" itemLabel="#{c.nome}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="torre" value="Torre" />
+				<p:selectOneMenu id="torre" value="#{clienteBean.torre}" 
+					valueChangeListener="#{apartamentoBean.carregarApartamentosPorTorreCondominio}" converter="#{converterTorre}" immediate="true" 
+					style="width:300px" required="false">
+					<f:ajax event="valueChange" execute="@this" render="apartamento" />
+					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+					<f:selectItems value="#{torreBean.torres}" var="t" itemValue="#{t}" itemLabel="#{t.id} - #{t.nome}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="apartamento" value="Apartamento" />
+				<p:selectOneMenu id="apartamento" value="#{clienteBean.apartamento}" style="width:300px" required="true">
+					<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+					<f:selectItems value="#{apartamentoBean.apartamentos}" var="a" itemValue="#{a}" itemLabel="#{a.condominio.nome} - #{a.torre.nome} - #{a.numero}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="cliente" value="Cliente: " />
+				<p:autoComplete id="cliente" value="#{clienteBean.cliente.nome}"  completeMethod="#{clienteBean.listarClientes}"  />
+
+			</h:panelGrid>
+		</p:fieldset>
+
+	</h:form>
+	<p:commandButton icon="ui-icon-disk" id="formCliente" value="Salvar" action="#{clienteBean.salvar}" style="margin: 10px" update="form_cliente" />
+
+</h:body>
+</h:html>

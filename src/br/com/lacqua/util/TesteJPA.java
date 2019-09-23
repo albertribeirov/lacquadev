@@ -1,15 +1,16 @@
 package br.com.lacqua.util;
 
-import java.io.FileNotFoundException;
-import java.sql.SQLException;
-import java.text.ParseException;
-
-import net.sf.jasperreports.engine.JRException;
+import java.util.List;
 
 public class TesteJPA {
 
-	public static void main(String[] args) throws JRException, FileNotFoundException, SQLException, ParseException {
-
+	public static void main(String[] args) {
+		List<String> listaClientes = BibliotecaFuncoes.lerArquivo("D:/clientes.txt");
+		
+		System.out.println(listaClientes.toString());
+		
+		
+		System.out.println("Fim!");
 		
 	}
 }

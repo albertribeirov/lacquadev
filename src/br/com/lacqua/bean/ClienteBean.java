@@ -1,6 +1,7 @@
 package br.com.lacqua.bean;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -8,7 +9,10 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.com.lacqua.model.Apartamento;
 import br.com.lacqua.model.Cliente;
+import br.com.lacqua.model.Condominio;
+import br.com.lacqua.model.Torre;
 import br.com.lacqua.service.ClienteService;
 import br.com.lacqua.util.Constantes;
 
@@ -22,6 +26,14 @@ public class ClienteBean extends AbstractBean {
 
 	private Cliente cliente;
 
+	private Condominio condominio;
+
+	private Torre torre;
+
+	private Apartamento apartamento;
+
+	private List<Apartamento> apartamentos;
+
 	private List<Cliente> clientes;
 
 	/*
@@ -33,7 +45,11 @@ public class ClienteBean extends AbstractBean {
 		}
 		return clientes;
 	}
-	
+
+	public List<Cliente> listarClientes(String query) {
+		return clientes.stream().filter(c -> c.getNome().toUpperCase().startsWith(query.toUpperCase())).collect(Collectors.toList());
+	}
+
 	/*
 	 * Altera um cliente
 	 */
@@ -41,15 +57,15 @@ public class ClienteBean extends AbstractBean {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
 			cliente = clienteService.carregar(id);
-			fc.addMessage("message", new FacesMessage("Sucesso!", "Cliente carregado!"));			
-			
+			fc.addMessage("message", new FacesMessage("Sucesso!", "Cliente carregado!"));
+
 		} catch (Exception e) {
 			handleException(e);
 			fc.addMessage("message", new FacesMessage("Erro!", "Cliente não carregado!"));
 		}
 		return null;
 	}
-	
+
 	/*
 	 * Cancela a alteração
 	 */
@@ -64,11 +80,11 @@ public class ClienteBean extends AbstractBean {
 	 */
 	public String excluir(Integer id) {
 		try {
-			clienteService.excluir(id);			
+			clienteService.excluir(id);
 		} catch (Exception e) {
 			handleException(e);
 		}
-		
+
 		this.cliente = null;
 		return redirect(Constantes.CLIENTE_CADASTRAR);
 	}
@@ -117,5 +133,37 @@ public class ClienteBean extends AbstractBean {
 	 */
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	public Condominio getCondominio() {
+		return condominio;
+	}
+
+	public void setCondominio(Condominio condominio) {
+		this.condominio = condominio;
+	}
+
+	public Torre getTorre() {
+		return torre;
+	}
+
+	public void setTorre(Torre torre) {
+		this.torre = torre;
+	}
+
+	public List<Apartamento> getApartamentos() {
+		return apartamentos;
+	}
+
+	public void setApartamentos(List<Apartamento> apartamentos) {
+		this.apartamentos = apartamentos;
+	}
+
+	public Apartamento getApartamento() {
+		return apartamento;
+	}
+
+	public void setApartamento(Apartamento apartamento) {
+		this.apartamento = apartamento;
 	}
 }

@@ -1,15 +1,15 @@
 package br.com.lacqua.bean;
 
-import java.io.Serializable;
-
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
+import br.com.lacqua.util.Constantes;
+
 @Named("loginBean")
 @RequestScoped
-public class LoginBean implements Serializable {
+public class LoginBean extends AbstractBean {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -18,16 +18,16 @@ public class LoginBean implements Serializable {
 
 	public String login() {
 		if("albert".equals(name) && "senha".equals(password)) {
-			return "cadastrarCondominio";
+			return redirect(Constantes.CONDOMINIO_CADASTRAR);
 			
 		} else {
-			FacesContext.getCurrentInstance().addMessage("msg", new FacesMessage("Login inválido!"));
+			FacesContext.getCurrentInstance().addMessage(MESSAGE, new FacesMessage("Login inválido!"));
 			return null;
 		}
 	}
 	
 	public String cadastrar() {
-		return "cadastrarCondominio";
+		return Constantes.CONDOMINIO_CADASTRAR;
 	}
 
 	public String getPassword() {

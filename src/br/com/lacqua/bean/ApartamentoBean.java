@@ -6,11 +6,14 @@ import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.lacqua.ejb.ControladorConsumo;
 import br.com.lacqua.model.Apartamento;
+import br.com.lacqua.model.Condominio;
+import br.com.lacqua.model.Torre;
 import br.com.lacqua.service.ApartamentoService;
 import br.com.lacqua.util.Constantes;
 
@@ -21,6 +24,7 @@ public class ApartamentoBean extends AbstractBean {
 
 	@EJB
 	private ControladorConsumo controlador;
+	
 	@Inject
 	private ApartamentoService apartamentoService;
 
@@ -36,7 +40,10 @@ public class ApartamentoBean extends AbstractBean {
 	 */
 	public List<Apartamento> getApartamentos() {
 		try {
-			apartamentos = apartamentoService.listarApartamentos();
+			
+			if (apartamentos == null) {
+				apartamentos = apartamentoService.listarApartamentos();				
+			}
 
 		} catch (Exception e) {
 			handleException(e);
@@ -87,9 +94,9 @@ public class ApartamentoBean extends AbstractBean {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
 			apartamento = apartamentoService.carregar(id);
-			fc.addMessage("message", new FacesMessage("Sucesso!", "Apartamento carregado!"));
+			fc.addMessage("message", new FacesMessage(SUCESSO, "Apartamento carregado!"));
 		} catch (Exception e) {
-			fc.addMessage("message", new FacesMessage("Erro!", "Apartamento não carregado!"));
+			fc.addMessage("message", new FacesMessage(ERRO, "Apartamento não carregado!"));
 			handleException(e);
 		}
 		return null;
@@ -102,8 +109,13 @@ public class ApartamentoBean extends AbstractBean {
 			return redirect(Constantes.APARTAMENTO_CADASTRAR);
 		} catch (Exception e) {
 			handleException(e);
-			fc.addMessage("message", new FacesMessage("Erro!", "Apartamento não excluído!"));
+			fc.addMessage("message", new FacesMessage(ERRO, "Apartamento não excluído!"));
 		}
 		return null;
+	}
+	
+	public void carregarApartamentosPorTorreCondominio(ValueChangeEvent event) {
+		Torre torre = (Torre) event.getNewValue();
+		apartamentos = apartamentoService.listarApartamentosPorCondominioTorre(torre.getCondominio().getId(), torre.getId());
 	}
 }
