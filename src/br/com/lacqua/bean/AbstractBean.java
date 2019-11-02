@@ -12,9 +12,9 @@ import br.com.lacqua.service.LogService;
 @SuppressWarnings("serial")
 public class AbstractBean implements Serializable {
 	
-	public static String ERRO = "Erro";
-	public static String MESSAGE = "message";
-	public static String SUCESSO = "Sucesso";
+	public static final String ERRO = "Erro";
+	public static final String MESSAGE = "message";
+	public static final String SUCESSO = "Sucesso";
 
 	@Inject
 	private LogService logService;

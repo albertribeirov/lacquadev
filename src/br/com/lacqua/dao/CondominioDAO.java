@@ -1,6 +1,7 @@
 package br.com.lacqua.dao;
 
 import java.util.List;
+
 import javax.persistence.Query;
 
 import br.com.lacqua.model.Condominio;
@@ -21,25 +22,37 @@ public class CondominioDAO extends DAO {
 	}
 
 	public boolean buscarCondominioPorNome(String nome, Integer id) {
-		String query = "SELECT COUNT(c) FROM Condominio c WHERE c.nome = '" + nome + "'";
+		String query = "SELECT COUNT(c) FROM Condominio c WHERE c.nome = :nome";
 
 		if (id != null) {
-			query += " AND c.id != " + id;
+			query += " AND c.id != :id ";
 		}
 
-		Query q = criarQuery(query);
+		Query q = criarQuery(query).setParameter(NOME, nome);
+		 
+		if (id != null) {
+			 q.setParameter(ID, id);
+		 }
+		 
 		long count = (Long) q.getResultList().get(0);
 		return count > 0;
 	}
 
 	public boolean buscarCondominioPorCNPJ(String cnpj, Integer id) {
-		String query = "SELECT COUNT(c) FROM Condominio c WHERE c.cnpj = '" + cnpj + "'";
-
+		String query = "SELECT COUNT(c) FROM Condominio c WHERE c.cnpj = :cnpj";
+		boolean isIdValido = false;
+		
 		if (id != null) {
-			query += " AND c.id != " + id;
+			query += " AND c.id != :id";
+			isIdValido = true;
 		}
 
-		Query q = criarQuery(query);
+		Query q = criarQuery(query).setParameter(CNPJ, cnpj);
+		
+		if (isIdValido) {
+			q.setParameter(ID, id);
+		}
+		
 		long count = (Long) q.getResultList().get(0);
 		return count > 0;
 	}

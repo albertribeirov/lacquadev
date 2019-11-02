@@ -39,7 +39,7 @@ public class ClienteBean extends AbstractBean {
 	/*
 	 * Listar clientes
 	 */
-	public List<Cliente> getClientes() throws Exception {
+	public List<Cliente> getClientes() {
 		if (clientes == null) {
 			clientes = clienteService.listarClientes();
 		}
@@ -57,11 +57,11 @@ public class ClienteBean extends AbstractBean {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
 			cliente = clienteService.carregar(id);
-			fc.addMessage("message", new FacesMessage("Sucesso!", "Cliente carregado!"));
+			fc.addMessage(MESSAGE, new FacesMessage(SUCESSO, "Cliente carregado!"));
 
 		} catch (Exception e) {
 			handleException(e);
-			fc.addMessage("message", new FacesMessage("Erro!", "Cliente não carregado!"));
+			fc.addMessage(MESSAGE, new FacesMessage(ERRO, "Cliente não carregado!"));
 		}
 		return null;
 	}
@@ -106,7 +106,7 @@ public class ClienteBean extends AbstractBean {
 
 		} catch (Exception e) {
 			addMessageToRequest(e.getMessage());
-			fc.addMessage("message", new FacesMessage("Erro!", "Cliente não salvo!"));
+			fc.addMessage(MESSAGE, new FacesMessage(ERRO, "Cliente não salvo!"));
 			return null;
 		}
 	}
@@ -115,7 +115,7 @@ public class ClienteBean extends AbstractBean {
 	 * Cadastrar um novo cliente
 	 */
 	public String novoCliente() {
-		return "novoCliente";
+		return Constantes.CLIENTE_NOVO;
 	}
 
 	/*

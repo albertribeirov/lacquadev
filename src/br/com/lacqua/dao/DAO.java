@@ -11,8 +11,12 @@ import javax.persistence.Query;
 @RequestScoped
 public abstract class DAO implements Serializable {
 	
+	public static final String ID = "id";
+	public static final String NOME = "nome";
+	public static final String CNPJ = "cnpj";
+	
 	@PersistenceContext
-	private EntityManager em;
+	private transient EntityManager em;
 
 	public <T> T carregar(Class<T> classe, Object id) {
 		return em.find(classe, id);

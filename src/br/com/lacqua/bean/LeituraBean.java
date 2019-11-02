@@ -86,8 +86,8 @@ public class LeituraBean extends AbstractBean {
 		boolean txt = false;
 		boolean pdf = false;
 		
-		txt = (tipo.equals(Constantes.TXT_1)) ? true : false;
-		pdf = (tipo.equals(Constantes.PDF_2)) ? true : false;
+		txt = (tipo.equals(Constantes.TXT_1)) ? Boolean.TRUE : Boolean.FALSE;
+		pdf = (tipo.equals(Constantes.PDF_2)) ? Boolean.TRUE : Boolean.FALSE;
 		
 		Torre tower = null;
 		Condominio condo = null;

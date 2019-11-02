@@ -27,7 +27,7 @@ public class CondominioBean extends AbstractBean {
 	/*
 	 * Listar condomínios
 	 */
-	public List<Condominio> getCondominios() throws Exception {
+	public List<Condominio> getCondominios() {
 		if (condominios == null) {
 			condominios = condominioService.listarCondominios();
 		}

@@ -1,6 +1,10 @@
 package br.com.lacqua.util;
 
-public class Constantes {
+public abstract class Constantes {
+	
+	private Constantes() {
+		
+	}
 	
 	public static final String SUCESSO = "success";
 	public static final String MES = "mes";
@@ -31,6 +35,7 @@ public class Constantes {
 	 */
 	
 	public static final String CLIENTE_CADASTRAR = "cadastrarCliente";
+	public static final String CLIENTE_NOVO = "novoCliente";
 	
 	public static final String PRECO_GAS_CADASTRAR = "cadastrarPreco";
 	/*
