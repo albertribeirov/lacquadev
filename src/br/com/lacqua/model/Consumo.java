@@ -21,6 +21,17 @@ import org.hibernate.annotations.UpdateTimestamp;
 public class Consumo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	public Consumo() {
+		
+	}
+	
+	public Consumo(Condominio pCondominio, Torre pTorre, Integer pAno, Integer pMes) {
+		this.condominio = pCondominio;
+		this.torre = pTorre;
+		this.ano = pAno;
+		this.mes = pMes;
+	}
 
 	@Id
 	@Column(name = "ID_CONSUMO")

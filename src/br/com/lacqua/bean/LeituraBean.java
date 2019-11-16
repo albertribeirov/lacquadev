@@ -140,7 +140,6 @@ public class LeituraBean extends AbstractBean {
 
 		} catch (Exception e) {
 			fc.addMessage(MESSAGE, new FacesMessage(ERRO, e.getMessage()));
-			e.printStackTrace();
 		}
 		return null;
 	}
@@ -150,11 +149,11 @@ public class LeituraBean extends AbstractBean {
 		Condominio condo = null;
 		Leitura leituraTemp = new Leitura();
 		FacesContext fc = FacesContext.getCurrentInstance();
-		List<Leitura> leituraMesProximo = new ArrayList<>();
-		List<Leitura> leituraMesSelecionado = new ArrayList<>();
-		List<Leitura> leituraMesAnterior3 = new ArrayList<>();
-		List<Leitura> leituraMesAnterior2 = new ArrayList<>();
-		List<Leitura> leituraMesAnterior1 = new ArrayList<>();
+		List<Leitura> leituraMesProximo = null;
+		List<Leitura> leituraMesSelecionado = null;
+		List<Leitura> leituraMesAnterior3 = null;
+		List<Leitura> leituraMesAnterior2 = null;
+		List<Leitura> leituraMesAnterior1 = null;
 		Date dataConsumo = leitura.getDataRealizacaoLeitura();
 		condo = leitura.getCondominio();
 
@@ -183,15 +182,14 @@ public class LeituraBean extends AbstractBean {
 			fc.addMessage(MESSAGE, new FacesMessage(SUCESSO, "Demonstrativos exportados!"));
 		} catch (Exception e) {
 			fc.addMessage(MESSAGE, new FacesMessage(ERRO, e.getMessage()));
-			e.printStackTrace();
 		}
 
 		return null;
 	}
 
 	private List<Leitura> consultarLeituraMesesAnteriores(Integer pAno, Integer pMes, Condominio pCond, Torre pTorre, Integer qtdMeses) throws ValidationException {
-		List<Leitura> listaConsumo = new ArrayList<Leitura>();
-		Leitura leitura = new Leitura();
+		List<Leitura> listaConsumo = null;
+		Leitura leituraAtual = new Leitura();
 
 		Integer mes = pMes;
 		Integer ano = pAno;
@@ -205,24 +203,24 @@ public class LeituraBean extends AbstractBean {
 			mes = mes - 1;
 		}
 
-		leitura.setAno(ano);
-		leitura.setMesReferenciaLeitura(mes);
-		leitura.setCondominio(pCond);
+		leituraAtual.setAno(ano);
+		leituraAtual.setMesReferenciaLeitura(mes);
+		leituraAtual.setCondominio(pCond);
 		if (pTorre != null) {
-			leitura.setTorre(pTorre);
+			leituraAtual.setTorre(pTorre);
 		}
 
-		listaConsumo = leituraService.listarLeiturasPorCondominioTorreMes(leitura, ano, mes);
+		listaConsumo = leituraService.listarLeiturasPorCondominioTorreMes(leituraAtual, ano, mes);
 
 		return listaConsumo;
 	}
 
 	public String gravarConsumosPorCondominioTorreMes() {
 		FacesContext fc = FacesContext.getCurrentInstance();
-		List<Integer> listMesAno = new ArrayList<Integer>();
-		List<Leitura> leituraMesAnterior = new ArrayList<Leitura>();
-		List<Leitura> leituraMesSelecionado = new ArrayList<Leitura>();
-		List<Consumo> consumosMesSelecionado = new ArrayList<Consumo>();
+		List<Integer> listMesAno = null;
+		List<Leitura> leituraMesAnterior = null;
+		List<Leitura> leituraMesSelecionado = null;
+		List<Consumo> consumosMesSelecionado = null;
 		Date dataConsumo = leitura.getDataRealizacaoLeitura();
 		Integer ano = BibliotecaFuncoes.getAnoFromDate(dataConsumo);
 		Integer mes = BibliotecaFuncoes.getMesFromDate(dataConsumo);
@@ -231,18 +229,14 @@ public class LeituraBean extends AbstractBean {
 		leitura.setMesReferenciaLeitura(mes);
 		leitura.setAno(ano);
 		Condominio cond = leitura.getCondominio();
-		Torre torre = null;
+		Torre tower = null;
 
 		if (leitura.getTorre() != null) {
-			torre = leitura.getTorre();
+			tower = leitura.getTorre();
 		}
 
 		try {
-			Consumo cons = new Consumo();
-			cons.setCondominio(cond);
-			cons.setTorre(torre);
-			cons.setAno(ano);
-			cons.setMes(mes);
+			Consumo cons = new Consumo(cond, tower, ano, mes);
 			consumosMesSelecionado = consumoService.listarConsumosPorCondominioTorreMes(cons);
 
 			if (consumosMesSelecionado == null || consumosMesSelecionado.isEmpty()) {
@@ -253,7 +247,7 @@ public class LeituraBean extends AbstractBean {
 				mesAnterior = listMesAno.get(0);
 				anoAnterior = listMesAno.get(1);
 
-				Leitura leituraClone = new Leitura(cond, torre, ano, mes);
+				Leitura leituraClone = new Leitura(cond, tower, ano, mes);
 				leituraClone.setDataRealizacaoLeitura(dataConsumo);
 
 				leituraMesAnterior = leituraService.listarLeiturasPorCondominioTorreMes(leituraClone, anoAnterior, mesAnterior);
@@ -430,7 +424,7 @@ public class LeituraBean extends AbstractBean {
 			ano = periodo.get(1);
 			leituras = leituraService.listarLeiturasPorCondominioTorreMes(leitura, ano, mes);
 
-			TreeMap<Integer, BigDecimal> mapLeitura = new TreeMap<Integer, BigDecimal>();
+			TreeMap<Integer, BigDecimal> mapLeitura = new TreeMap<>();
 			Iterator<Leitura> itLeitura = leituras.iterator();
 			while (itLeitura.hasNext()) {
 				Leitura leit = itLeitura.next();

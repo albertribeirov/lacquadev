@@ -94,13 +94,11 @@ public class MailSender {
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.port", "465");
 
-		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+		return Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(usuario, senha);
 			}
 		});
-		
-		return session;
 	}
 
 	public void enviarEmail(

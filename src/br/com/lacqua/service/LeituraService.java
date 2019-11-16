@@ -1,6 +1,5 @@
 package br.com.lacqua.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -115,7 +114,7 @@ public class LeituraService extends Service {
 
 	public List<Leitura> listarLeiturasPorCondominioTorreMes(Leitura pLeitura, Integer pAno, Integer pMes) throws ValidationException {
 
-		List<Leitura> leituras = new ArrayList<Leitura>();
+		List<Leitura> leituras = null;
 		Integer idTorre = null;
 		if (pLeitura.getTorre() != null) {
 			idTorre = pLeitura.getTorre().getId();
@@ -125,7 +124,7 @@ public class LeituraService extends Service {
 		Integer anoReferencia = pAno;
 		leituras = leituraDAO.listarLeiturasPorCondominioTorreMes(idCondominio, idTorre, mesReferencia, anoReferencia);
 
-		if (leituras.isEmpty() || leituras == null) {
+		if (leituras == null || leituras.isEmpty()) {
 			throw new ValidationException("Não há leituras para este condomínio/torre no mês informado.");
 		}
 
