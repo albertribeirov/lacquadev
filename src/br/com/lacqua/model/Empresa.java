@@ -97,14 +97,6 @@ public class Empresa implements Serializable {
 		this.nomeReferencia = nomeReferencia;
 	}
 
-	public Integer getEndereco() {
-		return idEndereco;
-	}
-
-	public void setEndereco(Integer endereco) {
-		this.idEndereco = endereco;
-	}
-
 	public String getCnpj() {
 		return cnpj;
 	}
@@ -159,14 +151,6 @@ public class Empresa implements Serializable {
 
 	public void setInscricaoMunicipal(String inscricaoMunicipal) {
 		this.inscricaoMunicipal = inscricaoMunicipal;
-	}
-
-	public Integer getIdEmpresa() {
-		return idEmpresa;
-	}
-
-	public void setIdEmpresa(Integer idEmpresa) {
-		this.idEmpresa = idEmpresa;
 	}
 
 	public Integer getIdEndereco() {

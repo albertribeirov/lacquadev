@@ -14,6 +14,7 @@ public abstract class DAO implements Serializable {
 	public static final String ID = "id";
 	public static final String NOME = "nome";
 	public static final String CNPJ = "cnpj";
+	public static final String DATA = "data";
 	
 	@PersistenceContext
 	private transient EntityManager em;
