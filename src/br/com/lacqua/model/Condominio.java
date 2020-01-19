@@ -173,7 +173,7 @@ public class Condominio implements Serializable {
 		this.email = email;
 	}
 
-	public Boolean isAtivo() {
+	public Boolean getAtivo() {
 		return ativo;
 	}
 
@@ -237,14 +237,6 @@ public class Condominio implements Serializable {
 		this.cep = cep;
 	}
 
-	public List<Torre> getListaTorres() {
-		return torres;
-	}
-
-	public List<Apartamento> getListaApartamentos() {
-		return apartamentos;
-	}
-
 	public Integer getId() {
 		return id;
 	}
@@ -267,10 +259,6 @@ public class Condominio implements Serializable {
 
 	public void setUpdateDateTime(LocalDateTime updateDateTime) {
 		this.updateDateTime = updateDateTime;
-	}
-
-	public Boolean getAtivo() {
-		return ativo;
 	}
 
 	public List<Torre> getTorres() {
@@ -321,8 +309,9 @@ public class Condominio implements Serializable {
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!id.equals(other.id)) {
 			return false;
+		}
 		return true;
 	}
 }

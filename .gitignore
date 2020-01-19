@@ -12,6 +12,5 @@ atlantico.txt
 .metadata/*
 *.prefs
 .settings/*
-src/br/com/lacqua/rn/RNEnviarDemonstrativosCondominio.java
 .tern-project
 .project

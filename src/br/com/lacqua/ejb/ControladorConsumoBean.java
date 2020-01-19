@@ -91,7 +91,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 
 	@Override
 	public void calcularConsumo() {
-
+		// TODO
 	}
 
 	@Override
@@ -152,11 +152,11 @@ public class ControladorConsumoBean implements ControladorConsumo {
 
 		while (it.hasNext()) {
 			Leitura consumoGas = new Leitura();
-			BigDecimal leitura = BigDecimal.ZERO;
+			BigDecimal leitura = null;
 			String linhaConcatenada = "";
 			String numeroApartamento = "";
-			List<String> line = new ArrayList<String>();
-			List<Apartamento> aps = new ArrayList<Apartamento>();
+			List<String> line = null;
+			List<Apartamento> aps = null;
 
 			linhaConcatenada = it.next();
 			line = BibliotecaFuncoes.split(linhaConcatenada, ";");
@@ -201,8 +201,8 @@ public class ControladorConsumoBean implements ControladorConsumo {
 
 	@Override
 	public void gravarConsumosPorCondominioTorreMes(Leitura pLeitura, List<Leitura> pMesAtual, List<Leitura> pMesAnterior) throws FileNotFoundException {
-		TreeMap<Integer, Leitura> hashApartamentoMesAtual = new TreeMap<Integer, Leitura>();
-		TreeMap<Integer, Leitura> hashApartamentoMesAnterior = new TreeMap<Integer, Leitura>();
+		TreeMap<Integer, Leitura> hashApartamentoMesAtual = new TreeMap<>();
+		TreeMap<Integer, Leitura> hashApartamentoMesAnterior = new TreeMap<>();
 		BigDecimal leituraMesAnterior = BigDecimal.ZERO;
 		BigDecimal leituraMesAtual = BigDecimal.ZERO;
 		BigDecimal valorConsumo = BigDecimal.ZERO;
@@ -334,6 +334,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 		//Session session = MailSender.getInstance().autenticar("albertribeirov@gmail.com", "[senha-aqui]");
 
 		Map<String, Object> parametros = new HashMap<String, Object>();
+		//TODO Criar busca do preço do gás dinamicamente
 		PrecoGas preco = em.find(PrecoGas.class, 1);
 		Condominio cond = pLeitura.getCondominio();
 		BigDecimal coeficiente = preco.getValor();
@@ -536,9 +537,11 @@ public class ControladorConsumoBean implements ControladorConsumo {
 						"\t" + dataTexto + 
 						"\t" + torreNumero + 
 						"\n");
+				pw.flush();
 			}
 		}
 		
+		pw.close();
 		arquivo.close();
 	}
 

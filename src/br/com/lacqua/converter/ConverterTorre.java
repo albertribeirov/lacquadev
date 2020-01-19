@@ -3,7 +3,6 @@ package br.com.lacqua.converter;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.ConverterException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -17,29 +16,26 @@ public class ConverterTorre implements Converter {
 	TorreService service;
 	
 	@Override
-	public Object getAsObject(FacesContext arg0, UIComponent arg1, String value) throws ConverterException {
+	public Object getAsObject(FacesContext arg0, UIComponent arg1, String value) {
 		
 		if (value == null || value.equals("")) {
 			return null;
 
 		} else {
 			Integer id = Integer.parseInt(value);
-			Torre Torre = service.carregar(id);
-			return Torre;
+			return service.carregar(id);
 		}
 	}
 
 	@Override
-	public String getAsString(FacesContext arg0, UIComponent arg1, Object object) throws ConverterException {
+	public String getAsString(FacesContext arg0, UIComponent arg1, Object object) {
 		if (object == null) {
 			return null;
 
 		} else {
 
-			Torre Torre = (Torre) object;
-			String resposta = Torre.getId().toString();
-
-			return resposta;
+			Torre torre = (Torre) object;
+			return torre.getId().toString();
 		}
 	}
 }

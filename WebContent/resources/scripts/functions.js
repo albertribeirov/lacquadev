@@ -1,3 +1,6 @@
+/**
+ * Retorna a data de hoje no formato dd/MM/yyyy.
+ */
 function dataFormatada() {
 	var data = new Date();
 	var dia = data.getDate();
@@ -16,6 +19,9 @@ function dataFormatada() {
 // Chama função que preenche o campo data
 $('#Data').val(dataFormatada);
 
+/**
+ * Verifica se as senhas digitadas são iguais.
+ */
 // Verifica senha
 function verificarSenha() {
 	var senha1 = document.getElementById("");
@@ -25,7 +31,9 @@ function verificarSenha() {
 		return true;
 	}
 
-	alert("Senha diferentes!");
+	alert("Senhas diferentes!");
+	senha1 = '';
+	senha2 = '';
 	return false;
 }
 
@@ -33,7 +41,9 @@ function listarApartamentos() {
 
 }
 
-// Transforma o campo de leitura em readonly após seu preenchimento.
+/**
+ * Transforma o campo de leitura em readonly após seu preenchimento.
+ */
 function desabilitarCampoLeitura(pCampo) {
 	let campo = $(pCampo);
 	let valor = campo.val();
@@ -44,18 +54,25 @@ function desabilitarCampoLeitura(pCampo) {
 	}
 }
 
-// Transforma o campo de leitura em writable com o evento doubleclick (duplo
-// clique).
+
+/**
+ * Transforma o campo de leitura em writable com o evento doubleclick (duplo clique).
+ */
 function habilitarCampoLeitura(pCampo) {
 	let campo = $(pCampo);
 	let valor = campo.prop('readonly', false);
 }
 
-// Solicita confirmação de exclusão
+/**
+ * Solicita confirmação de exclusão
+ */
 function excluir() {
 	return confirm("Deseja excluir o registro?")
 }
 
+/**
+ * Formata CPF e CNPF dependendo da quantidade de caracteres.
+ */
 function formatarCampo(campoTexto) {
 	if (campoTexto.value.length <= 11) {
 		campoTexto.value = mascaraCpf(campoTexto.value);
@@ -80,15 +97,19 @@ function mascaraCnpj(valor) {
 			"\$1.\$2.\$3\/\$4\-\$5");
 }
 
-// Verifica se o valor da leitura atual é menor que a leitura anterior e limpa o
+/**
+ * Verifica se o valor da leitura atual é menor que a leitura anterior. </br>
+ * Limpa o campo de leitura atual caso esta seja menor que a leitura anterior.
+ */
 function compararLeituras(pInput) {
-	var tdLeitura = pInput;
-	var leitura = Number(tdLeitura.nextElementSibling.value);
-	var leituraAnterior = tdLeitura.parentElement.parentElement.previousSibling.firstElementChild.innerText;
-	leituraAnterior = Number(leituraAnterior.replace(/\./g, ''));
+	var leitura = Number(pInput.nextElementSibling.value);
+	var leituraAnterior = pInput.parentElement.parentElement.previousSibling.firstElementChild.innerText;
+	leituraAnterior = Number(leituraAnterior.replace(/\./g,''));
 
-	if (leitura < leituraAnterior) {
+	if (leitura != 0 && leitura < leituraAnterior) {
+		pInput.value = "";
+		pInput.focus();
 		alert("A leitura atual não pode ser menor que a leitura anterior.");
-		tdLeitura.value = "";
 	}
+	return;
 }
