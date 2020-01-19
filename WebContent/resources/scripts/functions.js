@@ -85,7 +85,7 @@ function compararLeituras(pInput) {
 	var tdLeitura = pInput;
 	var leitura = Number(tdLeitura.nextElementSibling.value);
 	var leituraAnterior = tdLeitura.parentElement.parentElement.previousSibling.firstElementChild.innerText;
-	leituraAnterior = Number(leituraAnterior.replace(/\./g,''));
+	leituraAnterior = Number(leituraAnterior.replace(/\./g, ''));
 
 	if (leitura < leituraAnterior) {
 		alert("A leitura atual não pode ser menor que a leitura anterior.");

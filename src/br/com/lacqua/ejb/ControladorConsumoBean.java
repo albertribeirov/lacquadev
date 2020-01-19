@@ -17,14 +17,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.mail.Session;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -53,7 +51,6 @@ import br.com.lacqua.model.Torre;
 import br.com.lacqua.util.BibliotecaFuncoes;
 import br.com.lacqua.util.Constantes;
 import br.com.lacqua.util.Conta;
-import br.com.lacqua.util.MailSender;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -136,7 +133,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
 			consumo.setCondominio(ap.getCondominio());
 			consumo.setTorre(ap.getTorre());
 
-			if (isGravar == true) {
+			if (isGravar) {
 				em.persist(consumo);
 			}
 		}
@@ -333,7 +330,8 @@ public class ControladorConsumoBean implements ControladorConsumo {
 			}
 		}
 
-		Session session = MailSender.getInstance().autenticar("albertribeirov@gmail.com", "senhaadm@10");
+		// Descomentar caso se torne necessário enviar os demonstrativos para os clientes por e-mail
+		//Session session = MailSender.getInstance().autenticar("albertribeirov@gmail.com", "[senha-aqui]");
 
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		PrecoGas preco = em.find(PrecoGas.class, 1);

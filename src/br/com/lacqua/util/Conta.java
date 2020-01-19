@@ -1,6 +1,5 @@
 package br.com.lacqua.util;
 
-import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 

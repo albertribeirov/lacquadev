@@ -12,7 +12,6 @@ import javax.inject.Named;
 
 import br.com.lacqua.ejb.ControladorConsumo;
 import br.com.lacqua.model.Apartamento;
-import br.com.lacqua.model.Condominio;
 import br.com.lacqua.model.Torre;
 import br.com.lacqua.service.ApartamentoService;
 import br.com.lacqua.util.Constantes;
