@@ -11,6 +11,6 @@ ap.txt
 atlantico.txt
 .metadata/*
 *.prefs
-.settings/*
+.settings/
 .tern-project
 .project

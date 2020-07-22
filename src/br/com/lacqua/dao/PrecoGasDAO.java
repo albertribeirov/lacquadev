@@ -20,9 +20,8 @@ public class PrecoGasDAO extends DAO {
 		return q.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<PrecoGas> consultarPrecoGasVigente(Date pData){
-		String where = null;
-
 		Query q = criarQuery("SELECT p FROM PrecoGas WHERE p.vigenciaInicio < :data AND p.vigenciaFinal > :data");
 		
 		if (pData != null) {
