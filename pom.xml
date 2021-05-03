@@ -24,14 +24,12 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
-					<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.2.1</version>
 				<configuration>
-					<WarName>dev</WarName>
 					<warSourceDirectory>WebContent</warSourceDirectory>
 				</configuration>
 			</plugin>
@@ -159,7 +157,7 @@
 		<repository>
 			<id>prime-repo</id>
 			<name>PrimeFaces Maven Repository</name>
-			<url>http://repository.primefaces.org</url>
+			<url>https://repository.primefaces.org</url>
 			<layout>default</layout>
 		</repository>
 	</repositories>

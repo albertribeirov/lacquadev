@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import br.com.lacqua.model.Log.TipoMensagem;
 import br.com.lacqua.service.LogService;
 
-@SuppressWarnings("serial")
 public class AbstractBean implements Serializable {
 	
 	public static final String ERRO = "Erro";
