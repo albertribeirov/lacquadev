@@ -14,3 +14,5 @@ atlantico.txt
 .settings/
 .tern-project
 .project
+.idea/*
+*.iml
