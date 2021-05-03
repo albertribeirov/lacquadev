@@ -2,9 +2,9 @@ package br.com.lacqua.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,9 +16,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -42,64 +42,67 @@ public class Condominio implements Serializable {
 	@Column(name = "TAXA_LEITURA", precision = 10, scale = 2, nullable = false)
 	private BigDecimal taxaLeitura;
 
-	@Column(name = "CNPJ", nullable = true, length = 18, unique = true)
+	@Column(name = "CNPJ", length = 18, unique = true)
 	private String cnpj;
 
-	@Column(name = "TELEFONE1", nullable = true, length = 15)
+	@Column(name = "TELEFONE1", length = 15)
 	private String telefone1;
 
-	@Column(name = "TELEFONE2", nullable = true, length = 15)
+	@Column(name = "TELEFONE2", length = 15)
 	private String telefone2;
 
-	@Column(name = "INSCRICAO_MUNICIPAL", nullable = true, length = 20)
+	@Column(name = "INSCRICAO_MUNICIPAL", length = 20)
 	private String inscricaoMunicipal;
 
-	@Column(name = "INSCRICAO_ESTADUAL", nullable = true, length = 20)
+	@Column(name = "INSCRICAO_ESTADUAL", length = 20)
 	private String inscricaoEstadual;
 
 	@Column(name = "ATIVO", nullable = false)
 	private Boolean ativo;
 
-	@Column(name = "INICIO_CONTRATO", nullable = true)
-	@Temporal(TemporalType.DATE)
-	private Date inicioContrato;
+	@Column(name = "INICIO_CONTRATO")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	private LocalDate inicioContrato;
 
-	@Column(name = "FIM_CONTRATO", nullable = true)
-	@Temporal(TemporalType.DATE)
-	private Date fimContrato;
+	@Column(name = "FIM_CONTRATO")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	private LocalDate fimContrato;
 
-	@Column(name = "OBSERVACAO", nullable = true, length = 1000)
+	@Column(name = "OBSERVACAO", length = 1000)
 	private String observacao;
 
-	@Column(name = "EMAIL", nullable = true, length = 150)
+	@Column(name = "EMAIL", length = 150)
 	private String email;
 
-	@Column(name = "RUA_NUMERO", nullable = true, length = 100)
+	@Column(name = "RUA_NUMERO", length = 100)
 	private String ruaComNumero;
 
-	@Column(name = "BAIRRO", nullable = true, length = 50)
+	@Column(name = "BAIRRO", length = 50)
 	private String bairro;
 
-	@Column(name = "CIDADE", nullable = true, length = 50)
+	@Column(name = "CIDADE", length = 50)
 	private String cidade;
 
-	@Column(name = "CEP", nullable = true, length = 10)
+	@Column(name = "CEP", length = 10)
 	private String cep;
 
 	@Column(name = "CREATETIME", nullable = false, updatable = false)
 	@CreationTimestamp
 	private LocalDateTime createDateTime;
 
-	@Column(name = "UPDATETIME", nullable = false, updatable = true)
+	@Column(name = "UPDATETIME", nullable = false)
 	@UpdateTimestamp
 	private LocalDateTime updateDateTime;
 
 	@OneToMany(mappedBy = "condominio")
+	@JsonIgnore
 	private List<Torre> torres = new ArrayList<>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "condominio", targetEntity = Apartamento.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Apartamento> apartamentos = new ArrayList<>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "condominio", targetEntity = Leitura.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Leitura> consumos = new ArrayList<>();
 
@@ -181,19 +184,19 @@ public class Condominio implements Serializable {
 		this.ativo = ativo;
 	}
 
-	public Date getInicioContrato() {
+	public LocalDate getInicioContrato() {
 		return inicioContrato;
 	}
 
-	public void setInicioContrato(Date inicioContrato) {
+	public void setInicioContrato(LocalDate inicioContrato) {
 		this.inicioContrato = inicioContrato;
 	}
 
-	public Date getFimContrato() {
+	public LocalDate getFimContrato() {
 		return fimContrato;
 	}
 
-	public void setFimContrato(Date fimContrato) {
+	public void setFimContrato(LocalDate fimContrato) {
 		this.fimContrato = fimContrato;
 	}
 
@@ -307,11 +310,29 @@ public class Condominio implements Serializable {
 			return false;
 		Condominio other = (Condominio) obj;
 		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id)) {
-			return false;
-		}
-		return true;
+			return other.id == null;
+		} else
+			return id.equals(other.id);
+	}
+
+	@Override
+	public String toString() {
+		return "{" +
+				"id=" + id +
+				", nome='" + nome + '\'' +
+				", taxaLeitura=" + taxaLeitura +
+				", cnpj='" + cnpj + '\'' +
+				", telefone1='" + telefone1 + '\'' +
+				", telefone2='" + telefone2 + '\'' +
+				", inscricaoMunicipal='" + inscricaoMunicipal + '\'' +
+				", inscricaoEstadual='" + inscricaoEstadual + '\'' +
+				", ativo=" + ativo +
+				", observacao='" + observacao + '\'' +
+				", email='" + email + '\'' +
+				", ruaComNumero='" + ruaComNumero + '\'' +
+				", bairro='" + bairro + '\'' +
+				", cidade='" + cidade + '\'' +
+				", cep='" + cep + '\'' +
+				'}';
 	}
 }

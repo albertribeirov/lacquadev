@@ -28,23 +28,27 @@ public interface ControladorConsumo {
 
 	void gerarContaCondominio(Leitura pLeitura, Condominio pCondominio, Torre pTorre);
 
-	void gravarConsumosPorCondominioTorreMes(Leitura pLeitura, List<Leitura> pMesAtual, List<Leitura> pProximoMes) throws FileNotFoundException;
+	void gravarConsumosPorCondominioTorreMes(Leitura pLeitura, List<Leitura> pMesAtual, List<Leitura> pProximoMes)
+			throws FileNotFoundException;
 
 	void salvarPreco(PrecoGas pPrecoGas);
 
-	//public void gerarDemonstrativosCondominio(Integer mes, Integer ano, Integer condominio, Integer torre) throws JRException, FileNotFoundException;
+	/*
+	public void gerarDemonstrativosCondominio(Integer mes, Integer ano, Integer condominio, Integer torre)
+	 throws JRException, FileNotFoundException;
+	*/
 
-	void gerarDemonstrativosApartamentos(Leitura pLeitura,
-		 List<Leitura> pLeituraMesProximo,
-		 List<Leitura> pLeituraMesSelecionado,
-		 List<Leitura> pConsumoMesMenos1,
-		 List<Leitura> pConsumoMesMenos2,
-		 List<Leitura> pConsumoMesMenos3) throws JRException, FileNotFoundException, InterruptedException;
+	void gerarDemonstrativosApartamentos(Leitura pLeitura, List<Leitura> pLeituraMesProximo,
+		 List<Leitura> pLeituraMesSelecionado, List<Leitura> pConsumoMesMenos1,
+		 List<Leitura> pConsumoMesMenos2, List<Leitura> pConsumoMesMenos3)
+			throws JRException, FileNotFoundException, InterruptedException;
 
-	void gerarDemonstrativoTorreTXT(Leitura pLeitura, List<Leitura> pLeituraMesSelecionado, List<Leitura> pLeituraMesAnterior) throws Exception;
+	void gerarDemonstrativoTorreTXT(Leitura pLeitura, List<Leitura> pLeituraMesSelecionado,
+		List<Leitura> pLeituraMesAnterior) throws Exception;
 
 	void inserirLeituraApartamento(Leitura pLeitura);
 
-	void gerarDemonstrativoTorrePDF(Leitura leitura, List<Leitura> leituraMesProximo, List<Leitura> leituraMesSelecionado, List<Leitura> leituraMesAnterior1,
-									List<Leitura> leituraMesAnterior2, List<Leitura> leituraMesAnterior3);
+	void gerarDemonstrativoTorrePDF(Leitura leitura, List<Leitura> leituraMesProximo,
+		List<Leitura> leituraMesSelecionado, List<Leitura> leituraMesAnterior1,
+		List<Leitura> leituraMesAnterior2, List<Leitura> leituraMesAnterior3);
 }
