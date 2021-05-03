@@ -16,7 +16,6 @@ import br.com.lacqua.model.Torre;
 import br.com.lacqua.service.ApartamentoService;
 import br.com.lacqua.util.Constantes;
 
-@SuppressWarnings("serial")
 @Named("apartamentoBean")
 @RequestScoped
 public class ApartamentoBean extends AbstractBean {
