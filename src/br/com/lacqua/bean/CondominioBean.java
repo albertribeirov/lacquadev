@@ -38,7 +38,7 @@ public class CondominioBean extends AbstractBean {
 	 * Salva um condomínio
 	 */
 	public String salvar() {
-		FacesContext fc = FacesContext.getCurrentInstance();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
 		try {
 			if (condominio.getId() == null) {
 				condominioService.inserir(condominio);
@@ -51,7 +51,7 @@ public class CondominioBean extends AbstractBean {
 			return redirect(Constantes.CONDOMINIO_CADASTRAR);
 
 		} catch (Exception e) {
-			fc.addMessage(MESSAGE, new FacesMessage(ERRO, e.getMessage()));
+			facesContext.addMessage(MESSAGE, new FacesMessage(ERRO, e.getMessage()));
 			return null;
 		}
 	}

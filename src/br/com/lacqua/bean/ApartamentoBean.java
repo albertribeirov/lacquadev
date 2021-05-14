@@ -89,25 +89,25 @@ public class ApartamentoBean extends AbstractBean {
 	}
 
 	public String alterar(Integer id) {
-		FacesContext fc = FacesContext.getCurrentInstance();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
 		try {
 			apartamento = apartamentoService.carregar(id);
-			fc.addMessage("message", new FacesMessage(SUCESSO, "Apartamento carregado!"));
+			facesContext.addMessage("message", new FacesMessage(SUCESSO, "Apartamento carregado!"));
 		} catch (Exception e) {
-			fc.addMessage("message", new FacesMessage(ERRO, "Apartamento não carregado!"));
+			facesContext.addMessage("message", new FacesMessage(ERRO, "Apartamento não carregado!"));
 			handleException(e);
 		}
 		return null;
 	}
 
 	public String excluir(Integer id) {
-		FacesContext fc = FacesContext.getCurrentInstance();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
 		try {
 			apartamentoService.excluir(id);
 			return redirect(Constantes.APARTAMENTO_CADASTRAR);
 		} catch (Exception e) {
 			handleException(e);
-			fc.addMessage("message", new FacesMessage(ERRO, "Apartamento não excluído!"));
+			facesContext.addMessage("message", new FacesMessage(ERRO, "Apartamento não excluído!"));
 		}
 		return null;
 	}

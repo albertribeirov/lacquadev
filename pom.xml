@@ -78,10 +78,11 @@
 		</dependency>
 
 		<!-- PRIMEFACES -->
+		<!-- https://mvnrepository.com/artifact/org.primefaces/primefaces -->
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>6.2</version>
+			<version>10.0.0</version>
 		</dependency>
 
 		<dependency>

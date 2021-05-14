@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
 <h:head>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>Cadastro de Condomínio</title>
 
-	<style type="text/css">
-.ui-widget, .ui-widget .ui-widget {
-	font-size: 100%
-}
+<style type="text/css">
+
 </style>
 </h:head>
 <h:body>
@@ -27,7 +26,7 @@
 							
 
 							<p:outputLabel for="nomeCondominio" value="Nome" />
-							<p:inputText id="nomeCondominio" style="width:300px" value="#{condominioBean.condominio.nome}" size="80" required="true" placeholder="Ex: Condomínio Morada das Bença" requiredMessage="O nome deve ser preenchido." />
+							<p:inputText id="nomeCondominio" style="width:300px" value="#{condominioBean.condominio.nome}" size="80" required="true" placeholder="Ex: Condomínio Morada dos Moradores" requiredMessage="O nome deve ser preenchido." />
 
 							<p:outputLabel for="cnpj" value="CNPJ" style="size:50px" />
 							<p:inputMask id="cnpj" value="#{condominioBean.condominio.cnpj}" size="20" mask="99.999.999/9999-99" required="true" converter="converterCNPJ" requiredMessage="O CNPJ deve ser preenchido." />
@@ -110,7 +109,7 @@
 
 							<p:column width="2%">
 								<f:facet name="header">ID</f:facet>
-								<h:outputText value="#{c.idCondominio}" />
+								<h:outputText value="#{c.id}" />
 							</p:column>
 
 							<p:column width="14%">
@@ -138,11 +137,6 @@
 							<p:column width="8%">
 								<f:facet name="header">Inscrição Estadual</f:facet>
 								<h:outputText value="#{c.inscricaoMunicipal}" />
-							</p:column>
-
-							<p:column width="3%">
-								<f:facet name="header">Poço</f:facet>
-								<h:outputText value="#{c.poco}" />
 							</p:column>
 
 							<p:column width="10%">
@@ -186,25 +180,21 @@
 						<p:inputText id="nomeCompleto" value="#{clienteBean.cliente.nome}" size="80" required="true" requiredMessage="O nome deve ser preenchido." />
 						<p:message for="nomeCompleto" />
 
-						<p:outputLabel for="nomeReferencia" value="Nome de referência" />
-						<p:inputText id="nomeReferencia" value="#{clienteBean.cliente.nomeReferencia}" size="40" required="true" requiredMessage="O nome de referência deve ser preenchido." />
-						<p:message for="nomeReferencia" />
+						<p:outputLabel for="telefone_1" value="Telefone" />
+						<p:inputMask id="telefone_1" value="#{clienteBean.cliente.telefone1}" mask="(99)9-9999-9999" required="true" requiredMessage="O telefone deve ser preenchido." />
+						<p:message for="telefone_1" />
 
-						<p:outputLabel for="telefone1" value="Telefone" />
-						<p:inputMask id="telefone1" value="#{clienteBean.cliente.telefone1}" mask="(99)9-9999-9999" required="true" requiredMessage="O telefone deve ser preenchido." />
-						<p:message for="telefone1" />
+						<p:outputLabel for="telefone_2" value="Telefone" />
+						<p:inputMask id="telefone_2" value="#{clienteBean.cliente.telefone2}" mask="(99)9-9999-9999" required="true" requiredMessage="O telefone deve ser preenchido." />
+						<p:message for="telefone_2" />
 
-						<p:outputLabel for="telefone2" value="Telefone" />
-						<p:inputMask id="telefone2" value="#{clienteBean.cliente.telefone2}" mask="(99)9-9999-9999" required="true" requiredMessage="O telefone deve ser preenchido." />
-						<p:message for="telefone2" />
-
-						<p:outputLabel for="email" value="E-mail" />
-						<p:inputText id="email" value="#{clienteBean.cliente.email}" />
-						<p:message for="email" />
+						<p:outputLabel for="email_1" value="E-mail" />
+						<p:inputText id="email_1" value="#{clienteBean.cliente.email}" />
+						<p:message for="email_1" />
 
 						<p:outputLabel value="Observação" />
-						<p:inputTextarea id="observacao" rows="8" cols="80" maxlength="255" counter="display" counterTemplate="{0} caracteres restantes." autoResize="true" value="#{clienteBean.cliente.observacao}" />
-						<h:outputText id="display" />
+						<p:inputTextarea id="observacao" rows="8" cols="80" maxlength="255" counter="display_2" counterTemplate="{0} caracteres restantes." autoResize="true" value="#{clienteBean.cliente.observacao}" />
+						<h:outputText id="display_2" />
 					</h:panelGrid>
 				</h:form>
 				<p:commandButton icon="ui-icon-disk" id="formCliente" value="Salvar" action="#{clienteBean.salvar}" style="margin: 10px" update="form_cliente" />
@@ -222,4 +212,4 @@
 		</p:tabView>
 	</p:panel>
 </h:body>
-</h:html>
+</html>

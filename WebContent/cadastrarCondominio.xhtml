@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
@@ -24,7 +26,7 @@
 			<h:panelGrid columns="6">
 
 				<p:outputLabel for="nomeCondominio" value="Nome" />
-				<p:inputText id="nomeCondominio" style="width:350px" value="#{condominioBean.condominio.nome}" size="80" required="true" placeholder="Ex: Condomínio Morada das Bença"
+				<p:inputText id="nomeCondominio" style="width:350px" value="#{condominioBean.condominio.nome}" size="80" required="true" placeholder="Ex: Condomínio Morada de Sapucaia"
 					requiredMessage="O nome deve ser preenchido." />
 
 				<p:outputLabel for="cnpj" value="CNPJ" style="size:50px" />
@@ -59,14 +61,10 @@
 				<p:inputSwitch id="ativo" required="true" offLabel="Não" onLabel="Sim" value="#{condominioBean.condominio.ativo}" />
 
 				<p:outputLabel for="inicio" value="Início do contrato" />
-				<p:calendar mask="true" id="inicio" locale="pt" pattern="dd/MM/yyyy" value="#{condominioBean.condominio.inicioContrato}" required="false">
-					<f:convertDateTime pattern="dd/MM/yyyy" />
-				</p:calendar>
+				<p:datePicker id="inicio" value="#{condominioBean.condominio.inicioContrato}" pattern="MM/dd/yyyy"/>
 
 				<p:outputLabel for="final" value="Final do contrato" />
-				<p:calendar mask="true" id="final" locale="pt" pattern="dd/MM/yyyy" value="#{condominioBean.condominio.fimContrato}" required="false">
-					<f:convertDateTime pattern="dd/MM/yyyy" />
-				</p:calendar>
+				<p:datePicker id="final" value="#{condominioBean.condominio.fimContrato}" pattern="MM/dd/yyyy"/>
 
 			</h:panelGrid>
 		</p:fieldset>
@@ -158,9 +156,7 @@
 
 				<p:column width="6%">
 					<f:facet name="header">Início contrato</f:facet>
-					<h:outputText value="#{c.inicioContrato}">
-						<f:convertDateTime pattern="dd/MM/yyyy" />
-					</h:outputText>
+						<p:calendar value="#{c.inicioContrato}" pattern="dd-MM-yyyy" size="8" mask="true" readonly="true"/>
 				</p:column>
 
 				<p:column width="20%">
@@ -180,4 +176,4 @@
 		</h:form>
 	</h:panelGroup>
 </h:body>
-</h:html>
+</html>
