@@ -24,8 +24,7 @@ public class ConverterApartamento implements Converter {
 
         } else {
             Integer id = Integer.parseInt(value);
-            Apartamento apartamento = service.carregar(id);
-            return apartamento;
+            return service.carregar(id);
         }
     }
 
@@ -33,13 +32,9 @@ public class ConverterApartamento implements Converter {
     public String getAsString(FacesContext arg0, UIComponent arg1, Object object) throws ConverterException {
         if (object == null) {
             return null;
-
         } else {
-
             Apartamento apartamento = (Apartamento) object;
-            String resposta = apartamento.getId().toString();
-
-            return resposta;
+            return apartamento.getId().toString();
         }
     }
 }

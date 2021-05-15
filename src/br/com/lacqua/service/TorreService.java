@@ -33,9 +33,8 @@ public class TorreService extends Service {
 	 * Insere uma nova torre no banco de dados
 	 * 
 	 * @param Torre Torre a ser inserida
-	 * @throws ServiceException
-	 */
-	public void salvar(Torre torre) throws Exception {
+     */
+	public void salvar(Torre torre) {
 		try {
 			beginTransaction();
 
@@ -54,9 +53,8 @@ public class TorreService extends Service {
 	 * Altera uma torre cadastrada no banco de dados.
 	 * 
 	 * @param Torre
-	 * @throws ServiceException
 	 */
-	public void atualizar(Torre torre) throws Exception {
+	public void atualizar(Torre torre) {
 		try {
 			beginTransaction();
 

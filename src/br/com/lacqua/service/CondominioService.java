@@ -13,7 +13,6 @@ import br.com.lacqua.util.Constantes;
 /**
  * Métodos de negócio relacionados à entidade Condominio
  */
-@SuppressWarnings("serial")
 public class CondominioService extends Service {
 
 	@Inject
@@ -25,8 +24,7 @@ public class CondominioService extends Service {
 	/**
 	 * Carrega um Condominio cadastrado no banco de dados.
 	 * 
-	 * @param Condominio
-	 * @throws ServiceException
+	 * @param id Id do condomínio
 	 */
 	public Condominio carregar(Integer id) {
 		return condominioDAO.carregar(Condominio.class, id);
@@ -35,8 +33,8 @@ public class CondominioService extends Service {
 	/**
 	 * Insere um novo Condominio no banco de dados
 	 * 
-	 * @param Condominio Condominio a ser inserido
-	 * @throws ServiceException
+	 * @param condominio Condominio a ser inserido
+	 * @throws ValidationException Exceção de validação
 	 */
 	public void inserir(Condominio condominio) throws ValidationException {
 		try {
@@ -64,9 +62,8 @@ public class CondominioService extends Service {
 	/**
 	 * Altera um Condominio cadastrado no banco de dados.
 	 * 
-	 * @param Condominio
-	 * @throws ValidationException 
-	 * @throws ServiceException
+	 * @param condominio Condomínio a ser alterado
+	 * @throws ValidationException Exceção de validação
 	 */
 	public void alterar(Condominio condominio) throws ValidationException {
 		try {
@@ -94,8 +91,7 @@ public class CondominioService extends Service {
 	/**
 	 * Exclui um Condominio do banco de dados
 	 * 
-	 * @param integer Número de matrícula do Condominio a ser excluído
-	 * @throws ServiceException
+	 * @param id Número de matrícula do Condominio a ser excluído
 	 */
 	public void excluir(Integer id) {
 		try {
@@ -117,7 +113,6 @@ public class CondominioService extends Service {
 	 * Lê todos os Apartamentos cadastrados no banco de dados
 	 * 
 	 * @return Lista de Condomínios cadastrados
-	 * @throws ServiceException
 	 */
 	public List<Condominio> listarCondominios() {
 		return condominioDAO.listarCondominios();

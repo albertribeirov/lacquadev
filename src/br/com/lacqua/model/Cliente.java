@@ -30,16 +30,16 @@ public class Cliente implements Serializable {
 	@Column(name = "NOME", nullable = false, length = 150)
 	private String nome;
 
-	@Column(name = "TELEFONE", nullable = true, length = 11)
+	@Column(name = "TELEFONE", length = 11)
 	private String telefone1;
 
-	@Column(name = "TELEFONE2", nullable = true, length = 11)
+	@Column(name = "TELEFONE2", length = 11)
 	private String telefone2;
 
-	@Column(name = "EMAIL", nullable = true)
+	@Column(name = "EMAIL")
 	private String email;
 
-	@Column(name = "OBSERVACAO", nullable = true)
+	@Column(name = "OBSERVACAO")
 	private String observacao;
 
 	@Column(name = "ATIVO", nullable = false)
@@ -49,7 +49,7 @@ public class Cliente implements Serializable {
 	@CreationTimestamp
 	private LocalDateTime createDateTime;
 
-	@Column(name = "UPDATETIME", nullable = false, updatable = true)
+	@Column(name = "UPDATETIME", nullable = false)
 	@UpdateTimestamp
 	private LocalDateTime updateDateTime;
 
@@ -185,11 +185,7 @@ public class Cliente implements Serializable {
 			return false;
 		Cliente other = (Cliente) obj;
 		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id)) {
-			return false;
-		}
-		return true;
+			return other.id == null;
+		} else return id.equals(other.id);
 	}
 }

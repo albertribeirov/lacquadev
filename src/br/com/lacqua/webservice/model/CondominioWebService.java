@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 public class CondominioWebService {
 
     private static final String ERRO_FORMATAR_JSON = "Erro ao converter objeto para JSON.";
+
     @Inject
     CondominioService condominioService;
 

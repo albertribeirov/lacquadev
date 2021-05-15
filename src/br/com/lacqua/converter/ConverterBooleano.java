@@ -13,7 +13,6 @@ public class ConverterBooleano implements Converter {
 	 *
 	 * @param facesContext
 	 * @param uIcomponent
-	 * @param cnpj
 	 * @return Object
 	 */
 	@Override

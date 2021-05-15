@@ -25,7 +25,7 @@ public class ConsumoService extends Service {
 	/**
 	 * Carrega um Consumo cadastrado no banco de dados.
 	 * 
-	 * @param Consumo
+	 * @param id Id do consumo que será carregado
 	 * @throws ServiceException
 	 */
 	public Consumo carregar(Integer id) {
@@ -35,7 +35,7 @@ public class ConsumoService extends Service {
 	/**
 	 * Insere um novo ConsumoGas no banco de dados
 	 * 
-	 * @param Consumo Consumo a ser inserido
+	 * @param consumo Consumo a ser inserido
 	 * @throws ServiceException
 	 */
 	public void inserir(Consumo consumo) {
@@ -56,7 +56,7 @@ public class ConsumoService extends Service {
 	/**
 	 * Altera um Consumo cadastrado no banco de dados.
 	 * 
-	 * @param Consumo
+	 * @param consumo Consumo a ser alterado
 	 * @throws ServiceException
 	 */
 	public void alterar(Consumo consumo) {
@@ -77,7 +77,7 @@ public class ConsumoService extends Service {
 	/**
 	 * Exclui um Consumo do banco de dados
 	 * 
-	 * @param integer Número de matrícula do Consumo a ser excluído
+	 * @param id Número de matrícula do consumo a ser excluído
 	 * @throws ServiceException
 	 */
 	public void excluir(Integer id) {

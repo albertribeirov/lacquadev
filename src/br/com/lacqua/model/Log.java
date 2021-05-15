@@ -16,7 +16,7 @@ import org.hibernate.annotations.CreationTimestamp;
 public class Log {
 
 	public enum TipoMensagem {
-		INFO, ERRO;
+		INFO, ERRO
 	}
 
 	/**

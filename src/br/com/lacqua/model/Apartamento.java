@@ -32,14 +32,14 @@ public class Apartamento implements Serializable {
 	@Column(name = "NUMERO", nullable = false)
 	private Integer numero;
 
-	@Column(name = "OBSERVACAO", nullable = true, length = 1000)
+	@Column(name = "OBSERVACAO", length = 1000)
 	private String observacao;
 
 	@Column(name = "CREATETIME", nullable = false, updatable = false)
 	@CreationTimestamp
 	private LocalDateTime createDateTime;
 
-	@Column(name = "UPDATETIME", nullable = false, updatable = true)
+	@Column(name = "UPDATETIME", nullable = false)
 	@UpdateTimestamp
 	private LocalDateTime updateDateTime;
 
@@ -50,15 +50,15 @@ public class Apartamento implements Serializable {
 	 */
 
 	@ManyToOne
-	@JoinColumn(unique = false, name = "ID_CLIENTE", nullable = true, referencedColumnName = "ID_CLIENTE")
+	@JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID_CLIENTE")
 	private Cliente cliente;
 
 	@ManyToOne
-	@JoinColumn(unique = false, name = "ID_TORRE", nullable = true, referencedColumnName = "ID_TORRE")
+	@JoinColumn(name = "ID_TORRE", referencedColumnName = "ID_TORRE")
 	private Torre torre;
 
 	@ManyToOne
-	@JoinColumn(unique = false, name = "ID_CONDOMINIO", nullable = false, referencedColumnName = "ID_CONDOMINIO")
+	@JoinColumn(name = "ID_CONDOMINIO", nullable = false, referencedColumnName = "ID_CONDOMINIO")
 	private Condominio condominio;
 
 	@OneToMany(mappedBy = "apartamento")

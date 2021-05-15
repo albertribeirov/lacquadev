@@ -24,7 +24,7 @@ public class ConsumoBean extends AbstractBean {
 	/*
 	 * Listar consumos
 	 */
-	public List<Consumo> getConsumos() throws Exception {
+	public List<Consumo> getConsumos() {
 		if (consumos == null) {
 			consumos = consumoService.listarConsumosPorCondominioTorreMes(consumo);
 		}

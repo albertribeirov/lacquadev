@@ -31,8 +31,7 @@ public class ApartamentoService extends Service {
 	/**
 	 * Insere um novo Apartamento no banco de dados
 	 * 
-	 * @param Apartamento Apartamento a ser inserido
-	 * @throws ServiceException
+	 * @param apartamento Apartamento a ser inserido
 	 */
 	public void inserir(Apartamento apartamento) {
 		try {
@@ -49,10 +48,9 @@ public class ApartamentoService extends Service {
 	}
 
 	/**
-	 * Alter um Apartamento cadastrado no banco de dados.
+	 * Altera um Apartamento cadastrado no banco de dados.
 	 * 
-	 * @param Apartamento
-	 * @throws ServiceException
+	 * @param apartamento Apartamento que será alterado
 	 */
 	public void alterar(Apartamento apartamento) {
 		try {
@@ -72,8 +70,7 @@ public class ApartamentoService extends Service {
 	/**
 	 * Exclui um Apartamento do banco de dados
 	 * 
-	 * @param integer Número de matrícula do Apartamento a ser excluído
-	 * @throws ServiceException
+	 * @param id Número de matrícula do Apartamento a ser excluído
 	 */
 	public void excluir(Integer id) {
 		try {
@@ -95,7 +92,6 @@ public class ApartamentoService extends Service {
 	 * Lê todos os Apartamentos cadastrados no banco de dados
 	 * 
 	 * @return Lista de Apartamentos cadastrados
-	 * @throws ServiceException
 	 */
 	public List<Apartamento> listarApartamentos() {
 		return apartamentoDAO.listarApartamentos();

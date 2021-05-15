@@ -32,14 +32,14 @@ public class PrecoGas implements Serializable {
 	@Column(name = "VIGENCIA_INICIO", nullable = false)
 	private Date vigenciaInicio;
 
-	@Column(name = "VIGENCIA_FINAL", nullable = true)
+	@Column(name = "VIGENCIA_FINAL")
 	private Date vigenciaFinal;
 
 	@Column(name = "CREATETIME", nullable = false, updatable = false)
 	@CreationTimestamp
 	private LocalDateTime createDateTime;
 
-	@Column(name = "UPDATETIME", nullable = false, updatable = true)
+	@Column(name = "UPDATETIME", nullable = false)
 	@UpdateTimestamp
 	private LocalDateTime updateDateTime;
 

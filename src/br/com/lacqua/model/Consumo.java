@@ -54,7 +54,7 @@ public class Consumo implements Serializable {
 	@CreationTimestamp
 	private LocalDateTime createDateTime;
 
-	@Column(name = "UPDATETIME", nullable = false, updatable = true)
+	@Column(name = "UPDATETIME", nullable = false)
 	@UpdateTimestamp
 	private LocalDateTime updateDateTime;
 
@@ -69,7 +69,7 @@ public class Consumo implements Serializable {
 	private Condominio condominio;
 
 	@ManyToOne
-	@JoinColumn(name = "ID_TORRE", nullable = true)
+	@JoinColumn(name = "ID_TORRE")
 	private Torre torre;
 
 	@ManyToOne
@@ -77,7 +77,7 @@ public class Consumo implements Serializable {
 	private Apartamento apartamento;
 
 	@ManyToOne
-	@JoinColumn(name = "ID_CLIENTE", nullable = true)
+	@JoinColumn(name = "ID_CLIENTE")
 	private Cliente cliente;
 
 	@ManyToOne

@@ -24,8 +24,7 @@ public class ClienteService extends Service {
 	/**
 	 * Carrega um cliente cadastrado no banco de dados.
 	 * 
-	 * @param Condominio
-	 * @throws ServiceException
+	 * @param id  Id do condomínio que será buscado no banco
 	 */
 	public Cliente carregar(Integer id) {
 		return clienteDAO.carregar(Cliente.class, id);
@@ -34,8 +33,8 @@ public class ClienteService extends Service {
 	/**
 	 * Insere um novo Cliente no banco de dados
 	 * 
-	 * @param Cliente Cliente a ser inserido
-	 * @throws ServiceException
+	 * @param cliente Cliente a ser inserido
+	 * @throws ValidationException Exceção de validação
 	 */
 	public void inserir(Cliente cliente) throws ValidationException {
 		try {
@@ -63,8 +62,8 @@ public class ClienteService extends Service {
 	/**
 	 * Alter um Cliente cadastrado no banco de dados.
 	 * 
-	 * @param Cliente
-	 * @throws ServiceException
+	 * @param cliente Cliente que será alterado
+	 * @throws @throws ValidationException Exceção de validação
 	 */
 	public void atualizar(Cliente cliente) throws ValidationException {
 		try {
@@ -92,10 +91,9 @@ public class ClienteService extends Service {
 	/**
 	 * Exclui um Cliente do banco de dados
 	 * 
-	 * @param integer Número de matrícula do Cliente a ser excluído
-	 * @throws ServiceException
+	 * @param id Número de matrícula do Cliente a ser excluído
 	 */
-	public void excluir(Integer id) throws Exception {
+	public void excluir(Integer id) {
 		try {
 			beginTransaction();
 
@@ -115,7 +113,6 @@ public class ClienteService extends Service {
 	 * Lê todos os Apartamentos cadastrados no banco de dados
 	 * 
 	 * @return Lista de Condomínios cadastrados
-	 * @throws ServiceException
 	 */
 	public List<Cliente> listarClientes() {
 		return clienteDAO.listarClientes();

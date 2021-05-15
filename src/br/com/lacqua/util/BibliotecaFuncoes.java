@@ -19,7 +19,7 @@ public abstract class BibliotecaFuncoes {
 
 	public static List<String> lerArquivo(String nomeArquivo) {
 
-		String linha = "";
+		String linha;
 		List<String> lista = new ArrayList<>();
 
 		try (Scanner scanner = new Scanner(new File(nomeArquivo))) {
@@ -85,7 +85,7 @@ public abstract class BibliotecaFuncoes {
 	}
 
 	public static Integer getMesFromDate(Date date) {
-		Integer mes = null;
+		Integer mes;
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		mes = cal.get(Calendar.MONTH) + 1;
@@ -93,7 +93,7 @@ public abstract class BibliotecaFuncoes {
 	}
 
 	public static Integer getAnoFromDate(Date date) {
-		Integer ano = null;
+		Integer ano;
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		ano = cal.get(Calendar.YEAR);
@@ -104,10 +104,10 @@ public abstract class BibliotecaFuncoes {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 
-		String resposta = "";
-		Integer dia = null;
-		Integer ano = null;
-		Integer mes = null;
+		String resposta;
+		Integer dia;
+		Integer ano;
+		Integer mes ;
 
 		dia = cal.get(Calendar.DAY_OF_MONTH);
 		mes = cal.get(Calendar.MONTH) + 1;
@@ -129,10 +129,10 @@ public abstract class BibliotecaFuncoes {
 	}
 
 	public static String getLocalDateComoString(LocalDate date) {
-		String resposta = "";
-		Integer dia = null;
-		Integer ano = null;
-		Integer mes = null;
+		String resposta;
+		Integer dia;
+		Integer ano;
+		Integer mes;
 
 		dia = date.getDayOfMonth();
 		mes = date.getMonthValue();
@@ -185,7 +185,7 @@ public abstract class BibliotecaFuncoes {
 
 	public static List<Integer> getPeriodoProximo(Integer ano, Integer mes) {
 		List<Integer> listaMesAno = new ArrayList<>();
-		Integer month = mes;
+		int month;
 		Integer year = ano;
 
 		if (mes == 12) {
@@ -202,7 +202,7 @@ public abstract class BibliotecaFuncoes {
 
 	public static List<Integer> getPeriodoAnterior(Integer ano, Integer mes) {
 		List<Integer> listaMesAno = new ArrayList<>();
-		Integer month = mes;
+		int month;
 		Integer year = ano;
 
 		if (mes == 1) {

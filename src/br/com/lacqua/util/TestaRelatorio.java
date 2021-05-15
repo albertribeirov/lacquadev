@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 public class TestaRelatorio {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static void main(String[] args) throws JRException, FileNotFoundException {
+	public static void main(String[] args) {
 		
 		try {
 			

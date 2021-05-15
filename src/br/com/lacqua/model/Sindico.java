@@ -49,14 +49,14 @@ public class Sindico implements Serializable {
 	@Column(name = "DT_SAIDA")
 	private LocalDate mandatoFim;
 
-	@Column(name = "OBSERVACAO", nullable = true, length = 1000)
+	@Column(name = "OBSERVACAO", length = 1000)
 	private String observacao;
 
 	@Column(name = "CREATETIME", nullable = false, updatable = false)
 	@CreationTimestamp
 	private LocalDateTime createDateTime;
 
-	@Column(name = "UPDATETIME", nullable = false, updatable = true)
+	@Column(name = "UPDATETIME", nullable = false)
 	@UpdateTimestamp
 	private LocalDateTime updateDateTime;
 

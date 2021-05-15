@@ -24,8 +24,7 @@ public class ConverterCondominio implements Converter {
 
 		} else {
 			Integer id = Integer.parseInt(value);
-			Condominio condominio = service.carregar(id);
-			return condominio;
+			return service.carregar(id);
 		}
 	}
 
@@ -33,13 +32,9 @@ public class ConverterCondominio implements Converter {
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object object) throws ConverterException {
 		if (object == null) {
 			return null;
-
 		} else {
-
 			Condominio condominio = (Condominio) object;
-			String resposta = condominio.getId().toString();
-
-			return resposta;
+			return condominio.getId().toString();
 		}
 	}
 }

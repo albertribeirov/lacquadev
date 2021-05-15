@@ -108,12 +108,9 @@ public class MailSender {
 			String caminhoArquivo, 
 			String nomeArquivo,
 			Session session) {
-		
-		
-		
 
-		/** Ativa Debug para sessão */
-		//session.setDebug(true);
+		// Ativa Debug para sessão
+		// session.setDebug(true);
 
 		try {
 
@@ -124,19 +121,17 @@ public class MailSender {
 			Address[] toUser = InternetAddress.parse(destinatario);
 
 			message.setRecipients(Message.RecipientType.TO, toUser);
-			message.setSubject(assunto); // Assunto
+			message.setSubject(assunto);
 			message.setText(corpoEmail);
-			
 			
 			MimeBodyPart messageBodyPart = new MimeBodyPart();
 			MimeMultipart multipart = new MimeMultipart();
-			String filename = caminhoArquivo;
-			DataSource source = new FileDataSource(filename);
+			DataSource source = new FileDataSource(caminhoArquivo);
 			messageBodyPart.setDataHandler(new DataHandler(source));
 			messageBodyPart.setFileName(nomeArquivo);
 			multipart.addBodyPart(messageBodyPart);
 			message.setContent(multipart);
-			/* Método para enviar a mensagem criada */
+			// Método para enviar a mensagem criada
 			Transport.send(message);
 
 		} catch (MessagingException e) {

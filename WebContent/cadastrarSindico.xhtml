@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<h:html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
@@ -74,61 +77,61 @@
 
 	<h:panelGroup>
 		<h:form>
-			<p:dataTable value="#{sindicoBean.sindicos}" var="s">
+			<p:dataTable value="#{sindicoBean.sindicos}" var="sindico">
 				<f:facet name="header">Lista de Síndicos</f:facet>
 
 				<p:column width="2%">
 					<f:facet name="header">ID</f:facet>
-					<h:outputText value="#{s.id}" />
+					<h:outputText value="#{sindico.id}" />
 				</p:column>
 
 				<p:column width="14%">
 					<f:facet name="header">Nome</f:facet>
-					<h:outputText value="#{s.nome}" />
+					<h:outputText value="#{sindico.nome}" />
 				</p:column>
 
 				<p:column width="10%">
 					<f:facet name="header">Telefone 1</f:facet>
-					<h:outputText value="#{s.telefone1}">
+					<h:outputText value="#{sindico.telefone1}">
 						<f:converter converterId="converterTelefone" />
 					</h:outputText>
 				</p:column>
 
 				<p:column width="10%">
 					<f:facet name="header">Telefone 2</f:facet>
-					<h:outputText value="#{s.telefone2}">
+					<h:outputText value="#{sindico.telefone2}">
 						<f:converter converterId="converterTelefone" />
 					</h:outputText>
 				</p:column>
 
 				<p:column width="14%">
 					<f:facet name="header">E-mail 1</f:facet>
-					<h:outputText value="#{s.email1}" />
+					<h:outputText value="#{sindico.email1}" />
 				</p:column>
 
 				<p:column width="7%">
 					<f:facet name="header">Início Mandato</f:facet>
-					<h:outputText value="#{s.mandatoInicio}">
+					<h:outputText value="#{sindico.mandatoInicio}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</p:column>
 
 				<p:column width="7%">
 					<f:facet name="header">Fim Mandato</f:facet>
-					<h:outputText value="#{s.mandatoFim}">
+					<h:outputText value="#{sindico.mandatoFim}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</p:column>
 
 				<p:column width="8%">
 					<f:facet name="header">Ações</f:facet>
-					<p:commandLink action="#{condominioBean.alterar(c.id)}">Alterar</p:commandLink>
+					<p:commandLink action="#{condominioBean.alterar(sindico.id)}">Alterar</p:commandLink>
 					|
-					<p:commandLink action="#{condominioBean.excluir(c.id)}" onclick="return excluir();">Excluir</p:commandLink>
+					<p:commandLink action="#{condominioBean.excluir(sindico.id)}" onclick="return excluir();">Excluir</p:commandLink>
 				</p:column>
 
 			</p:dataTable>
 		</h:form>
 	</h:panelGroup>
 </h:body>
-</h:html>
+</html>

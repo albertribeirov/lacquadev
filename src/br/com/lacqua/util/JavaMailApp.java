@@ -32,7 +32,7 @@ public class JavaMailApp {
 			}
 		});
 
-		/** Ativa Debug para sessão */
+		// Ativa Debug para sessão
 		session.setDebug(true);
 
 		try {

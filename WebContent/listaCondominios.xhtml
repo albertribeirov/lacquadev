@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
@@ -22,7 +26,7 @@
 
 				<p:column width="2%">
 					<f:facet name="header">ID</f:facet>
-					<h:outputText value="#{c.idCondominio}" />
+					<h:outputText value="#{c.id}" />
 				</p:column>
 
 				<p:column width="3%">
@@ -55,11 +59,6 @@
 				<p:column width="6%">
 					<f:facet name="header">Inscrição Estadual</f:facet>
 					<h:outputText value="#{c.inscricaoMunicipal}" />
-				</p:column>
-
-				<p:column width="3%">
-					<f:facet name="header">Poço</f:facet>
-					<h:outputText value="#{c.poco}" />
 				</p:column>
 
 				<p:column width="8%">

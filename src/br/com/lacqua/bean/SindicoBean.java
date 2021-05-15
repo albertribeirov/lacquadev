@@ -25,7 +25,7 @@ public class SindicoBean extends AbstractBean {
 	/*
 	 * Listar sindicos
 	 */
-	public List<Sindico> getSindicos() throws Exception {
+	public List<Sindico> getSindicos() {
 		if (sindicos == null) {
 			sindicos = sindicoService.listarSindicos();
 		}

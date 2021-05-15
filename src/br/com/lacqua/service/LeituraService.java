@@ -27,7 +27,7 @@ public class LeituraService extends Service {
 	/**
 	 * Carrega um Leitura cadastrado no banco de dados.
 	 * 
-	 * @param Leitura
+	 * @param id
 	 * @throws ServiceException
 	 */
 	public Leitura carregar(Integer id) {
@@ -37,7 +37,7 @@ public class LeituraService extends Service {
 	/**
 	 * Insere um novo LeituraGas no banco de dados
 	 * 
-	 * @param Leitura Leitura a ser inserido
+	 * @param consumo Leitura a ser inserido
 	 * @throws ServiceException
 	 */
 	public void inserir(Leitura consumo) {
@@ -58,7 +58,7 @@ public class LeituraService extends Service {
 	/**
 	 * Altera um Leitura cadastrado no banco de dados.
 	 * 
-	 * @param Leitura
+	 * @param consumo
 	 * @throws ServiceException
 	 */
 	public void alterar(Leitura consumo) {
@@ -79,7 +79,7 @@ public class LeituraService extends Service {
 	/**
 	 * Exclui um Leitura do banco de dados
 	 * 
-	 * @param integer Número de matrícula do Leitura a ser excluído
+	 * @param id Número de matrícula do Leitura a ser excluído
 	 * @throws ServiceException
 	 */
 	public void excluir(Integer id) {
@@ -120,9 +120,7 @@ public class LeituraService extends Service {
 			idTorre = pLeitura.getTorre().getId();
 		}
 		Integer idCondominio = pLeitura.getCondominio().getId();
-		Integer mesReferencia = pMes;
-		Integer anoReferencia = pAno;
-		leituras = leituraDAO.listarLeiturasPorCondominioTorreMes(idCondominio, idTorre, mesReferencia, anoReferencia);
+		leituras = leituraDAO.listarLeiturasPorCondominioTorreMes(idCondominio, idTorre, pMes, pAno);
 
 		if (leituras == null || leituras.isEmpty()) {
 			throw new ValidationException("Não há leituras para este condomínio/torre no mês informado.");

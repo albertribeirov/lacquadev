@@ -2,16 +2,16 @@
  * Retorna a data de hoje no formato dd/MM/yyyy.
  */
 function dataFormatada() {
-	var data = new Date();
-	var dia = data.getDate();
+	const data = new Date();
+	let dia = data.getDate();
 	if (dia.toString().length == 1) {
 		dia = "0" + dia;
 	}
-	var mes = data.getMonth() + 1;
+	let mes = data.getMonth() + 1;
 	if (mes.toString().length == 1) {
 		mes = "0" + mes;
 	}
-	var ano = data.getFullYear();
+	const ano = data.getFullYear();
 
 	return dia + "/" + mes + "/" + ano;
 }
@@ -24,8 +24,8 @@ $('#Data').val(dataFormatada);
  */
 // Verifica senha
 function verificarSenha() {
-	var senha1 = document.getElementById("");
-	var senha2 = document.getElementById("");
+	let senha1 = document.getElementById("");
+	let senha2 = document.getElementById("");
 
 	if (senha1 == senha2) {
 		return true;
@@ -102,8 +102,8 @@ function mascaraCnpj(valor) {
  * Limpa o campo de leitura atual caso esta seja menor que a leitura anterior.
  */
 function compararLeituras(pInput) {
-	var leitura = Number(pInput.nextElementSibling.value);
-	var leituraAnterior = pInput.parentElement.parentElement.previousSibling.firstElementChild.innerText;
+	const leitura = Number(pInput.nextElementSibling.value);
+	let leituraAnterior = pInput.parentElement.parentElement.previousSibling.firstElementChild.innerText;
 	leituraAnterior = Number(leituraAnterior.replace(/\./g,''));
 
 	if (leitura != 0 && leitura < leituraAnterior) {

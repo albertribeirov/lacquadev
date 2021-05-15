@@ -1,11 +1,7 @@
 package br.com.lacqua.ejb;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
@@ -21,21 +17,6 @@ import javax.persistence.PersistenceContext;
 import br.com.lacqua.rn.RNCargaConsumoDocumentoTexto;
 import br.com.lacqua.rn.RNGerarRelatoriosDeApartamentosPorCondominio;
 import br.com.lacqua.rn.RNInserirConsumoMensalApartamentos;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.labels.ItemLabelAnchor;
-import org.jfree.chart.labels.ItemLabelPosition;
-import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.renderer.category.BarRenderer;
-import org.jfree.chart.renderer.category.CategoryItemRenderer;
-import org.jfree.chart.renderer.category.StandardBarPainter;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.ui.TextAnchor;
 
 import br.com.lacqua.model.Apartamento;
 import br.com.lacqua.model.Condominio;
@@ -44,19 +25,7 @@ import br.com.lacqua.model.Leitura;
 import br.com.lacqua.model.PrecoGas;
 import br.com.lacqua.model.Torre;
 import br.com.lacqua.util.BibliotecaFuncoes;
-import br.com.lacqua.util.Constantes;
-import br.com.lacqua.util.Conta;
-import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.export.Exporter;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 
 /**
  * Session Bean implementation class ControladorConsumoBean
@@ -123,7 +92,7 @@ public class ControladorConsumoBean implements ControladorConsumo {
         Integer mes = pLeitura.getMesReferenciaLeitura();
         Integer ano = pLeitura.getAno();
 
-        PrintWriter pw = new PrintWriter(new File("D:\\saida.txt"));
+        PrintWriter pw = new PrintWriter("D:\\saida.txt");
 
         for (Leitura voConsumoAtual : leiturasMesAtual) {
             Integer apartamento = voConsumoAtual.getApartamento().getNumero();
@@ -170,7 +139,6 @@ public class ControladorConsumoBean implements ControladorConsumo {
 
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public void gerarDemonstrativosApartamentos(
             Leitura pLeitura,

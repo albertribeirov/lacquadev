@@ -38,14 +38,14 @@ public class Torre implements Serializable {
 	@Column(name = "NOME", nullable = false, length = 20)
 	private String nome;
 	
-	@Column(name = "OBSERVACAO", nullable = true, length = 1000)
+	@Column(name = "OBSERVACAO", length = 1000)
 	private String observacao;
 	
 	@Column(name = "CREATETIME", nullable = false, updatable = false)
 	@CreationTimestamp
 	private LocalDateTime createDateTime;
 
-	@Column(name = "UPDATETIME", nullable = false, updatable = true)
+	@Column(name = "UPDATETIME", nullable = false)
 	@UpdateTimestamp
 	private LocalDateTime updateDateTime;
 
@@ -161,10 +161,7 @@ public class Torre implements Serializable {
 			return false;
 		Torre other = (Torre) obj;
 		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+			return other.id == null;
+		} else return id.equals(other.id);
 	}
 }
