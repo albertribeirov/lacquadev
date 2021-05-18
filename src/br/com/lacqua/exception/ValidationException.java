@@ -3,7 +3,6 @@ package br.com.lacqua.exception;
 /**
  * Exceção lançada quando ocorre uma validação de negócio
  */
-@SuppressWarnings("serial")
 public class ValidationException extends Exception {
 
 	public ValidationException() {

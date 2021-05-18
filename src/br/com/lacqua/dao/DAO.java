@@ -2,13 +2,10 @@ package br.com.lacqua.dao;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-@SuppressWarnings("serial")
-@RequestScoped
 public abstract class DAO implements Serializable {
 	
 	public static final String ID = "id";
@@ -23,8 +20,9 @@ public abstract class DAO implements Serializable {
 		return em.find(classe, id);
 	}
 
-	public <T> void salvar(T entity) {
+	public <T> Integer salvar(T entity) {
 		em.persist(entity);
+		return (Integer) em.getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(entity);
 	}
 
 	public <T> void alterar(T entity) {

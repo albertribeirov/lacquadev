@@ -10,7 +10,6 @@ import javax.transaction.Status;
 /**
  * Superclasse de todos os services da aplicação
  */
-@SuppressWarnings("serial")
 @RequestScoped
 public abstract class Service implements Serializable {
 

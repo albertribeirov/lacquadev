@@ -16,9 +16,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.ws.rs.FormParam;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -30,6 +35,10 @@ public class Condominio implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -165819754007060269L;
+
+	public Condominio(){
+
+	}
 
 	@Id
 	@Column(name = "ID_CONDOMINIO")
@@ -58,14 +67,18 @@ public class Condominio implements Serializable {
 	private String inscricaoEstadual;
 
 	@Column(name = "ATIVO", nullable = false)
-	private Boolean ativo;
+	private boolean ativo;
 
 	@Column(name = "INICIO_CONTRATO")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@JsonDeserialize(using = LocalDateDeserializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)
 	private LocalDate inicioContrato;
 
 	@Column(name = "FIM_CONTRATO")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@JsonDeserialize(using = LocalDateDeserializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)
 	private LocalDate fimContrato;
 
 	@Column(name = "OBSERVACAO", length = 1000)
@@ -94,8 +107,8 @@ public class Condominio implements Serializable {
 	@UpdateTimestamp
 	private LocalDateTime updateDateTime;
 
-	@OneToMany(mappedBy = "condominio")
 	@JsonIgnore
+	@OneToMany(mappedBy = "condominio")
 	private List<Torre> torres = new ArrayList<>();
 
 	@JsonIgnore
@@ -111,7 +124,7 @@ public class Condominio implements Serializable {
 	 * Getters/Setters
 	 * 
 	 */
-
+	@FormParam("nome")
 	public String getNome() {
 		return nome;
 	}
@@ -128,6 +141,7 @@ public class Condominio implements Serializable {
 		this.taxaLeitura = taxaLeitura;
 	}
 
+	@FormParam("cnpj")
 	public String getCnpj() {
 		return cnpj;
 	}
@@ -176,11 +190,11 @@ public class Condominio implements Serializable {
 		this.email = email;
 	}
 
-	public Boolean getAtivo() {
+	public boolean getAtivo() {
 		return ativo;
 	}
 
-	public void setAtivo(Boolean ativo) {
+	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
 

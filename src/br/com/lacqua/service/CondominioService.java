@@ -36,7 +36,7 @@ public class CondominioService extends Service {
 	 * @param condominio Condominio a ser inserido
 	 * @throws ValidationException Exceção de validação
 	 */
-	public void inserir(Condominio condominio) throws ValidationException {
+	public Integer inserir(Condominio condominio) throws ValidationException {
 		try {
 			beginTransaction();
 			
@@ -48,10 +48,11 @@ public class CondominioService extends Service {
 				throw new ValidationException(Constantes.MSG_ERRO_EXISTE_CONDOMINIO_CNPJ);
 			}
 			
-			condominioDAO.salvar(condominio);
+			Integer id = condominioDAO.salvar(condominio);
 			logService.log("Condominio inserido: " + condominio.getNome(), TipoMensagem.INFO);
 
 			commitTransaction();
+			return id;
 
 		} catch (RuntimeException e) {
 			rollbackTransaction();
