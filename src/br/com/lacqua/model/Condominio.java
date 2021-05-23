@@ -40,6 +40,11 @@ public class Condominio implements Serializable {
 
 	}
 
+	public Condominio(String nome, String cnpj) {
+		this.nome = nome;
+		this.cnpj = cnpj;
+	}
+
 	@Id
 	@Column(name = "ID_CONDOMINIO")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
